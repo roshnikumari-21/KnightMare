@@ -1,14 +1,14 @@
-const board = [
-    ["B:R", "B:N", "B:B", "B:Q", "B:K", "B:B", "B:N", "B:R"],
-    ["B:P", "B:P", "B:P", "B:P", "B:P", "B:P", "B:P", "B:P"],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    ["W:P", "W:P", "W:P", "W:P", "W:P", "W:P", "W:P", "W:P"],
-    ["W:R", "W:N", "W:B", "W:Q", "W:K", "W:B", "W:N", "W:R"]
-]
-const convention = {
+// const board = [
+//     ["B:R", "B:N", "B:B", "B:Q", "B:K", "B:B", "B:N", "B:R"],
+//     ["B:P", "B:P", "B:P", "B:P", "B:P", "B:P", "B:P", "B:P"],
+//     [0, 0, 0, 0, 0, 0, 0, 0],
+//     [0, 0, 0, 0, 0, 0, 0, 0],
+//     [0, 0, 0, 0, 0, 0, 0, 0],
+//     [0, 0, 0, 0, 0, 0, 0, 0],
+//     ["W:P", "W:P", "W:P", "W:P", "W:P", "W:P", "W:P", "W:P"],
+//     ["W:R", "W:N", "W:B", "W:Q", "W:K", "W:B", "W:N", "W:R"]
+// ]
+export const convention = {
     "B:R": "r",
     "B:N": "n",
     "B:B": "b",
@@ -34,7 +34,7 @@ const convention = {
     "K": "W:K",
     "P": "W:P"
 }
-const toFen = (board) =>{
+export const toFen = (board) =>{
     let fen = "";
     for(row of board){
         for(let i = 0; i < row.length; i++){
@@ -55,9 +55,9 @@ const toFen = (board) =>{
     return fen.substring(0, fen.length - 1);
 }
 
-const fenvalue = toFen(board);
+// const fenvalue = toFen(board);
 
-const fromFen = (fen) => {
+export const fromFen = (fen) => {
     let board = [];
     let rows = fen.split("/");
     for(let row of rows){
@@ -77,4 +77,4 @@ const fromFen = (fen) => {
     return board;
 }
 
-console.log(fromFen(fenvalue));
+// console.log(fromFen(fenvalue));
