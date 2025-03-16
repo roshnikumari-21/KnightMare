@@ -4,7 +4,7 @@ import { assets } from '../assets/assets';
 
 const Navbar = () => {
     return (
-        <nav className="flex items-center justify-between px-8 py-[12px] bg-gray-900 shadow-xl">
+        <nav className="flex items-center justify-between px-8 py-[12px] bg-black shadow-xl">
             <div className="flex items-center gap-4">
                 <Link to="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
                     <img 
