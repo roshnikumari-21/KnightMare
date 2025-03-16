@@ -4,29 +4,28 @@ import { assets } from '../assets/assets';
 
 const Navbar = () => {
     return (
-        <nav className="flex items-center justify-between px-8 py-6 bg-white shadow-sm">
-            {/* Left side - Logo & Site Name */}
+        <nav className="flex items-center justify-between px-8 py-[12px] bg-gray-900 shadow-xl">
             <div className="flex items-center gap-4">
-                <Link to="/" className="flex items-center gap-3">
+                <Link to="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
                     <img 
                         src={assets.logo} 
-                        className="w-12 h-12 transition-transform duration-300 hover:scale-105" 
+                        className="w-[55px] h-[55px] transition-transform duration-300 hover:scale-110" 
                         alt="Website Logo" 
                     />
-                    <span className="text-3xl font-bold text-gray-800 font-poppins">
-                        ChessMaster
+                    <span className="text-3xl font-bold text-gray-100 font-poppins tracking-tight">
+                        KnightMare
                     </span>
                 </Link>
             </div>
 
-            {/* Right side - Navigation Links */}
-            <div className="flex items-center gap-8">
+            {/* Navigation Links */}
+            <div className="flex items-center gap-8 mr-4">
                 <NavLink 
                     to="/about" 
                     className={({ isActive }) => 
                         `text-lg font-medium px-4 py-2 rounded-lg transition-all duration-300
-                        ${isActive ? 'text-blue-600 border-b-2 border-blue-600' : 
-                        'text-gray-600 hover:text-blue-500 hover:border-b-2 hover:border-blue-500'}`
+                        ${isActive ? 'text-white border-b-2 border-white font-semibold' : 
+                        'text-gray-300 hover:text-white hover:shadow-glow'}`
                     }
                 >
                     About Us
@@ -36,19 +35,18 @@ const Navbar = () => {
                     to="/contact" 
                     className={({ isActive }) => 
                         `text-lg font-medium px-4 py-2 rounded-lg transition-all duration-300
-                        ${isActive ? 'text-blue-600 border-b-2 border-blue-600' : 
-                        'text-gray-600 hover:text-blue-500 hover:border-b-2 hover:border-blue-500'}`
+                        ${isActive ? 'text-white border-b-2 border-white font-semibold' : 
+                        'text-gray-300 hover:text-white hover:shadow-glow'}`
                     }
                 >
                     Contact
                 </NavLink>
-
                 <a 
-                    href="https://github.com/yourusername/yourrepo" 
+                    href="https://github.com/ayushkumarsingh2422005/KnightMare" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-lg font-medium px-4 py-2 text-gray-600
-                            hover:text-blue-500 transition-colors duration-300 group"
+                    className="flex items-center gap-2 text-lg font-medium px-4 py-2 text-gray-300
+                            hover:text-white transition-all duration-300 group hover:shadow-glow"
                 >
                     <span>Code on GitHub</span>
                     <svg 

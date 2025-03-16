@@ -4,3 +4,8 @@
 .font-poppins {
     font-family: 'Poppins', sans-serif;
 }
+@layer components {
+    .hover\:shadow-glow {
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+    }
+}
