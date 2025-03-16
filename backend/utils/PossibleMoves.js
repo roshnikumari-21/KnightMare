@@ -147,6 +147,8 @@ function pawnMoves(board, pos) {
     return [possibleMoves, cutpieces];
 }
 export const nextPossibleMoves = (board,pos)=>{
+    const x = pos[0];
+    const y = pos[1];
    if((board[x][y] == 'r') || (board[x][y] == 'R')){
      return rookMoves(board , pos);
    }
@@ -166,3 +168,16 @@ export const nextPossibleMoves = (board,pos)=>{
     return pawnMoves(board , pos);
   }
 } 
+
+
+const board = [
+    ["r", "n", "b", "q", "k", "b", "n", "r"],
+    ["p", "p", "p", "p", "p", "p", "p", "p"],
+    ["0", "0", "0", "0", "0", "0", "0", "0"],
+    ["0", "0", "0", "0", "0", "0", "0", "0"],
+    ["0", "0", "0", "0", "0", "0", "0", "0"],
+    ["0", "0", "0", "0", "0", "0", "0", "0"],
+    ["P", "P", "P", "P", "P", "P", "P", "P"],
+    ["R", "N", "B", "Q", "K", "B", "N", "R"]
+  ];
+  console.log(nextPossibleMoves(board, [0, 1]));
