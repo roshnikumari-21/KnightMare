@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <div 
       className="min-h-screen flex flex-col justify-center items-center bg-cover bg-center" 
-      style={{ backgroundImage: "url('/bg2chess.jpg')" }}
+      style={{ backgroundImage: "url('/bgchess5.jpg')" }}
     >
       <div className="bg-gray-700/10 p-6 rounded-lg shadow-lg text-white max-w-sm text-center backdrop-blur-sm">
 
@@ -15,7 +15,7 @@ const Home = () => {
         <p className="text-gray-200 mb-4">Enhance your chess skills by playing against AI and tracking your progress.</p>
         <div className="flex flex-col items-center space-y-3">
           <Link
-            to="/login"
+            to="/home-user"
             className="w-1/4 px-4 py-1 bg-black text-white font-bold rounded-lg hover:bg-gray-900 transition"
           >
             Login
@@ -31,3 +31,6 @@ const Home = () => {
 };
 
 export default Home;
+
+
+
