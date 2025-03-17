@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import ChessBoard from "./ChessBoard";
-
 const Play = () => {
     const [showBoard, setShowBoard] = useState(false);
-
     const loadChessBoard = () => {
         setShowBoard(true);
     }
-
     return (
         <div>
             <button 
@@ -20,5 +17,4 @@ const Play = () => {
         </div>
     )
 }
-
 export default Play;

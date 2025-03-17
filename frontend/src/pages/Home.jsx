@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <div 
       className="min-h-screen flex flex-col justify-center items-center bg-cover bg-center" 
-      style={{ backgroundImage: "url('/bg2chess.jpg')" }}
+      style={{ backgroundImage: "url('/bgchess5.jpg')" }}
     >
       <div className="bg-gray-700/10 p-6 rounded-lg shadow-lg text-white max-w-sm text-center backdrop-blur-sm">
 
