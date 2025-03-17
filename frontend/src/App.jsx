@@ -9,10 +9,12 @@ import HomeUser from "./pages/HomeUser";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Play from "./components/Play";
+import { ToastContainer} from 'react-toastify';
 
 function App() {
   return (
     <div className="h-screen flex flex-col bg-white">
+      <ToastContainer/>
       <Navbar />
       <div className="flex flex-1 overflow-hidden mt-1 bg-slate-900">
         <Sidebar />
