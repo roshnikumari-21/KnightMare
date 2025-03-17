@@ -100,7 +100,7 @@ const ChessBoard = () => {
   }, [selectedSquare, currentPlayer, board, validateMove]);
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-black flex items-center justify-center p-4">
       <div className="relative">
         <div className="absolute -top-12 left-0 right-0 text-center">
           <div className="inline-block bg-gray-800 text-gray-200 px-4 py-2 rounded-lg shadow-xl">
