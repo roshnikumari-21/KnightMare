@@ -11,9 +11,8 @@ const Login = () => {
 
 
     const handleLogin = () => {
-        // Perform login logic here
-        // After successful login, navigate to the dashboard
-        navigate("/home-user");
+        
+        navigate("/homeuser");
       };
     
     
