@@ -113,7 +113,7 @@ const ChessBoard = () => {
             <div
               key={`${square.row}-${square.col}`}
               onClick={() => handleSquareClick(square)}
-              className={`relative group ${square.isLight ? 'bg-gray-700' : 'bg-gray-900'} 
+              className={`relative group ${square.isLight ? 'bg-red-900' : 'bg-gray-900'} 
                 ${square.isSelected ? '!bg-blue-400/50' : ''} 
                 ${square.isLegalMove ? '!bg-green-400/40' : ''} 
                 transition-all duration-200 hover:brightness-125 flex items-center justify-center`}

@@ -19,3 +19,14 @@
   .sidebar:hover .sidebar-item-text {
     opacity: 1;
   }
+
+
+  .neon-text {
+    color: #ffffff; /* Text color */
+    text-shadow:
+      0 0 2px #b7b7b7, /* Inner glow */
+      0 0 2px #978e8e, /* Middle glow */
+      0 0 2px #a0a1a1, /* Outer glow */
+      0 0 2px #a3a4a4; /* Far outer glow */
+    animation: glow 1.5s infinite alternate; /* Glow animation */
+  }

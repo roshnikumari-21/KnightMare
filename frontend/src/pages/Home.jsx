@@ -15,7 +15,7 @@ const Home = () => {
         <p className="text-gray-200 mb-4">Enhance your chess skills by playing against AI and tracking your progress.</p>
         <div className="flex flex-col items-center space-y-3">
           <Link
-            to="/home-user"
+            to="/login"
             className="w-1/4 px-4 py-1 bg-black text-white font-bold rounded-lg hover:bg-gray-900 transition"
           >
             Login
