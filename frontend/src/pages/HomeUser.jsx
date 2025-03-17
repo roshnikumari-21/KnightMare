@@ -1,89 +1,117 @@
 
 
 
-
-import { useEffect,useRef } from "react";
 import React from "react";
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import horrorEntry from "../assets/horrorEntry.wav";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChess,
+  faChartLine,
+  faTrophy,
+  faBookOpen,
+  faPuzzlePiece,
+  faCog,
+} from "@fortawesome/free-solid-svg-icons";
 
 
 
-const HomeUser = () => {
+const Home = () => {
 
-    const buttonRef = useRef(null);
 
-  useEffect(() => {
-    if (buttonRef.current) {
-      buttonRef.current.click(); // Auto-click hidden button
-    }
-  }, []);
-
-  const playSound = () => {
-    const sound = new Audio(horrorEntry);
-    sound.volume = 1.0;
-    sound.currentTime = 1;
-    sound.play().catch((err) => console.log("Autoplay blocked:", err));
-  };
-   
   return (
-    <div className="relative flex items-center justify-center min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white overflow-hidden">
-      {/* Background Animation */}
-      <div className="absolute inset-0 bg-black opacity-60"></div>
-      <video
-        autoPlay
-        loop
-        muted
-        className="absolute inset-0 w-full h-full object-cover opacity-20"
-      >
-        <source src="https://assets.mixkit.co/videos/preview/mixkit-dark-clouds-in-the-sky-2483-large.mp4" type="video/mp4" />
-      </video>
-
+    <div className="h-screen flex flex-col bg-white">
+      {/* Navbar */}
+  
       {/* Main Content */}
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 2.5 }}
-        className="relative z-10 max-w-3xl text-center"
-      >
-        <button ref={buttonRef} onClick={playSound} className="hidden"></button>
-        <h1 
-          className="text-6xl text-red-600 animate-pulse"
-          style={{ fontFamily: "'Creepster', cursive" }}
-        >
-          Knightmare Chess
-        </h1>
-        <p className="mt-6 text-lg text-gray-300 leading-relaxed">
-          Enter the world of <span className="text-red-500 font-bold">Knightmare Chess</span>, where <span className="text-gray-400 italic">strategic moves</span> meet <span className="text-gray-500">dark forces</span>. 
-          Beware, for every move could awaken an ancient <span className="text-red-600 font-bold">curse</span>. Can you outplay the shadows?
-        </p>
+      <div className="flex flex-1 overflow-hidden mt-1 bg-slate-900">
+        {/* Sidebar */}
+    
 
-        <div className="mt-8 flex justify-center space-x-6">
-          <Link to="/playWithAI">
-            <motion.button
-           
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="px-6 py-3 text-lg font-bold text-black bg-red-600 hover:bg-red-800 transition rounded-lg shadow-md"
-            >
-              Enter the Game
-            </motion.button>
-          </Link>
+        {/* Home Content */}
+        <div className="flex-1 overflow-auto">
+          <div
+            className="min-h-screen flex flex-col justify-center items-center bg-cover bg-center"
+            style={{ backgroundImage: "url('/loginfinal.webp')" }}
+          >
+            {/* Background Overlay */}
+            <div className="absolute inset-0 bg-black/50"></div>
 
-          <Link to="/">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="px-6 py-3 text-lg font-bold text-red-600 border border-red-600 hover:bg-red-600 hover:text-black transition rounded-lg shadow-md"
-            >
-              Back to Safety
-            </motion.button>
-          </Link>
+            {/* Main Content */}
+            <div className="relative z-10 p-8 rounded-lg shadow-lg text-white max-w-4xl w-full mx-4 backdrop-blur-sm bg-gray-900/50">
+              {/* Header */}
+              <h1 className="text-5xl font-bold mb-6 text-red-600" style={{ fontFamily: "'Creepster', cursive" }}>
+                Welcome, Teentigada
+              </h1>
+              <p className="text-lg text-gray-300 mb-8">
+                Step into the world of <span className="text-red-500 font-bold">Knightmare Chess</span>, where{" "}
+                <span className="text-gray-400 italic">strategy</span> meets{" "}
+                <span className="text-gray-500">darkness</span>. Every move could awaken an ancient{" "}
+                <span className="text-red-600 font-bold">curse</span>. Are you ready to face the shadows?
+              </p>
+
+              {/* Action Buttons */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Play Against AI */}
+                <Link to="/playWithAI">
+                  <button className="w-full px-6 py-4 text-lg font-bold text-white bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 transition rounded-lg shadow-lg flex items-center justify-center space-x-2">
+                    <FontAwesomeIcon icon={faChess} />
+                    <span>Play Against AI</span>
+                  </button>
+                </Link>
+
+                {/* Analyze Games */}
+                <Link to="/analyze">
+                  <button className="w-full px-6 py-4 text-lg font-bold text-white bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 transition rounded-lg shadow-lg flex items-center justify-center space-x-2">
+                    <FontAwesomeIcon icon={faChartLine} />
+                    <span>Analyze Games</span>
+                  </button>
+                </Link>
+
+                {/* View Leaderboard */}
+                <Link to="/leaderboard">
+                  <button className="w-full px-6 py-4 text-lg font-bold text-white bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 transition rounded-lg shadow-lg flex items-center justify-center space-x-2">
+                    <FontAwesomeIcon icon={faTrophy} />
+                    <span>View Leaderboard</span>
+                  </button>
+                </Link>
+
+                {/* Practice Openings */}
+                <Link to="/practice">
+                  <button className="w-full px-6 py-4 text-lg font-bold text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 transition rounded-lg shadow-lg flex items-center justify-center space-x-2">
+                    <FontAwesomeIcon icon={faBookOpen} />
+                    <span>Practice Openings</span>
+                  </button>
+                </Link>
+
+                {/* Solve Puzzles */}
+                <Link to="/puzzles">
+                  <button className="w-full px-6 py-4 text-lg font-bold text-white bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-700 hover:to-yellow-800 transition rounded-lg shadow-lg flex items-center justify-center space-x-2">
+                    <FontAwesomeIcon icon={faPuzzlePiece} />
+                    <span>Solve Puzzles</span>
+                  </button>
+                </Link>
+
+                {/* Settings */}
+                <Link to="/settings">
+                  <button className="w-full px-6 py-4 text-lg font-bold text-white bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 transition rounded-lg shadow-lg flex items-center justify-center space-x-2">
+                    <FontAwesomeIcon icon={faCog} />
+                    <span>Settings</span>
+                  </button>
+                </Link>
+              </div>
+
+              {/* Footer */}
+              <div className="mt-12">
+                <p className="text-gray-400 text-sm">
+                  Ready to face the shadows? Choose your path wisely...
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };
 
-export default HomeUser;
+export default Home;

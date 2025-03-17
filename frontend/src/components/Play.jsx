@@ -11,7 +11,7 @@ const Play = () => {
                 className="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
                 onClick={loadChessBoard}
             >
-                Play
+                Start a Game
             </button>
             {showBoard && <ChessBoard />}
         </div>
