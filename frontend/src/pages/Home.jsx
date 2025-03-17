@@ -17,7 +17,7 @@ const Home = () => {
         <h1 className="text-2xl font-bold mb-3">Welcome to KnightMare 
           
         </h1>
-        <p>Audio is {isPlaying ? "playing" : "paused"}</p>
+     
        
         <p className="text-gray-200 mb-4">Enhance your chess skills by playing against AI and tracking your progress.</p>
         <div className="flex flex-col items-center space-y-3">
