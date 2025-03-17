@@ -7,6 +7,7 @@ import Contact from "./pages/Contact";
 import Home from "./pages/Home";
 import HomeUser from "./pages/HomeUser";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Play from "./components/Play";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
             <Route path="/contact" element={<Contact />}/>
             <Route path="/home-user" element={<HomeUser />}/>
             <Route path="/login" element={<Login />}/>
+            <Route path="/register" element={<Register />}/>
 
             <Route path="/playWithAI" element = {<Play/>}/>
           </Routes>

@@ -1,39 +1,39 @@
-
-
-
-
 import React from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Register = () => {
+  const navigate = useNavigate();
 
-    const navigate=useNavigate();
+  const handleRegister = () => {
+    // Perform registration logic here
+    // After successful registration, navigate to the home page
+    navigate("/home-user");
+  };
 
-
-    const handleLogin = () => {
-        // Perform login logic here
-        // After successful login, navigate to the dashboard
-        navigate("/home-user");
-      };
-    
-    
   return (
     <div
       style={{
-        backgroundImage: "url('https://www.shutterstock.com/image-photo/empty-chess-board-smoke-float-600nw-1718973463.jpg')",
+        backgroundImage: "url('/loginfinal.webp')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
       className="flex justify-center items-center min-h-screen bg-black text-white"
     >
-      <div className="w-80 p-5 shadow-lg rounded-lg  backdrop-blur-lg  relative" style={{ marginTop: '-10%' }}>
-        <h2 className="text-3xl font-semibold  pb-2 text-center text-white neon-text">Welcome</h2>
-        <p className="text-sm text-center">Sign in to your account</p>
+      <div className="w-80 p-5 shadow-lg rounded-lg backdrop-blur-lg relative" style={{ marginTop: '-10%' }}>
+        <h2 className="text-3xl font-semibold pb-2 text-center text-white neon-text">Create Account</h2>
+        <p className="text-sm text-center">Sign up to get started</p>
         <form className="mt-3">
           <div className="mb-3">
             <input
               type="text"
+              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-white-500"
+              placeholder="Enter your name"
+            />
+          </div>
+          <div className="mb-3">
+            <input
+              type="email"
               className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-white-500"
               placeholder="Enter your email"
             />
@@ -45,8 +45,11 @@ const Login = () => {
               placeholder="Enter your password"
             />
           </div>
-          <button onClick={handleLogin} className="mt-2 w-full py-2 bg-black hover:bg-gray-900 rounded-md text-white font-semibold shadow-md">
-            Login
+          <button
+            onClick={handleRegister}
+            className="mt-2 w-full py-2 bg-black hover:bg-gray-900 rounded-md text-white font-semibold shadow-md"
+          >
+            Create →
           </button>
         </form>
         <div className="mt-4 border-t border-gray-700 pt-4">
@@ -62,7 +65,7 @@ const Login = () => {
             </button>
           </div>
           <p className="text-center text-gray-200 mt-4">
-            Don't have an account? <a href="/register" className="text-gray-900 hover:underline">Register here</a>
+            Already have an account? <a href="/login" className="text-gray-900 hover:underline">Login here</a>
           </p>
         </div>
       </div>
@@ -70,4 +73,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

@@ -22,7 +22,7 @@ const Home = () => {
           </Link>
          
           <p className="text-black text-sm">
-            Don't have an account? <Link to="/signup" className="text-black font-bold hover:text-gray-900 transition">Sign Up</Link>
+            Don't have an account? <Link to="/register" className="text-black font-bold hover:text-gray-900 transition">Sign Up</Link>
           </p>
         </div>
       </div>
