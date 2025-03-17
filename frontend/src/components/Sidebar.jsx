@@ -92,6 +92,72 @@ const Sidebar = () => {
             Play
           </span>
         </NavLink>
+        <NavLink
+          to="/leaderBoard"
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200 group ${
+              isActive
+                ? "bg-blue-600 text-white"
+                : "text-gray-300 hover:bg-gray-700"
+            }`
+          }
+        >
+          <svg
+  className="w-6 h-6 flex-shrink-0"
+  fill="none"
+  stroke="currentColor"
+  viewBox="0 0 24 24"
+>
+  <path
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth={2}
+    d="M8 16v4M12 12v8M16 8v12M4 20h16"
+  />
+</svg>
+
+
+
+          <span
+            className={`transition-opacity duration-200 ${
+              isExpanded ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            LeaderBoard
+          </span>
+        </NavLink>
+        <NavLink
+          to="/settings"
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200 group ${
+              isActive
+                ? "bg-blue-600 text-white"
+                : "text-gray-300 hover:bg-gray-700"
+            }`
+          }
+        >
+           <svg
+  className="w-6 h-6 flex-shrink-0"
+  fill="none"
+  stroke="currentColor"
+  viewBox="0 0 24 24"
+>
+  <path
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth={2}
+    d="M12 4.5V2m4.95 3.05l1.41-1.41M19.5 12h2m-3.05 4.95l1.41 1.41M12 19.5v2m-4.95-3.05l-1.41 1.41M4.5 12h-2m3.05-4.95l-1.41-1.41M12 8a4 4 0 100 8 4 4 0 000-8z"
+  />
+</svg>
+ 
+          <span
+            className={`transition-opacity duration-200 ${
+              isExpanded ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            Settings
+          </span>
+        </NavLink>
       </nav>
     </div>
   );
