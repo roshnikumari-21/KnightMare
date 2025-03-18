@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState ,useContext } from "react";
 import { NavLink } from "react-router-dom";
+import {commoncontext} from "../contexts/commoncontext";
+
 
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const { setToken, setUser ,user , token } = useContext(commoncontext);
+  console.log(user);
   return (
     <div
       className={`bg-black  shadow-xl transition-all duration-300 ease-in-out ${
@@ -14,13 +18,18 @@ const Sidebar = () => {
       {/* User Profile Section */}
       <div className="p-4 border-b border-gray-700">
         <div className="flex items-center gap-3 overflow-hidden">
-          <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center">
-            <span className="text-black text-sm">JD</span>
+          <div style={{
+        backgroundImage: `url(${user?.profileimage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }} className="w-8 h-8 rounded-full bg-white flex items-center justify-center">
+          {user?"":"P"}
           </div>
           {isExpanded && (
             <div className="text-white">
-              <p className="font-medium">John Doe</p>
-              <p className="text-xs text-gray-400">jhondoe100@gmail.com</p>
+              <p className="font-medium">{user ? user.username : "Sign in to see details"}</p>
+              <p className="text-xs text-gray-400">{user ? user.email :""}</p>
             </div>
           )}
         </div>

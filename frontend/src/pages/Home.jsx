@@ -1,15 +1,19 @@
-import {React, useRef,useEffect,useContext }from "react";
+import {React, useRef,useEffect}from "react";
 import { Link } from "react-router-dom";
 import { AudioContext } from "../Context/AudioContext";
-
+import { commoncontext} from "../contexts/commoncontext.jsx";
+import { useContext } from "react";
+import HomeUser from '../pages/HomeUser.jsx'
 const Home = () => {
-  
+  const {token,user} = useContext(commoncontext);
   
 
-
+  if (token) {
+    return <HomeUser />;
+  }
   return (
     <div 
-      className="h-126 flex flex-col justify-center items-center bg-cover bg-center" 
+      className="h-125 flex flex-col justify-center items-center bg-cover bg-center" 
       style={{ backgroundImage: "url('/bgchess5.jpg')" }}
     >
       <div className="bg-gray-700/10 p-6 rounded-lg shadow-lg text-white max-w-sm text-center backdrop-blur-sm">

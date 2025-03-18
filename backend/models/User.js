@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
       required: function () { return this.authProvider === "local"; }
     },
     authProvider: { type: String, enum: ["local", "google"], default: "local" },
-    googleId: { type: String, unique: true, sparse: true, default: null },
+    googleId: { type: String,sparse: true, default: null },
     profilePicture: { type: String, default: process.env.DEFAULT_AVATAR_URL || "/default_avatar.png" },
     isVerified: { type: Boolean, default: false },
     resetToken: { type: String, default: null },

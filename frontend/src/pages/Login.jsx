@@ -1,38 +1,103 @@
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { commoncontext } from "../contexts/commoncontext";
+import { useGoogleLogin } from "@react-oauth/google";
+import { googleAuth } from "../utils/api";
 
-
-
-
-import React from "react";
-import { useNavigate } from "react-router";
 
 const Login = () => {
+  const { setToken, setUser } = useContext(commoncontext);
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-    const navigate=useNavigate();
+  const responseGoogle = async (authResult) => {
+		try {
+			if (authResult["code"]) {
+				const result = await googleAuth(authResult.code);
+				if (result.data.success){
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("user",JSON.stringify(response.data.user));
+          setToken(response.data.token);
+          setUser(response.data.user);
+          toast.success("Login successful!");
+          navigate("/home-user");
+        } else {
+          toast.error(response.data.message || "Login failed");
+        }
+			} else {
+				console.log(authResult);
+				throw new Error(authResult);
+			}
+		} catch (e) {
+			console.log('Error while Google Login...', e);
+		}
+	};
 
+  const GoogleLogin = useGoogleLogin({
+		onSuccess: responseGoogle,
+		onError: responseGoogle,
+		flow: "auth-code",
+	});
 
-    const handleLogin = () => {
-        
-        navigate("/homeuser");
-      };
-    
-    
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    if (!formData.email || !formData.password) {
+      toast.error("Email and password are required");
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${backendUrl}/api/auth/login`, formData);
+      if (response.data.success) {
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("user",JSON.stringify(response.data.user));
+        setToken(response.data.token);
+        setUser(response.data.user);
+        toast.success("Login successful!");
+        navigate("/home-user");
+      } else {
+        toast.error(response.data.message || "Login failed");
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || "An error occurred during login");
+    }
+  };
+
   return (
     <div
       style={{
-        backgroundImage: "url('/bg1.jpg')",
+        backgroundImage: "url('chessfloor2.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
       className="flex justify-center items-center h-126 bg-black text-white"
     >
-      <div className="w-80 p-5 shadow-lg rounded-lg  backdrop-blur-lg  relative" >
-        <h2 className="text-3xl font-semibold  pb-2 text-center text-white neon-text">Welcome</h2>
+      <div className="w-80 p-5 shadow-lg rounded-lg backdrop-blur-lg relative" style={{ marginTop: '-10%' }}>
+        <h2 className="text-3xl font-semibold pb-2 text-center text-white neon-text">Welcome</h2>
         <p className="text-sm text-center">Sign in to your account</p>
-        <form className="mt-3">
+        <form className="mt-3" onSubmit={handleLogin}>
           <div className="mb-3">
             <input
-              type="text"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-white-500"
               placeholder="Enter your email"
             />
@@ -40,18 +105,24 @@ const Login = () => {
           <div className="mb-4">
             <input
               type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
               className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-white-500"
               placeholder="Enter your password"
             />
           </div>
-          <button onClick={handleLogin} className="mt-2 w-full py-2 bg-black hover:bg-gray-900 rounded-md text-white font-semibold shadow-md">
+          <button
+            type="submit"
+            className="mt-2 w-full py-2 bg-black hover:bg-gray-900 rounded-md text-white font-semibold shadow-md"
+          >
             Login
           </button>
         </form>
         <div className="mt-4 border-t border-gray-700 pt-4">
           <p className="text-center text-gray-400">OR</p>
           <div className="mt-4 space-y-3">
-            <button className="w-full flex items-center justify-center py-2 bg-gray-800 hover:bg-gray-700 rounded-md text-white">
+            <button onClick = {GoogleLogin} className="w-full flex items-center justify-center py-2 bg-gray-800 hover:bg-gray-700 rounded-md text-white">
               <img
                 src="googlebg.png"
                 alt="Google Logo"
@@ -68,5 +139,4 @@ const Login = () => {
     </div>
   );
 };
-
 export default Login;

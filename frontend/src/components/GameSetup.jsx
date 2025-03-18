@@ -22,12 +22,12 @@ function GameSetup({ onStartGame }) {
   };
 
   return (
-    <div  style={{ backgroundImage: "url('/bgchess5.jpg')" }} > 
+    <div    > 
     <form
       onSubmit={handleSubmit}
       className="flex flex-col space-y-4 p-6 rounded-lg shadow-lg"
     >
-      <h2 className="text-2xl font-bold text-white mb-4">Game Setup</h2>
+      <h2 className="text-3xl  font-bold  text-white mb-4">Game Setup</h2>
 
       {/* Time Format Selector */}
       <div className="flex flex-col space-y-2">
