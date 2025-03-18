@@ -1,8 +1,23 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { assets } from '../assets/assets';
+import { AudioContext } from "../Context/AudioContext";
+ 
 
 const Navbar = () => {
+
+    const { isPlaying, playAudio, pauseAudio } = useContext(AudioContext);
+
+    const toggleSound=()=>{
+        if(isPlaying){
+          pauseAudio();
+        }
+        else{
+          playAudio();
+        }
+      }
+
+
     return (
         <nav className="flex items-center justify-between px-8 py-[12px] bg-black shadow-xl">
             <div className="flex items-center gap-4">
@@ -20,6 +35,50 @@ const Navbar = () => {
 
             {/* Navigation Links */}
             <div className="flex items-center gap-8 mr-4">
+
+                        {/* Sound Toggle Button */}
+        <button 
+          onClick={toggleSound} 
+          className="flex items-center gap-2 text-lg font-medium px-4 py-2 text-gray-300
+                  hover:text-white transition-all duration-300 hover:shadow-glow"
+        >
+          {isPlaying ? (
+            <svg 
+              className="w-6 h-6" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
+              />
+            </svg>
+          ) : (
+            <svg 
+              className="w-6 h-6" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
+              />
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"
+              />
+            </svg>
+          )}
+          <span>{isPlaying ? 'Sound On' : 'Sound Off'}</span>
+        </button>
                 <NavLink 
                     to="/about" 
                     className={({ isActive }) => 

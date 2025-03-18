@@ -15,6 +15,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Play from "./components/Play";
 import { ToastContainer} from 'react-toastify';
+import Profile from "./pages/Profile";
 import { AudioProvider } from "./Context/AudioContext.jsx";
 import { commoncontext} from "./contexts/commoncontext.jsx";
 import { useContext } from "react";
@@ -37,6 +38,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
+              <Route path="/profile" element={<Profile />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/home-user" element={<HomeUser />} />
               <Route path="/settings" element={<Settings />} />

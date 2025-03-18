@@ -15,7 +15,7 @@ export default function ContactUs() {
 
   return (
     <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center p-6 spooky-font">
-      <h1   style={{ fontFamily: "'Creepster', cursive" }} className="text-4xl text-red-600 mb-4 flex items-center">
+      <h1   style={{ fontFamily: "'Creepster', cursive" }} className="text-4xl grad mb-4 flex items-center">
         Contact The Haunted Keep
       </h1>
       <p className="text-gray-400 mb-6">Reach out if you dare... We are waiting in the shadows.</p>
