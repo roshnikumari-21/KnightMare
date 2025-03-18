@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-
 import { Link } from "react-router-dom";
 
 const Profile = () => {
-  const { user } = useAuth(); // Fetch user data from context
+  const { user } = useAuth();
   const [profile, setProfile] = useState({
     username: "",
     email: "",
