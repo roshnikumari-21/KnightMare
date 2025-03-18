@@ -85,11 +85,11 @@ import { motion } from "framer-motion"; // Import Framer Motion
 
 const AboutUs = () => {
   const teamMembers = [
-    { name: "Aprajita Kumari", role: "Designer", avatar: "/useravatar.png" },
-    { name: "Roshni Kumari", role: "Developer", avatar: "/useravatar.png" },
-    { name: "Sakshi Kumari", role: "Developer", avatar: "/useravatar.png" },
-    { name: "Ayush Kumar Singh", role: "Backend Developer", avatar: "/useravatar.png" },
-    { name: "Prince Kumar", role: "Frontend Developer", avatar: "/useravatar.png" },
+    { name: "Aprajita Kumari", role: "Backend Developer", avatar: "/useravatar.png" },
+    { name: "Roshni Kumari", role: "Frontend Developer", avatar: "/useravatar.png" },
+    { name: "Sakshi Kumari", role: "Game Developer", avatar: "/useravatar.png" },
+    { name: "Ayush Kumar Singh", role: "Full Stack Developer", avatar: "/useravatar.png" },
+    { name: "Prince Kumar", role: "Designer", avatar: "/useravatar.png" },
     { name: "Gobind Kumar", role: "QA Tester", avatar: "/useravatar.png" },
   ];
 

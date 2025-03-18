@@ -28,7 +28,7 @@ const handleStartGame = (settings) => {
     setShowBoard(true);
   };
     return (
-        <div  className="min-h-screen bg-cover bg-center overflow-hidden"  style={{ backgroundImage: "url('/chessfloor2.jpg')" }}>
+        <div  className="heii bg-cover bg-center overflow-hidden"  style={{ backgroundImage: "url('/chessfloor2.jpg')" }}>
             {/* Display the GameSetup form if the board is not shown */}
             {!showBoard && (
                 <div className="flex justify-center items-center  ">
