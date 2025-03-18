@@ -40,7 +40,7 @@ export default function ContactUs() {
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
-      className="backdrop-blur-sm text-white flex flex-col items-center justify-center p-5"
+      className="backdrop-blur-sm text-white flex flex-col items-center heii justify-center p-5"
     >
       <h1 className="text-4xl mb-3 flex items-center">Contact Us</h1>
       <div className="backdrop-blur-sm p-6 rounded-lg shadow-xl w-full max-w-lg">
