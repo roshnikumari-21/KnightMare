@@ -3,7 +3,7 @@ import React from "react";
 const AboutUs = () => {
   return (
     <div className="bg-black text-red-500 min-h-screen flex flex-col items-center justify-center p-10">
-      <h1 style={{ fontFamily: "'Creepster', cursive" }}   className="text-5xl  mb-6 text-red animate-pulse">
+      <h1 style={{ fontFamily: "'Creepster', cursive" }}   className="text-5xl  grad mb-6  animate-pulse">
         Knight...mare!!!
       </h1>
       <p className="text-lg text-gray-300 text-center max-w-3xl mb-8">

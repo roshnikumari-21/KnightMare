@@ -14,6 +14,7 @@ import HomeUser from "./pages/HomeUser";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Play from "./components/Play";
+import Profile from "./pages/Profile";
 import { AudioProvider } from "./Context/AudioContext.jsx";
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
+              <Route path="/profile" element={<Profile />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/homeuser" element={<HomeUser />} />
               <Route path="/settings" element={<Settings />} />

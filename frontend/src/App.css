@@ -30,3 +30,14 @@
       0 0 2px #a3a4a4; /* Far outer glow */
     animation: glow 1.5s infinite alternate; /* Glow animation */
   }
+
+
+  .grad {
+    background-image: linear-gradient(to bottom, #ea0505, #240101); /* Define your gradient */
+    -webkit-background-clip: text; /* Clip the background to the text */
+    background-clip: text; /* Standard property */
+    -webkit-text-fill-color: transparent; /* Make the text transparent */
+    color: transparent; /* Fallback for non-WebKit browsers */
+    font-size: 48px; /* Adjust font size as needed */
+    font-weight: bold; /* Adjust font weight as needed */
+  }
