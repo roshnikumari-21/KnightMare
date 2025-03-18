@@ -9,7 +9,7 @@ import Sidebar from "./components/Sidebar";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Home from "./pages/Home";
-import Settings from "./pages/settings"; // Ensure the file name matches (case-sensitive)
+import Settings from "./pages/settings";
 import HomeUser from "./pages/HomeUser";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -24,18 +24,12 @@ import ResetPassword from "./pages/ResetPassword.jsx";
 function App() {
   const {token,user} = useContext(commoncontext);
   return (
-    <AudioProvider> {/* Wrap the entire app with AudioProvider */}
+    <AudioProvider> 
       <div className="h-screen flex flex-col bg-white">
-        {/* Navbar */}
         <ToastContainer/>
       <Navbar />
-
-        {/* Main Content Area */}
         <div className="flex flex-1 overflow-hidden mt-1 bg-slate-900">
-          {/* Sidebar */}
           <Sidebar />
-
-          {/* Page Content */}
           <div className="flex-1 overflow-auto">
             <Routes>
               <Route path="/" element={<Home />} />

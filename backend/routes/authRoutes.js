@@ -10,6 +10,7 @@ import {
   resetPassword,
   getAllUsers,
   googleLogin,
+  sendFeedback
 } from '../controllers/userController.js';
 import authenticateUser from '../middleware/authMiddleware.js';
 const userRouter = express.Router();
@@ -22,4 +23,5 @@ userRouter.get('/', getAllUsers);
 userRouter.get('/:userId', getUser);
 userRouter.put('/:userId', authenticateUser, updateUser);
 userRouter.delete('/:userId', authenticateUser, deleteUser);
+userRouter.post('/sendFeedback',sendFeedback);
 export default userRouter;

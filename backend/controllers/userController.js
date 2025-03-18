@@ -61,7 +61,6 @@ export const loginUser = async (req, res) => {
     res.status(500).json({ success: false, message: "An error occurred during login" });
   }
 };
-
 export const googleLogin = async (req, res) => {
   const { code } = req.body;
   try {
@@ -96,7 +95,6 @@ export const googleLogin = async (req, res) => {
     res.status(500).json({ success: false, message: "An error occurred during Google login" });
   }
 };
-
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;
   try {
@@ -150,13 +148,111 @@ export const resetPassword = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error. Please try again later." });
   }
 };
+
+export const sendFeedback = async (req, res) => {
+  const { name, email, Feedback } = req.body;
+  if(!name || !email || !Feedback){
+    return res.status(400).json({success:false,message:"Enter all the fields."})
+  }
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: user.email,
+      subject: "Feedback Sent Successfully",
+      html: `<!DOCTYPE html>
+      <html>
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Feedback Confirmation</title>
+          <style>
+              body {
+                  font-family: Arial, sans-serif;
+                  background-color: #f4f4f4;
+                  margin: 0;
+                  padding: 0;
+              }
+              .container {
+                  max-width: 600px;
+                  margin: 20px auto;
+                  background: #ffffff;
+                  padding: 20px;
+                  border-radius: 8px;
+                  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+              }
+              .header {
+                  background: #000000;
+                  color: #ffffff;
+                  text-align: center;
+                  padding: 15px;
+                  font-size: 22px;
+                  font-weight: bold;
+                  border-radius: 8px 8px 0 0;
+              }
+              .content {
+                  padding: 20px;
+                  color: #333333;
+                  line-height: 1.6;
+              }
+              .footer {
+                  text-align: center;
+                  font-size: 14px;
+                  color: #777777;
+                  margin-top: 20px;
+              }
+              .highlight {
+                  font-weight: bold;
+                  color: #e63946;
+              }
+          </style>
+      </head>
+      <body>
+          <div class="container">
+              <div class="header">Feedback Successfully Sent</div>
+              <div class="content">
+                  <p>Dear <span class="highlight">${name}</span>,</p>
+                  <p>Thank you for reaching out to the <strong>KnightMare Team</strong>! We have successfully received your feedback.</p>
+                  <p><strong>Your Feedback:</strong></p>
+                  <blockquote style="background: #f8f8f8; padding: 15px; border-left: 5px solid #e63946;">
+                      ${Feedback}
+                  </blockquote>
+                  <p>We truly value your input and will carefully review your message. If necessary, our team will get back to you as soon as possible.</p>
+                  <p>Best Regards,</p>
+                  <p><strong>KnightMare Support Team</strong></p>
+              </div>
+              <div class="footer">
+                  &copy; 2025 KnightMare Team. All rights reserved.
+              </div>
+          </div>
+      </body>
+      </html>`,
+    };
+    await transporter.sendMail(mailOptions);
+    res.json({ success: true, message: "Feedback successfully sent to the KnightMare team!" });
+
+  } catch (error) {
+    console.error("Error in sendFeedback:", error);
+    res.status(500).json({ success: false, message: "Server error. Please try again later." });
+  }
+};
+
 export const getUser = async (req, res) => {
 };
 export const updateUser = async (req, res) => {
 };
 export const deleteUser = async (req, res) => {
 };
-
-
 export const getAllUsers = async (req, res) => {
 };
