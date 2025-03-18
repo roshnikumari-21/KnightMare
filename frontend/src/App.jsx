@@ -14,15 +14,18 @@ import HomeUser from "./pages/HomeUser";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Play from "./components/Play";
+import { ToastContainer} from 'react-toastify';
 import Profile from "./pages/Profile";
 import { AudioProvider } from "./Context/AudioContext.jsx";
+
 
 function App() {
   return (
     <AudioProvider> {/* Wrap the entire app with AudioProvider */}
       <div className="h-screen flex flex-col bg-white">
         {/* Navbar */}
-        <Navbar />
+        <ToastContainer/>
+      <Navbar />
 
         {/* Main Content Area */}
         <div className="flex flex-1 overflow-hidden mt-1 bg-slate-900">
