@@ -2,9 +2,13 @@ import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { OAuth2Client } from "google-auth-library";
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-
-
+const client = new OAuth2Client(
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_CLIENT_SECRET,
+  "postmessage"
+);
+import crypto from "crypto";
+import nodemailer from "nodemailer";
 export const registerUser = async (req, res) => {
   const { username, email, password } = req.body;
   try {
@@ -33,7 +37,6 @@ export const registerUser = async (req, res) => {
     res.status(500).json({ success: false, message: "An error occurred during registration" });
   }
 };
-
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -60,33 +63,33 @@ export const loginUser = async (req, res) => {
 };
 
 export const googleLogin = async (req, res) => {
-  const { code } = req.query; 
+  const { code } = req.body;
   try {
+    const { tokens } = await client.getToken(code);
+    const idToken = tokens.id_token;
     const ticket = await client.verifyIdToken({
-      idToken: code,
+      idToken,
       audience: process.env.GOOGLE_CLIENT_ID,
     });
     const payload = ticket.getPayload();
     let user = await User.findOne({ email: payload.email });
-
     if (!user) {
       user = new User({
-        username: payload.email.split('@')[0],
+        username: payload.email.split("@")[0],
         email: payload.email,
         authProvider: "google",
         googleId: payload.sub,
         profilePicture: payload.picture,
-        isVerified: true, 
+        isVerified: true,
       });
       await user.save();
     }
-    const newuser = await User.findOne({email:user.email});
     const token = user.generateAuthToken();
     res.status(200).json({
       success: true,
       message: "Google login successful",
       token,
-      user: newuser,
+      user,
     });
   } catch (error) {
     console.error("Error during Google login:", error);
@@ -94,8 +97,58 @@ export const googleLogin = async (req, res) => {
   }
 };
 
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    user.resetToken = resetToken;
+    user.resetTokenExpires = Date.now() + 3600000;
+    await user.save();
+    const resetLink = `${process.env.FRONTEND_URL}/resetpassword?token=${resetToken}`;
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: user.email,
+      subject: "Password Reset Request",
+      html:`<p>You requested a password reset. Click <a href="${resetLink}">here</a> to reset your password.</p><p>If you didn't request this, please ignore this email.</p>`
+    };
+    await transporter.sendMail(mailOptions);
+    res.json({ success: true, message: "Reset link sent to your email" });
+  } catch (error) {
+    console.error("Error in forgotPassword:", error);
+    res.status(500).json({ success: false, message: "Server error. Please try again later." });
+  }
+};
+export const resetPassword = async (req, res) => {
+  const { token, password } = req.body;
+  try {
+    const user = await User.findOne({
+      resetToken: token,
+      resetTokenExpires: { $gt: Date.now() },
+    });
+    if (!user) {
+      return res.status(400).json({ success: false, message: "Invalid or expired token." });
+    }
 
-export const logoutUser = async (req, res) => {
+    user.passwordHash = password;
+    user.resetToken = null;
+    user.resetTokenExpires = null;
+    await user.save();
+    res.json({ success: true, message: "Password reset successfully!" });
+  } catch (error) {
+    console.error("Error resetting password:", error);
+    res.status(500).json({ success: false, message: "Server error. Please try again later." });
+  }
 };
 export const getUser = async (req, res) => {
 };
@@ -103,9 +156,7 @@ export const updateUser = async (req, res) => {
 };
 export const deleteUser = async (req, res) => {
 };
-export const forgotPassword = async (req, res) => {
-};
-export const resetPassword = async(req,res) =>{
-}
+
+
 export const getAllUsers = async (req, res) => {
 };
