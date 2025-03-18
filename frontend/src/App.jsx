@@ -16,8 +16,10 @@ import Register from "./pages/Register";
 import Play from "./components/Play";
 import { ToastContainer} from 'react-toastify';
 import { AudioProvider } from "./Context/AudioContext.jsx";
-
+import { commoncontext} from "./contexts/commoncontext.jsx";
+import { useContext } from "react";
 function App() {
+  const {token,user} = useContext(commoncontext);
   return (
     <AudioProvider> {/* Wrap the entire app with AudioProvider */}
       <div className="h-screen flex flex-col bg-white">
@@ -36,7 +38,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
-              <Route path="/homeuser" element={<HomeUser />} />
+              <Route path="/home-user" element={<HomeUser />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />

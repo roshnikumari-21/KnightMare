@@ -1,12 +1,16 @@
-import {React, useRef,useEffect,useContext }from "react";
+import {React, useRef,useEffect}from "react";
 import { Link } from "react-router-dom";
 import { AudioContext } from "../Context/AudioContext";
-
+import { commoncontext} from "../contexts/commoncontext.jsx";
+import { useContext } from "react";
+import HomeUser from '../pages/HomeUser.jsx'
 const Home = () => {
-  
+  const {token,user} = useContext(commoncontext);
   const { isPlaying } = useContext(AudioContext);
 
-
+  if (token) {
+    return <HomeUser />;
+  }
   return (
     <div 
       className="min-h-screen flex flex-col justify-center items-center bg-cover bg-center" 
