@@ -25,7 +25,7 @@ function GameSetup({ onStartGame }) {
     <div    > 
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col space-y-4 p-6 rounded-lg shadow-lg"
+      className="flex flex-col mt-10 space-y-4 p-6 rounded-lg shadow-lg"
     >
       <h2 className="text-3xl  font-bold  text-white mb-4">Game Setup</h2>
 

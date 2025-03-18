@@ -32,7 +32,7 @@ const handleStartGame = (settings) => {
   };
   
     return (
-        <div  className="heii bg-cover bg-center overflow-hidden"  style={{ backgroundImage: "url('/chessfloor2.jpg')" }}>
+        <div  className="heii2 bg-cover bg-center overflow-hidden"  style={{ backgroundImage: "url('/chessfloor2.jpg')" }}>
             {!showBoard && (
                 <div className="flex justify-center items-center  ">
                     <GameSetup onStartGame={handleStartGame} />

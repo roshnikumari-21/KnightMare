@@ -1,126 +1,75 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
-const Profile = () => {
-  const { user } = useAuth();
-  const [profile, setProfile] = useState({
-    username: "",
-    email: "",
-    profilePicture: "",
-    score: 0,
-    gamesPlayed: 0,
-    gamesWon: 0,
-    gamesLost: 0,
-    gamesDrawn: 0,
-    longestStreak: 0,
-    currentStreak: 0,
-    ratingHistory: [],
-    dailyActivity: [],
-  });
 
-  // Fetch user data (replace with your API call)
-  useEffect(() => {
-    if (user) {
-      setProfile({
-        username: user.username,
-        email: user.email,
-        profilePicture: user.profilePicture,
-        score: user.score,
-        gamesPlayed: user.gamesPlayed,
-        gamesWon: user.gamesWon,
-        gamesLost: user.gamesLost,
-        gamesDrawn: user.gamesDrawn,
-        longestStreak: user.longestStreak,
-        currentStreak: user.currentStreak,
-        ratingHistory: user.ratingHistory,
-        dailyActivity: user.dailyActivity,
-      });
-    }
-  }, [user]);
 
-  return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 p-8 font-sans">
-      {/* Header */}
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold mb-6 text-center text-gray-800">
-          User Profile
-        </h1>
 
-        {/* Profile Section */}
-        <div className="bg-white p-8 rounded-lg shadow-lg mb-8">
-          <div className="flex flex-col items-center space-y-4">
-            <img
-              src={profile.profilePicture}
-              alt="Profile"
-              className="w-32 h-32 rounded-full border-4 border-gray-200"
+
+import React from "react";
+import CalendarHeatmap from "react-calendar-heatmap";
+import "react-calendar-heatmap/dist/styles.css";
+import { subDays, format } from "date-fns";
+import "./heatmap.css"; // Import custom styles
+
+const ProfilePage = () => {
+  // Dummy User Data (Replace with real data later)
+  const user = {
+    username: "ChessMaster",
+    email: "chessmaster@example.com",
+    profilePicture: "/useravatar.png",
+    score: 1450,
+    gamesPlayed: 120,
+    gamesWon: 65,
+    gamesLost: 45,
+    gamesDrawn: 10,
+    longestStreak: 15,
+    currentStreak: 3,
+    dailyActivity: [...Array(365)].map((_, i) => ({
+      date: format(subDays(new Date(), i), "yyyy-MM-dd"),
+      count: Math.floor(Math.random() * 5),
+    })),
+  };
+
+  
+    return (
+      <div className="min-h-screen bg-black text-white flex flex-col items-center p-6">
+        {/* Profile Card */}
+        <div className="bg-gray-900 shadow-lg rounded-lg p-6 flex flex-col items-center w-full sm:w-3/4 md:w-2/3 lg:w-1/2">
+          <img
+            src={user.profilePicture}
+            alt="Profile"
+            className="w-32 h-32 bg-black rounded-full border-4 border-gray-700"
+          />
+          <h2 className="text-2xl font-bold mt-4">{user.username}</h2>
+          <p className="text-gray-400">{user.email}</p>
+          <p className="mt-2 text-lg font-semibold">Rating: {user.score}</p>
+        </div>
+  
+        {/* Stats Section */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6 w-full sm:w-3/4 md:w-2/3 lg:w-1/2">
+          <div className="bg-gray-800 text-center p-4 rounded-lg">Games Played: <span className="font-bold">{user.gamesPlayed}</span></div>
+          <div className="bg-green-700 text-center p-4 rounded-lg">Wins: <span className="font-bold">{user.gamesWon}</span></div>
+          <div className="bg-red-700 text-center p-4 rounded-lg">Losses: <span className="font-bold">{user.gamesLost}</span></div>
+          <div className="bg-gray-700 text-center p-4 rounded-lg">Draws: <span className="font-bold">{user.gamesDrawn}</span></div>
+          <div className="bg-yellow-600 text-center p-4 rounded-lg">Longest Streak: <span className="font-bold">{user.longestStreak}</span></div>
+          <div className="bg-blue-600 text-center p-4 rounded-lg">Current Streak: <span className="font-bold">{user.currentStreak}</span></div>
+        </div>
+  
+        {/* Heatmap Section */}
+        <div className="mt-8 w-full sm:w-3/4 md:w-2/3 lg:w-1/2 text-center">
+          <h3 className="text-xl font-semibold mb-4">Daily Activity</h3>
+          <div className="bg-gray-900 p-4 rounded-lg">
+            <CalendarHeatmap
+              startDate={subDays(new Date(), 365)}
+              endDate={new Date()}
+              values={user.dailyActivity}
+              classForValue={(value) => {
+                if (!value) return "color-empty";
+                return `color-scale-${value.count}`;
+              }}
             />
-            <h2 className="text-2xl font-semibold text-gray-800">
-              {profile.username}
-            </h2>
-            <p className="text-gray-600">{profile.email}</p>
-          </div>
-        </div>
-
-        {/* Game Statistics Section */}
-        <div className="bg-white p-8 rounded-lg shadow-lg mb-8">
-          <h2 className="text-2xl font-semibold mb-6 text-gray-800">
-            Game Statistics
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <StatCard label="Total Score" value={profile.score} />
-            <StatCard label="Games Played" value={profile.gamesPlayed} />
-            <StatCard label="Games Won" value={profile.gamesWon} />
-            <StatCard label="Games Lost" value={profile.gamesLost} />
-            <StatCard label="Games Drawn" value={profile.gamesDrawn} />
-            <StatCard label="Longest Streak" value={profile.longestStreak} />
-            <StatCard label="Current Streak" value={profile.currentStreak} />
-          </div>
-        </div>
-
-        {/* Rating History Section */}
-        <div className="bg-white p-8 rounded-lg shadow-lg mb-8">
-          <h2 className="text-2xl font-semibold mb-6 text-gray-800">
-            Rating History
-          </h2>
-          <div className="space-y-4">
-            {profile.ratingHistory.map((entry, index) => (
-              <div key={index} className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-                <span className="text-gray-700">
-                  {new Date(entry.date).toLocaleDateString()}
-                </span>
-                <span className="text-gray-900 font-semibold">{entry.score}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Daily Activity Section */}
-        <div className="bg-white p-8 rounded-lg shadow-lg">
-          <h2 className="text-2xl font-semibold mb-6 text-gray-800">
-            Daily Activity
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {profile.dailyActivity.map((date, index) => (
-              <div
-                key={index}
-                className="p-2 bg-green-100 text-green-800 text-center rounded-lg"
-              >
-                {new Date(date).toLocaleDateString()}
-              </div>
-            ))}
           </div>
         </div>
       </div>
-    </div>
-  );
-};
-
-// Reusable StatCard Component
-const StatCard = ({ label, value }) => (
-  <div className="bg-gray-50 p-6 rounded-lg shadow-sm text-center">
-    <h3 className="text-lg font-semibold text-gray-700">{label}</h3>
-    <p className="text-2xl font-bold text-gray-900">{value}</p>
-  </div>
-);
-
-export default Profile;
+    );
+  };
+  
+  export default ProfilePage;
