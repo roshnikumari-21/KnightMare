@@ -25,6 +25,10 @@ const Navbar = () => {
     toast.success("You have been logged out successfully!");
     Navigate("/");}
 
+    const Login = () =>{
+      Navigate("/login");
+    }
+
     return (
         <nav className="flex items-center justify-between px-8 py-[10px] bg-black shadow-xl">
             <div className="flex items-center gap-4">
@@ -126,10 +130,11 @@ const Navbar = () => {
                             strokeLinejoin="round" 
                             strokeWidth={2} 
                             d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                        />
-                    </svg>
+                        />            
+                   </svg>
                 </a>
-                {token?<div className="bg-slate-800 font-bold rounded-full px-4 py-2 border  shadow-sm shadow-white border-white text-white" onClick={Logout}>Logout</div>:""}
+                {token?<div className=" cursor-pointer bg-slate-800 font-bold rounded-full px-4 py-2 border  shadow-sm shadow-white border-white text-white" onClick={Logout}>Logout</div>:""}
+                {(!token)?<div className="cursor-pointer bg-slate-800 font-bold rounded-full px-4 py-2 border  shadow-sm shadow-white border-white text-white" onClick={()=> Navigate("/login")}>Login</div>:""}
             </div>
         </nav>
     );

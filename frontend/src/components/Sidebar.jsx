@@ -1,9 +1,10 @@
 import React, { useState ,useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink ,useNavigate } from "react-router-dom";
 import {commoncontext} from "../contexts/commoncontext";
 
 
 const Sidebar = () => {
+  const Navigate = useNavigate();
   const [isExpanded, setIsExpanded] = useState(false);
   const { setToken, setUser ,user , token } = useContext(commoncontext);
   console.log(user);
@@ -16,7 +17,7 @@ const Sidebar = () => {
       onMouseLeave={() => setIsExpanded(false)}
     >
       {/* User Profile Section */}
-      <div className="p-4 border-b border-gray-700">
+      <div onClick = {() => Navigate('/profile')} className="p-4 border-b border-gray-700">
         <div className="flex items-center gap-3 overflow-hidden">
           <div style={{
         backgroundImage: `url(${user?.profileimage})`,
