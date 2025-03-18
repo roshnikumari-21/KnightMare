@@ -14,14 +14,14 @@ export const AudioProvider = ({ children }) => {
     audioRef.current.volume = 0.6; // Set volume (0 to 1)
 
     // Play audio after first user interaction
-    const handleFirstInteraction = () => {
-      audioRef.current.play()
-        .then(() => setIsPlaying(true))
-        .catch((err) => console.log("Autoplay blocked:", err));
-      document.removeEventListener("click", handleFirstInteraction);
-    };
+    // const handleFirstInteraction = () => {
+    //   audioRef.current.play()
+    //     .then(() => setIsPlaying(true))
+    //     .catch((err) => console.log("Autoplay blocked:", err));
+    //   document.removeEventListener("click", handleFirstInteraction);
+    // };
 
-    document.addEventListener("click", handleFirstInteraction);
+    // document.addEventListener("click", handleFirstInteraction);
 
     return () => {
       // Cleanup audio on unmount

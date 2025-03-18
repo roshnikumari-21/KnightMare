@@ -11,6 +11,9 @@ import MoveHistory from './MoveHistory';
 import StartNewGame from './StartNewGame';
 // stockfish integration
 import { useStockfish } from '../stockfish/UseStockfish';
+import captureSound from "../assets/capture.mp3"
+import notifySound from "../assets/notify.mp3"
+
 
 function Chess({ level, timeFormat, side }) {
   // Game state
@@ -33,6 +36,16 @@ const [isUserTurn, setIsUserTurn] = useState(false);
   const [blackTime, setBlackTime] = useState(timeFormat);
   const [isWhiteTimerActive, setIsWhiteTimerActive] = useState(false);
 
+
+  const playCaptureSound = () => {
+    const audio = new Audio(captureSound); // Create an audio object
+    audio.play().catch((error) => console.error("Failed to play sound:", error)); // Play the sound
+  };
+
+  const playNotifySound = () => {
+    const audio = new Audio(notifySound); // Create an audio object
+    audio.play().catch((error) => console.error("Failed to play sound:", error)); // Play the sound
+  };
   
   useEffect(() => {
     setIsUserTurn(side === currentPlayer);
@@ -106,7 +119,7 @@ const [isUserTurn, setIsUserTurn] = useState(false);
   
   // Move validation
   const validateMove = useCallback((start, end) => {
-    if (!start.piece || start.piece.color !== currentPlayer) return false; // No piece to move or wrong color
+    if (!start.piece || start.piece.color !== currentPlayer)   return false; // No piece to move or wrong color
     if (end.piece?.color === currentPlayer) return false;    // Cannot capture own piece
 
     const dx = Math.abs(end.col - start.col); // horizontal distance
@@ -141,6 +154,7 @@ const [isUserTurn, setIsUserTurn] = useState(false);
           }
         }
       }
+      
       return false;
     };
 
@@ -281,11 +295,13 @@ const [isUserTurn, setIsUserTurn] = useState(false);
         }));
         newBoard[clickedSquare.row][clickedSquare.col].isSelected = true;
         setSelectedSquare(clickedSquare);
+        
       }
     } else {
       if (validateMove(selectedSquare, clickedSquare)) {
         // Execute move
         const newBoard = makeMove(board, selectedSquare, clickedSquare);
+        playCaptureSound();
         
         // Update move history
         updateMoveHistory(selectedSquare, clickedSquare);
@@ -307,6 +323,7 @@ const [isUserTurn, setIsUserTurn] = useState(false);
         // Update timer state
         setIsWhiteTimerActive(prev => !prev);
       }
+     
       setSelectedSquare(null);
     }
   }, [board, selectedSquare, currentPlayer, validateMove, side, gameOver, makeAIMove]);
@@ -357,7 +374,7 @@ const [isUserTurn, setIsUserTurn] = useState(false);
       }
     }
 
-    
+    playCaptureSound();
   
     return newBoard;
   };

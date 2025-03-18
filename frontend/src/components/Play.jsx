@@ -28,7 +28,7 @@ const handleStartGame = (settings) => {
     setShowBoard(true);
   };
     return (
-        <div>
+        <div >
             {/* Display the GameSetup form if the board is not shown */}
             {!showBoard && (
                 <div className="flex justify-center items-center min-h-screen bg-gray-900">

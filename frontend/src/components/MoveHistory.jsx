@@ -2,7 +2,7 @@ import React from 'react';
 
 function MoveHistory({ moves }) {
   return (
-    <div className="bg-gray-800 p-4 rounded-lg">
+    <div  className="bg-gray-800 p-4 rounded-lg">
       <h3 className="text-lg font-bold mb-2">Move History</h3>
       <div className="space-y-2">
         {moves.map((move, index) => (

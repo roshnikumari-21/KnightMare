@@ -19,14 +19,14 @@ const Login = () => {
   return (
     <div
       style={{
-        backgroundImage: "url('https://www.shutterstock.com/image-photo/empty-chess-board-smoke-float-600nw-1718973463.jpg')",
+        backgroundImage: "url('/bg1.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
-      className="flex justify-center items-center min-h-screen bg-black text-white"
+      className="flex justify-center items-center h-126 bg-black text-white"
     >
-      <div className="w-80 p-5 shadow-lg rounded-lg  backdrop-blur-lg  relative" style={{ marginTop: '-10%' }}>
+      <div className="w-80 p-5 shadow-lg rounded-lg  backdrop-blur-lg  relative" >
         <h2 className="text-3xl font-semibold  pb-2 text-center text-white neon-text">Welcome</h2>
         <p className="text-sm text-center">Sign in to your account</p>
         <form className="mt-3">

@@ -4,12 +4,12 @@ import { AudioContext } from "../Context/AudioContext";
 
 const Home = () => {
   
-  const { isPlaying } = useContext(AudioContext);
+  
 
 
   return (
     <div 
-      className="min-h-screen flex flex-col justify-center items-center bg-cover bg-center" 
+      className="h-126 flex flex-col justify-center items-center bg-cover bg-center" 
       style={{ backgroundImage: "url('/bgchess5.jpg')" }}
     >
       <div className="bg-gray-700/10 p-6 rounded-lg shadow-lg text-white max-w-sm text-center backdrop-blur-sm">
@@ -38,6 +38,4 @@ const Home = () => {
 };
 
 export default Home;
-
-
 

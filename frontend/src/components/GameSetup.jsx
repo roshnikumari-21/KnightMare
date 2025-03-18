@@ -22,9 +22,10 @@ function GameSetup({ onStartGame }) {
   };
 
   return (
+    <div  style={{ backgroundImage: "url('/bgchess5.jpg')" }} > 
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col space-y-4 p-6 bg-gray-800 rounded-lg shadow-lg"
+      className="flex flex-col space-y-4 p-6 rounded-lg shadow-lg"
     >
       <h2 className="text-2xl font-bold text-white mb-4">Game Setup</h2>
 
@@ -54,6 +55,7 @@ function GameSetup({ onStartGame }) {
         Start Game
       </button>
     </form>
+    </div>
   );
 }
 

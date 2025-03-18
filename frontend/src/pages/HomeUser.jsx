@@ -14,38 +14,34 @@ import { useNavigate } from "react-router";
 const HomeUser = () => {
 
   const navigate=useNavigate();
-
-
-    const handle = () => {
-        
+    const handle = () => {        
         navigate("/playWithAI");
-      };
-    
+      };    
 
     
   return (
     <div
       style={{
         backgroundImage:
-          "url('/homeuser.jpg')",
+          "url('/bg1.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        minHeight: "100vh",
+        backgroundRepeat: "no-repeat",      
+     
         display: "flex",
         flexDirection: "column",
       }}
     >
-      {/* Main Content */}
-      <div
+      
+      <div 
         style={{
           flex: 1,
           display: "flex",
           justifyContent: "center",
-          alignItems: "center",
+          // alignItems: "center",
         }}
       >
-        <div className="relative z-10 p-8 rounded-lg shadow-lg text-white max-w-4xl w-full mx-4 backdrop-blur-sm ">
+        <div className="relative h-126 z-10 p-8 rounded-lg shadow-lg text-white max-w-4xl w-full mx-4  ">
           {/* Header */}
           <h1 className="text-5xl font-semibold mb-6">  <span className="text-red-500">W</span>elcome, Username</h1>
           <p className=" text-gray-300 mb-8">
@@ -59,14 +55,15 @@ const HomeUser = () => {
           </p>
 
           {/* Action Buttons */}
-          <button onClick={handle} className="border-white border-2 px-4 py-2 rounded-sm">Start a Game </button>
+          <button onClick={handle} className=" bg-white text-black font-semibold px-4 mr-6   py-2 hover:bg-slate-300  rounded-sm">Start a Game </button>
+          <button onClick={handle} className=" bg-white text-black font-semibold px-4 py-2 hover:bg-slate-300 rounded-sm">Analyze </button>
           
 
           {/* Footer */}
           <div className="mt-12">
-            <p className="text-gray-400 text-sm">
+            {/* <p className="text-slate-300  text-sm">
               Ready to face the shadows? Choose your path wisely...
-            </p>
+            </p> */}
           </div>
         </div>
       </div>
