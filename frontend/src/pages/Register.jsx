@@ -50,7 +50,7 @@ const Register = () => {
   return (
     <div
       style={{
-        backgroundImage: "url('/chessboardbg.jpg')",
+        backgroundImage: "url('/chessfloor2.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",

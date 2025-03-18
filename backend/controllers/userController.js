@@ -1,6 +1,9 @@
 import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { OAuth2Client } from "google-auth-library";
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
 
 export const registerUser = async (req, res) => {
   const { username, email, password } = req.body;
@@ -53,6 +56,41 @@ export const loginUser = async (req, res) => {
   } catch (error) {
     console.error("Error during login:", error);
     res.status(500).json({ success: false, message: "An error occurred during login" });
+  }
+};
+
+export const googleLogin = async (req, res) => {
+  const { code } = req.query; 
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: code,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+    let user = await User.findOne({ email: payload.email });
+
+    if (!user) {
+      user = new User({
+        username: payload.email.split('@')[0],
+        email: payload.email,
+        authProvider: "google",
+        googleId: payload.sub,
+        profilePicture: payload.picture,
+        isVerified: true, 
+      });
+      await user.save();
+    }
+    const newuser = await User.findOne({email:user.email});
+    const token = user.generateAuthToken();
+    res.status(200).json({
+      success: true,
+      message: "Google login successful",
+      token,
+      user: newuser,
+    });
+  } catch (error) {
+    console.error("Error during Google login:", error);
+    res.status(500).json({ success: false, message: "An error occurred during Google login" });
   }
 };
 

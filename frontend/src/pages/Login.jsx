@@ -4,6 +4,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { commoncontext } from "../contexts/commoncontext";
+import { useGoogleLogin } from "@react-oauth/google";
+import { googleAuth } from "../utils/api";
+
 
 const Login = () => {
   const { setToken, setUser } = useContext(commoncontext);
@@ -12,9 +15,36 @@ const Login = () => {
     email: "",
     password: "",
   });
-
-  // Backend URL from environment variable
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+  const responseGoogle = async (authResult) => {
+		try {
+			if (authResult["code"]) {
+				const result = await googleAuth(authResult.code);
+				if (result.data.success){
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("user",JSON.stringify(response.data.user));
+          setToken(response.data.token);
+          setUser(response.data.user);
+          toast.success("Login successful!");
+          navigate("/home-user");
+        } else {
+          toast.error(response.data.message || "Login failed");
+        }
+			} else {
+				console.log(authResult);
+				throw new Error(authResult);
+			}
+		} catch (e) {
+			console.log('Error while Google Login...', e);
+		}
+	};
+
+  const GoogleLogin = useGoogleLogin({
+		onSuccess: responseGoogle,
+		onError: responseGoogle,
+		flow: "auth-code",
+	});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,7 +81,7 @@ const Login = () => {
   return (
     <div
       style={{
-        backgroundImage: "url('chessboardbg.jpg')",
+        backgroundImage: "url('chessfloor2.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
@@ -92,7 +122,7 @@ const Login = () => {
         <div className="mt-4 border-t border-gray-700 pt-4">
           <p className="text-center text-gray-400">OR</p>
           <div className="mt-4 space-y-3">
-            <button className="w-full flex items-center justify-center py-2 bg-gray-800 hover:bg-gray-700 rounded-md text-white">
+            <button onClick = {GoogleLogin} className="w-full flex items-center justify-center py-2 bg-gray-800 hover:bg-gray-700 rounded-md text-white">
               <img
                 src="googlebg.png"
                 alt="Google Logo"

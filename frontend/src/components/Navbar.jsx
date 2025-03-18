@@ -1,13 +1,14 @@
 import React,{useContext} from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link,  NavLink, useNavigate } from 'react-router-dom';
 import { assets } from '../assets/assets';
 import { AudioContext } from "../Context/AudioContext";
+import { commoncontext } from '../contexts/commoncontext';
+import { toast } from 'react-toastify';
  
-
 const Navbar = () => {
-
+    const Navigate = useNavigate();
     const { isPlaying, playAudio, pauseAudio } = useContext(AudioContext);
-
+    const {user,setUser , token , setToken} = useContext(commoncontext)
     const toggleSound=()=>{
         if(isPlaying){
           pauseAudio();
@@ -16,7 +17,13 @@ const Navbar = () => {
           playAudio();
         }
       }
-
+      const Logout = () =>{
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setToken(null);
+    setUser(null);
+    toast.success("You have been logged out successfully!");
+    Navigate("/");}
 
     return (
         <nav className="flex items-center justify-between px-8 py-[12px] bg-black shadow-xl">
@@ -122,6 +129,7 @@ const Navbar = () => {
                         />
                     </svg>
                 </a>
+                {token?<div className="bg-slate-800 font-bold rounded-full px-4 py-2 border border-1 shadow-sm shadow-white border-white text-white" onClick={Logout}>Logout</div>:""}
             </div>
         </nav>
     );
