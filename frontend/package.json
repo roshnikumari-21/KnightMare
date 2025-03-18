@@ -10,12 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@react-oauth/google": "^0.12.1",
-=======
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
->>>>>>> 5f2ebe2e2264c66e3efb712aa2e7e35f72246990
     "@tailwindcss/vite": "^4.0.14",
     "axios": "^1.8.3",
     "framer-motion": "^12.5.0",
@@ -37,6 +34,8 @@
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
-    "vite": "^6.2.0"
+    "vite": "^6.2.2"
   }
 }
+
+

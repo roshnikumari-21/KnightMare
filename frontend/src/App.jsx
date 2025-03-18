@@ -17,6 +17,7 @@ import Play from "./components/Play";
 import { ToastContainer} from 'react-toastify';
 import { AudioProvider } from "./Context/AudioContext.jsx";
 
+
 function App() {
   return (
     <AudioProvider> {/* Wrap the entire app with AudioProvider */}
