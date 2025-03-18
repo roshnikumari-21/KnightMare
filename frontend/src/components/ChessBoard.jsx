@@ -111,17 +111,17 @@ const ChessBoard = ({ board, handleSquareClick }) => {
   const getIcon = (type, color) => {
     switch (type) {
       case 'king':
-        return color === 'white' ? <FaChessKing size={60} color="white" /> : <FaChessKing size={60} color="black" />;
+        return color === 'white' ? <FaChessKing size={35} color="white" /> : <FaChessKing size={35} color="black" />;
       case 'queen':
-        return color === 'white' ? <FaChessQueen size={60} color="white" /> : <FaChessQueen size={60} color="black" />;
+        return color === 'white' ? <FaChessQueen size={35} color="white" /> : <FaChessQueen size={35} color="black" />;
       case 'rook':
-        return color === 'white' ? <FaChessRook size={60} color="white" /> : <FaChessRook size={60} color="black" />;
+        return color === 'white' ? <FaChessRook size={35} color="white" /> : <FaChessRook size={35} color="black" />;
       case 'bishop':
-        return color === 'white' ? <FaChessBishop size={60} color="white" /> : <FaChessBishop size={60} color="black" />;
+        return color === 'white' ? <FaChessBishop size={35} color="white" /> : <FaChessBishop size={35} color="black" />;
       case 'knight':
-        return color === 'white' ? <FaChessKnight size={60} color="white" /> : <FaChessKnight size={60} color="black" />;
+        return color === 'white' ? <FaChessKnight size={35} color="white" /> : <FaChessKnight size={35} color="black" />;
       case 'pawn':
-        return color === 'white' ? <FaChessPawn size={60} color="white" /> : <FaChessPawn size={60} color="black" />;
+        return color === 'white' ? <FaChessPawn size={35} color="white" /> : <FaChessPawn size={35} color="black" />;
       default:
         return null;
     }
@@ -134,9 +134,9 @@ const ChessBoard = ({ board, handleSquareClick }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
+    <div className="  bg-gray-900 flex items-center justify-center p-4">
       <div className="relative">
-        <div className="grid grid-cols-8 w-[90vmin] h-[90vmin] border-2 border-gray-800 rounded-lg overflow-hidden shadow-2xl">
+        <div className="grid grid-cols-8 w-[70vmin] h-[70vmin] border-2 border-gray-800 rounded-lg overflow-hidden shadow-2xl">
           {board.flat().map((square) => (
             <div
               key={`${square.row}-${square.col}`}

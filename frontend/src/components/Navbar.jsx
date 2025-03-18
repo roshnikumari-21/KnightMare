@@ -26,15 +26,15 @@ const Navbar = () => {
     Navigate("/");}
 
     return (
-        <nav className="flex items-center justify-between px-8 py-[12px] bg-black shadow-xl">
+        <nav className="flex items-center justify-between px-8 py-[5px] bg-black shadow-xl">
             <div className="flex items-center gap-4">
                 <Link to="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
                     <img 
                         src={assets.logo} 
-                        className="w-[55px] h-[55px] transition-transform duration-300 hover:scale-110" 
+                        className="w-[50px] h-[50px] transition-transform duration-300 hover:scale-110" 
                         alt="Website Logo" 
                     />
-                    <span className="text-3xl font-bold text-gray-100 font-poppins tracking-tight">
+                    <span className="text-2xl font-bold text-gray-100 font-poppins tracking-tight">
                         KnightMare
                     </span>
                 </Link>

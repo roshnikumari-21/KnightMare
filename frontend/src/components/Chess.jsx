@@ -486,12 +486,12 @@ const getMoveNotation = (from, to) => {
     return null;
   };
   return (
-    <div className="chess-container p-4 bg-gray-900 min-h-screen text-white">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="chess-container p-3 bg-gray-900   text-white">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
         <div className="md:col-span-2">
           {/* Box above the board */}
-          <div className="flex justify-between items-center p-4 bg-gray-800 rounded-lg mb-4">
-            <div className="text-xl font-bold">
+          <div className="flex justify-between items-center  bg-gray-800 rounded-lg ">
+            <div className="text-md font-bold pl-4">
               Magnus Carlsen {/* Computer's name */}
             </div>
             <Timer 
@@ -505,8 +505,8 @@ const getMoveNotation = (from, to) => {
           <ChessBoard board={flippedBoard} handleSquareClick={handleSquareClick} />
   
           {/* Box below the board */}
-          <div className="flex justify-between items-center p-4 bg-gray-800 rounded-lg mt-4">
-            <div className="text-xl font-bold">
+          <div className="flex justify-between items-center  bg-gray-800 rounded-lg ">
+            <div className="text-md font-bold pl-4">
               {username || 'Pampa'} {/* Your username */}
             </div>
             <Timer 
