@@ -129,7 +129,7 @@ const Navbar = () => {
                         />
                     </svg>
                 </a>
-                {token?<div className="bg-slate-800 font-bold rounded-full px-4 py-2 border border-1 shadow-sm shadow-white border-white text-white" onClick={Logout}>Logout</div>:""}
+                {token?<div className="bg-slate-800 font-bold rounded-full px-4 py-2 border  shadow-sm shadow-white border-white text-white" onClick={Logout}>Logout</div>:""}
             </div>
         </nav>
     );

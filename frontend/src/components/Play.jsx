@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ChessBoard from "./ChessBoard";
+
 import Chess from "./Chess";
 import GameSetup from "./GameSetup";
 
@@ -28,10 +28,10 @@ const handleStartGame = (settings) => {
     setShowBoard(true);
   };
     return (
-        <div>
+        <div  className="h-126 bg-cover bg-center overflow-hidden"  style={{ backgroundImage: "url('/chessfloor2.jpg')" }}>
             {/* Display the GameSetup form if the board is not shown */}
             {!showBoard && (
-                <div className="flex justify-center items-center min-h-screen bg-gray-900">
+                <div className="flex justify-center items-center  ">
                     <GameSetup onStartGame={handleStartGame} />
                 </div>
             )}

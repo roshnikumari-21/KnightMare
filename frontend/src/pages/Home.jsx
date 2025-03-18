@@ -6,14 +6,14 @@ import { useContext } from "react";
 import HomeUser from '../pages/HomeUser.jsx'
 const Home = () => {
   const {token,user} = useContext(commoncontext);
-  const { isPlaying } = useContext(AudioContext);
+  
 
   if (token) {
     return <HomeUser />;
   }
   return (
     <div 
-      className="min-h-screen flex flex-col justify-center items-center bg-cover bg-center" 
+      className="h-125 flex flex-col justify-center items-center bg-cover bg-center" 
       style={{ backgroundImage: "url('/bgchess5.jpg')" }}
     >
       <div className="bg-gray-700/10 p-6 rounded-lg shadow-lg text-white max-w-sm text-center backdrop-blur-sm">
@@ -42,6 +42,4 @@ const Home = () => {
 };
 
 export default Home;
-
-
 

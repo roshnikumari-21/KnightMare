@@ -19,6 +19,7 @@ function PlayWith({ onSelect }) {
   };
 
   return (
+    <div >
     <select
       onChange={handleChange}
       className="px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none"
@@ -29,6 +30,7 @@ function PlayWith({ onSelect }) {
         </option>
       ))}
     </select>
+    </div>
   );
 }
 

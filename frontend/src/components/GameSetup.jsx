@@ -22,11 +22,12 @@ function GameSetup({ onStartGame }) {
   };
 
   return (
+    <div    > 
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col space-y-4 p-6 bg-gray-800 rounded-lg shadow-lg"
+      className="flex flex-col space-y-4 p-6 rounded-lg shadow-lg"
     >
-      <h2 className="text-2xl font-bold text-white mb-4">Game Setup</h2>
+      <h2 className="text-3xl  font-bold  text-white mb-4">Game Setup</h2>
 
       {/* Time Format Selector */}
       <div className="flex flex-col space-y-2">
@@ -54,6 +55,7 @@ function GameSetup({ onStartGame }) {
         Start Game
       </button>
     </form>
+    </div>
   );
 }
 
