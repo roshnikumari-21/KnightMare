@@ -19,6 +19,8 @@ import Profile from "./pages/Profile";
 import { AudioProvider } from "./Context/AudioContext.jsx";
 import { commoncontext} from "./contexts/commoncontext.jsx";
 import { useContext } from "react";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword.jsx";
 function App() {
   const {token,user} = useContext(commoncontext);
   return (
@@ -45,7 +47,8 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/playWithAI" element={<Play />} />
-              
+              <Route path="/forgotpassword" element = {<ForgotPassword/>}/>
+              <Route path="/resetpassword" element = {<ResetPassword/>}/>
             </Routes>
           </div>
         </div>

@@ -3,21 +3,21 @@ import express from 'express';
 import {
   registerUser,
   loginUser,
-  logoutUser,
   getUser,
   updateUser,
   deleteUser,
   forgotPassword,
   resetPassword,
   getAllUsers,
+  googleLogin,
 } from '../controllers/userController.js';
 import authenticateUser from '../middleware/authMiddleware.js';
 const userRouter = express.Router();
 userRouter.post('/register', registerUser);
-userRouter.post('/login', loginUser); 
-userRouter.post('/logout', authenticateUser, logoutUser);
-userRouter.post('/forgot-password', forgotPassword);
-userRouter.post('/reset-password/:token', resetPassword);
+userRouter.post('/login', loginUser);
+userRouter.post('/googlelogin',googleLogin);
+userRouter.post('/forgotpassword', forgotPassword);
+userRouter.post('/resetpassword', resetPassword);
 userRouter.get('/', getAllUsers);
 userRouter.get('/:userId', getUser);
 userRouter.put('/:userId', authenticateUser, updateUser);

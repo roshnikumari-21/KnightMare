@@ -62,7 +62,7 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post(`${backendUrl}/api/auth/login`, formData);
+      const response = await axios.post(`${backendUrl}/api/auth/login`,formData);
       if (response.data.success) {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user",JSON.stringify(response.data.user));
@@ -112,6 +112,7 @@ const Login = () => {
               placeholder="Enter your password"
             />
           </div>
+          <div className="font-bold text-sm cursor-pointer text-red-500" onClick = {()=> navigate('/forgotpassword')}>Forgot password?</div>
           <button
             type="submit"
             className="mt-2 w-full py-2 bg-black hover:bg-gray-900 rounded-md text-white font-semibold shadow-md"
