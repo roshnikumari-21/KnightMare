@@ -6,14 +6,14 @@ import "react-toastify/dist/ReactToastify.css";
 import { commoncontext } from "../contexts/commoncontext";
 
 const Register = () => {
-  const { token, setToken , user , setUser } = useContext(commoncontext)
+  const { setToken, setUser,user,token,backendUrl ,showNavbar , setShowNavbar } = useContext(commoncontext);
+     setShowNavbar(true);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
   });
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const handleChange = (e) => {
     const { name, value } = e.target;

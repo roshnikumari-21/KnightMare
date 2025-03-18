@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { commoncontext } from "../contexts/commoncontext";
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   const navigate = useNavigate();
+  const { setToken, setUser,user ,showNavbar , setShowNavbar } = useContext(commoncontext);
+       setShowNavbar(true);
 
   const [formData, setFormData] = useState({
     password: "",

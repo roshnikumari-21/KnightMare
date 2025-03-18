@@ -5,8 +5,8 @@ import { commoncontext} from "../contexts/commoncontext.jsx";
 import { useContext } from "react";
 import HomeUser from '../pages/HomeUser.jsx'
 const Home = () => {
-  const {token,user} = useContext(commoncontext);
-  
+  const {token,user,showNavbar , setShowNavbar} = useContext(commoncontext);
+   setShowNavbar(true);
 
   if (token) {
     return <HomeUser />;

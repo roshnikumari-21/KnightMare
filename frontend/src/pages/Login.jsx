@@ -9,7 +9,8 @@ import { googleAuth } from "../utils/api";
 
 
 const Login = () => {
-  const { setToken, setUser } = useContext(commoncontext);
+  const { setToken, setUser ,showNavbar , setShowNavbar } = useContext(commoncontext);
+   setShowNavbar(true);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",

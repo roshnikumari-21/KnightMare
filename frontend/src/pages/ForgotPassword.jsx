@@ -6,7 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { commoncontext } from "../contexts/commoncontext";
 
 const forgotPassword = () => {
-  const { setToken, setUser ,backendUrl } = useContext(commoncontext);
+  const { setToken, setUser ,backendUrl , showNavbar , setShowNavbar} = useContext(commoncontext);
+     setShowNavbar(true);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",

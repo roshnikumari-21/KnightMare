@@ -1,7 +1,4 @@
 
-
-
-
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
@@ -22,14 +19,14 @@ import { useContext } from "react";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword.jsx";
 function App() {
-  const {token,user} = useContext(commoncontext);
+  const {token,user,showNavbar , setShowNavbar} = useContext(commoncontext);
   return (
     <AudioProvider> 
       <div className="h-screen flex flex-col bg-white">
         <ToastContainer/>
-      <Navbar />
+       {showNavbar ? <Navbar /> : ""}
         <div className="flex flex-1 overflow-hidden mt-1 bg-slate-900">
-          <Sidebar />
+          {token ? <Sidebar /> : ""};
           <div className="flex-1 overflow-auto">
             <Routes>
               <Route path="/" element={<Home />} />

@@ -7,7 +7,8 @@ import { commoncontext } from "../contexts/commoncontext";
 export default function ContactUs() {
   const [formData, setFormData] = useState({ name: "", email: "", Feedback: "" });
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
-  const {token} = useContext(commoncontext);
+  const {token,user,showNavbar , setShowNavbar} = useContext(commoncontext);
+     setShowNavbar(true);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

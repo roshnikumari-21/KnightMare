@@ -80,8 +80,9 @@
 
 
 
-import React from "react";
+import React, { useContext } from "react";
 import { motion } from "framer-motion"; // Import Framer Motion
+import { commoncontext } from "../contexts/commoncontext";
 
 const AboutUs = () => {
   const teamMembers = [
@@ -92,6 +93,9 @@ const AboutUs = () => {
     { name: "Prince Kumar", role: "Designer", avatar: "/useravatar.png" },
     { name: "Gobind Kumar", role: "QA Tester", avatar: "/useravatar.png" },
   ];
+
+  const {token,user,showNavbar , setShowNavbar} = useContext(commoncontext);
+     setShowNavbar(true);
 
   // Animation variants for team members
   const teamMemberVariants = {

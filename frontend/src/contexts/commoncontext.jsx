@@ -3,6 +3,7 @@ export const commoncontext = createContext();
 
 const ContextProvider = (props) => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
+    const [showNavbar,setShowNavbar] = useState(true);
     const [token, setToken] = useState(() => localStorage.getItem("token") || null);
     const [user, setUser] = useState(() => {
         try {
@@ -34,6 +35,8 @@ const ContextProvider = (props) => {
         setToken,
         user,
         setUser,
+        showNavbar,
+        setShowNavbar
     };
 
     return (
