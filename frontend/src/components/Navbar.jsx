@@ -26,7 +26,7 @@ const Navbar = () => {
     Navigate("/");}
 
     return (
-        <nav className="flex items-center justify-between px-8 py-[5px] bg-black shadow-xl">
+        <nav className="flex items-center justify-between px-8 py-[10px] bg-black shadow-xl">
             <div className="flex items-center gap-4">
                 <Link to="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
                     <img 
