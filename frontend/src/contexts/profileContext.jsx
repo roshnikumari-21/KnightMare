@@ -47,9 +47,7 @@ const ProfileProvider = (props) => {
         setLoading(false);
       }
     };
-
     fetchUserProfile();
-    console.log(user.ratingHistory);
   }, [token, backendUrl, setUser]);
 
   useEffect(() => {
