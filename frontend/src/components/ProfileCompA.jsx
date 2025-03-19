@@ -14,28 +14,28 @@ const ProfileCompA = () => {
         <div >
         <div >
   {/* Score */}
-  <div className="flex text-center bg-black border border-1 border-white p-1 pl-4 rounded-lg mb-[5px] shadow-[0_4px_6px_rgba(255,255,255,0.1)] hover:shadow-[0_6px_8px_rgba(255,255,255,0.2)] transition-shadow duration-300">
+  <div className="flex text-center bg-black  border-1 border-white p-1 pl-4 rounded-lg mb-[5px] shadow-[0_4px_6px_rgba(255,255,255,0.1)] hover:shadow-[0_6px_8px_rgba(255,255,255,0.2)] transition-shadow duration-300">
     <i className="fas fa-trophy text-red-600 mr-2 mt-1"></i> {/* Trophy icon for Score */}
     <span className="text-white mr-2 font-extrabold">Score:</span>
     <span className="text-red-600 font-extrabold">1500</span>
   </div>
 
   {/* Games Played */}
-  <div className="flex text-center bg-black border border-1 border-white p-1 pl-4 rounded-lg mb-[5px] shadow-[0_4px_6px_rgba(255,255,255,0.1)] hover:shadow-[0_6px_8px_rgba(255,255,255,0.2)] transition-shadow duration-300">
+  <div className="flex text-center bg-black  border-1 border-white p-1 pl-4 rounded-lg mb-[5px] shadow-[0_4px_6px_rgba(255,255,255,0.1)] hover:shadow-[0_6px_8px_rgba(255,255,255,0.2)] transition-shadow duration-300">
     <i className="fas fa-gamepad text-blue-600 mr-2 mt-1"></i> {/* Gamepad icon for Games Played */}
     <span className="text-slate-200 mr-2 font-extrabold">Games Played:</span>
     <span className="text-blue-600 font-extrabold">67</span>
   </div>
 
   {/* Games Won */}
-  <div className="flex text-center bg-black border border-1 border-white p-1 pl-4 rounded-lg mb-[5px] shadow-[0_4px_6px_rgba(255,255,255,0.1)] hover:shadow-[0_6px_8px_rgba(255,255,255,0.2)] transition-shadow duration-300">
+  <div className="flex text-center bg-black  border-1 border-white p-1 pl-4 rounded-lg mb-[5px] shadow-[0_4px_6px_rgba(255,255,255,0.1)] hover:shadow-[0_6px_8px_rgba(255,255,255,0.2)] transition-shadow duration-300">
     <i className="fas fa-flag text-green-400 mr-2 mt-1"></i> {/* Flag icon for Games Won */}
     <span className="text-slate-200 mr-2 font-extrabold">Games Won:</span>
     <span className="text-green-400 font-extrabold">32</span>
   </div>
 
   {/* Hours Played */}
-  <div className="flex text-center bg-black border border-1 border-white p-1 pl-4 rounded-lg mb-[5px] shadow-[0_4px_6px_rgba(255,255,255,0.1)] hover:shadow-[0_6px_8px_rgba(255,255,255,0.2)] transition-shadow duration-300">
+  <div className="flex text-center bg-black  border-1 border-white p-1 pl-4 rounded-lg mb-[5px] shadow-[0_4px_6px_rgba(255,255,255,0.1)] hover:shadow-[0_6px_8px_rgba(255,255,255,0.2)] transition-shadow duration-300">
     <i className="fas fa-clock text-fuchsia-600 mr-2 mt-1"></i> {/* Clock icon for Hours Played */}
     <span className="text-slate-200 mr-2 font-extrabold">Hours Played:</span>
     <span className="text-fuchsia-600 font-extrabold">32</span>
