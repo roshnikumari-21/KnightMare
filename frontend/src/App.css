@@ -43,7 +43,7 @@
     animation: glow 1.5s infinite alternate;
 }
 .heii{
-   min-height: 100vh;
+   min-height: 87vh;
 }
 
 .heii2{
@@ -60,3 +60,18 @@
     font-weight: bold; /* Adjust font weight as needed */
   }
 
+
+
+  .threed {
+   
+    
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px #133a96, -5px -5px 15px #5cbbe7;
+   
+    color: white;
+    font-weight: bold;
+  }
+ .shiftdown{
+   position:relative;
+  bottom:20px;
+ }
