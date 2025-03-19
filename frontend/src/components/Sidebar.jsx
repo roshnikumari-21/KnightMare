@@ -17,7 +17,7 @@ const Sidebar = () => {
       onMouseLeave={() => setIsExpanded(false)}
     >
       {/* User Profile Section */}
-      <div onClick = {() => Navigate('/profile')} className="p-4 border-b border-gray-700">
+      <div onClick = {() => Navigate('/profile')} className="p-4 cursor-pointer border-b border-gray-700">
         <div className="flex items-center gap-3 overflow-hidden">
           <div style={{
         backgroundImage: `url(${user?.profileimage})`,

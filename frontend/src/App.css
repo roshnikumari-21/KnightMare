@@ -55,3 +55,24 @@
     font-weight: bold; /* Adjust font weight as needed */
   }
 
+  /* Heatmap color scale - Green Theme */
+.react-calendar-heatmap .color-empty {
+  fill: #ffffff; /* Light gray for empty cells */
+}
+
+.react-calendar-heatmap .color-scale-0 {
+  fill: #ddfed0;
+}
+.react-calendar-heatmap .color-scale-1 {
+  fill: #9eee95;
+}
+.react-calendar-heatmap .color-scale-2 {
+  fill: #3ab427;
+}
+.react-calendar-heatmap .color-scale-3 {
+  fill: #18762b;
+}
+.react-calendar-heatmap .color-scale-4 {
+  fill: #064012; 
+}
+

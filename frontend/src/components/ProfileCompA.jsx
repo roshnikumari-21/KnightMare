@@ -1,7 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
-import SimpleBarChart from "./SimpleBarChart";
 
 const ProfileCompA = () => {
   return (
