@@ -1,6 +1,7 @@
 import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { v2 as cloudinary } from "cloudinary"
 import { OAuth2Client } from "google-auth-library";
 const client = new OAuth2Client(
   process.env.GOOGLE_CLIENT_ID,
@@ -9,6 +10,7 @@ const client = new OAuth2Client(
 );
 import crypto from "crypto";
 import nodemailer from "nodemailer";
+
 export const registerUser = async (req, res) => {
   const { username, email, password } = req.body;
   try {
@@ -95,6 +97,7 @@ export const googleLogin = async (req, res) => {
     res.status(500).json({ success: false, message: "An error occurred during Google login" });
   }
 };
+
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;
   try {
@@ -127,6 +130,7 @@ export const forgotPassword = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error. Please try again later." });
   }
 };
+
 export const resetPassword = async (req, res) => {
   const { token, password } = req.body;
   try {
@@ -247,6 +251,33 @@ export const sendFeedback = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error. Please try again later." });
   }
 };
+
+export const updateProfilePic = async (req, res) => {
+  const { email } = req.body;
+  const image = req.files?.image1?.[0];
+  if (!image) {
+    return res.status(400).json({ success: false, message: "No image file provided." });
+  }
+  try {
+    const result = await cloudinary.uploader.upload(image.path, { resource_type: 'image' });
+    const imageUrl = result.secure_url;
+    const user = await User.findOneAndUpdate(
+      { email },
+      { profilePicture: imageUrl },
+      { new: true }
+    );
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found." });
+    }
+    res.json({ success: true, message: "Profile picture updated successfully!", user:user });
+  } catch (error) {
+    console.error("Error updating profile picture:", error);
+    res.status(500).json({ success: false, message: "Server error. Please try again later." });
+  }
+};
+
+
+
 
 export const getUser = async (req, res) => {
 };
