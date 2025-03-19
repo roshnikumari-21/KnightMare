@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     },
     authProvider: { type: String, enum: ["local", "google"], default: "local" },
     googleId: { type: String,sparse: true, default: null },
-    profilePicture: { type: String, default: process.env.DEFAULT_AVATAR_URL || "/default_avatar.png" },
+    profilePicture: { type: String, default:"https://res.cloudinary.com/dzqazpfsq/image/upload/v1742382970/zgp1qxjtz2yca3qkbhb3.png" },
     isVerified: { type: Boolean, default: false },
     resetToken: { type: String, default: null },
     resetTokenExpires: { type: Date, default: null },

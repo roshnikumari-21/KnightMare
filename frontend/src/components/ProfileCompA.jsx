@@ -55,7 +55,6 @@ const ProfileCompA = () => {
           className=" min-w-[10vw] w-[18vw] h-[18vw] min-h-[10vw] rounded-full border-4 border-[#ffffff] shadow-[0_0_10px_rgba(0,0,0,0.5)] hover:shadow-[0_0_15px_rgba(255,255,255,0.5)]"
         ></div>
         <button className="absolute top-2 right-2 text-white ">
-          <FontAwesomeIcon icon={faPencilAlt} className="text-lg" />
         </button>
       </div>
     </div>

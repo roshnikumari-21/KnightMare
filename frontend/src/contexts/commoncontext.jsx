@@ -14,6 +14,13 @@ const ContextProvider = (props) => {
             return null;
         }
     });
+
+    const logout = () => {
+        setUser(null);
+        setToken(null);
+        localStorage.removeItem("token");
+    };
+
     useEffect(() => {
         if (token) {
             localStorage.setItem("token", token);
@@ -36,7 +43,8 @@ const ContextProvider = (props) => {
         user,
         setUser,
         showNavbar,
-        setShowNavbar
+        setShowNavbar,
+        logout
     };
 
     return (
