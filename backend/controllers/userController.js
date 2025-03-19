@@ -294,9 +294,24 @@ export const uploadProfilePic = async (req, res) => {
 }
 
 export const getUser = async (req, res) => {
+  const token = req.headers.token;
+  if (!token) {
+    return res.status(401).json({ success: false, message: "No token provided." });
+  }
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.userId;
+    const user = await User.findById(userId).select("-passwordHash");
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found." });
+    }
+    res.json({ success: true, user });
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({ success: false, message: "Server error. Please try again." });
+  }
 };
-export const updateUser = async (req, res) => {
-};
+
 export const deactivateAccount = async (req, res) => {
   const { email, password } = req.body;
   console.log(email, password)

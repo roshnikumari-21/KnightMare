@@ -7,7 +7,6 @@ const Sidebar = () => {
   const Navigate = useNavigate();
   const [isExpanded, setIsExpanded] = useState(false);
   const { setToken, setUser ,user , token } = useContext(commoncontext);
-  console.log(user);
   return (
     <div
       className={`bg-black  shadow-xl transition-all duration-300 ease-in-out ${

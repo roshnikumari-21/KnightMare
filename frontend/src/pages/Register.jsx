@@ -99,19 +99,8 @@ const Register = () => {
           </button>
         </form>
         <div className="mt-4 border-t border-gray-700 pt-4">
-          <p className="text-center text-gray-400">OR</p>
-          <div className="mt-4 space-y-3">
-            <button className="w-full flex items-center justify-center py-2 bg-gray-800 hover:bg-gray-700 rounded-md text-white">
-              <img
-                src="googlebg.png"
-                alt="Google Logo"
-                className="w-5 h-5 mr-2"
-              />
-              Continue with Google
-            </button>
-          </div>
           <p className="text-center text-gray-200 mt-4">
-            Already have an account? <a href="/login" className="text-gray-900 hover:underline">Login here</a>
+            Already have an account? <a href="/login" className="text-white hover:underline">Login here</a>
           </p>
         </div>
       </div>
