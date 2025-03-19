@@ -105,7 +105,7 @@ export const googleLogin = async (req, res) => {
     // const jwtToken = generateToken({ id: user._id, type: "user" });
     const jwtToken = user.generateAuthToken();
 
-    res.status(200).json({ message: 'Login successful', token: jwtToken });
+    res.status(200).json({ message: 'Login successful', token: jwtToken, user });
   } catch (error) {
     console.error('Error verifying Google token:', error.message || error);
     res.status(401).json({ message: 'Invalid token' });

@@ -54,13 +54,11 @@ const Login = () => {
 
       const data = await res.json();
       localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      console.log(data.user)
+      toast.success("Login successful!");
+      navigate("/home-user");
       // console.log(data);
-
-      if (res.ok) {
-        navigate('/user/dashboard');
-      } else {
-        console.error('Error during Google Login:', data.message);
-      }
     } catch (error) {
       console.error('Google Login API Error:', error);
     }
