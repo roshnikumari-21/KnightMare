@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom"; // ✅ Import useNavigate
+import { commoncontext } from "../contexts/commoncontext";
 
 const HomeUser = () => {
-  const navigate = useNavigate(); // ✅ Initialize useNavigate
+  const navigate = useNavigate();
+  const { setToken, setUser,user,token,backendUrl ,showNavbar , setShowNavbar } = useContext(commoncontext);
+  setShowNavbar(true);
 
   const handle = () => {
     navigate("/playWithAI");
@@ -29,7 +32,7 @@ const HomeUser = () => {
         <div className="relative heii z-10 p-8 rounded-lg shadow-lg text-white max-w-4xl w-full mx-4  ">
           {/* Header */}
           <h1 className="text-5xl font-semibold mb-6">
-            <span className="text-red-500">W</span>elcome, Username
+            <span className="text-red-500">W</span>elcome, {user.username}
           </h1>
           <p className="text-gray-300 mb-8">
             Step into the world of{" "}

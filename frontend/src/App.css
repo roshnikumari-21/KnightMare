@@ -42,19 +42,14 @@
       0 0 60px #0033cc; /* Far outer glow */
     animation: glow 1.5s infinite alternate;
 }
-
-
 .heii{
-   min-height: 89vh;
+   min-height: 100vh;
 }
 
 .heii2{
   min-height:100vh;
   
 }
-
-
-
   .grad {
     background-image: linear-gradient(to bottom, #ea0505, #240101); /* Define your gradient */
     -webkit-background-clip: text; /* Clip the background to the text */
