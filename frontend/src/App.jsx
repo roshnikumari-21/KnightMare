@@ -1,4 +1,3 @@
-
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
@@ -19,6 +18,8 @@ import { commoncontext} from "./contexts/commoncontext.jsx";
 import { useContext } from "react";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword.jsx";
+import ChangeProfilePic from "./pages/ChangeProfilePic.jsx";
+import DeactivateAccount from "./pages/DeactivateAccount.jsx";
 function App() {
   const {token,user,showNavbar , setShowNavbar} = useContext(commoncontext);
   return (
@@ -42,6 +43,8 @@ function App() {
               <Route path="/playWithAI" element={<Play />} />
               <Route path="/forgotpassword" element = {<ForgotPassword/>}/>
               <Route path="/resetpassword" element = {<ResetPassword/>}/>
+              <Route path="/changeprofilepic" element = {<ChangeProfilePic/>}/>
+              <Route path="/deactivateAccount" element = {<DeactivateAccount/>}/>
             </Routes>
           </div>
         </div>

@@ -252,9 +252,10 @@ export const sendFeedback = async (req, res) => {
   }
 };
 
-export const updateProfilePic = async (req, res) => {
+export const uploadProfilePic = async (req, res) => {
   const { email } = req.body;
-  const image = req.files?.image1?.[0];
+  const image = req.file;
+
   if (!image) {
     return res.status(400).json({ success: false, message: "No image file provided." });
   }
@@ -266,24 +267,43 @@ export const updateProfilePic = async (req, res) => {
       { profilePicture: imageUrl },
       { new: true }
     );
+
     if (!user) {
       return res.status(404).json({ success: false, message: "User not found." });
     }
-    res.json({ success: true, message: "Profile picture updated successfully!", user:user });
+
+    res.json({ success: true, message: "Profile picture updated successfully!", user });
   } catch (error) {
     console.error("Error updating profile picture:", error);
     res.status(500).json({ success: false, message: "Server error. Please try again later." });
   }
-};
-
-
-
+}
 
 export const getUser = async (req, res) => {
 };
 export const updateUser = async (req, res) => {
 };
-export const deleteUser = async (req, res) => {
+export const deactivateAccount = async (req, res) => {
+  const { email, password } = req.body;
+  console.log(email,password)
+  if (!email || !password) {
+    return res.status(400).json({ success: false, message: "Email and password are required." });
+  }
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found." });
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
+    if (!isPasswordValid) {
+      return res.status(401).json({ success: false, message: "Invalid password." });
+    }
+    await User.deleteOne({ email });
+    res.json({ success: true, message: "Account deactivated successfully." });
+  } catch (error) {
+    console.error("Error deactivating account:", error);
+    res.status(500).json({ success: false, message: "Server error. Please try again later." });
+  }
 };
 export const getAllUsers = async (req, res) => {
 };

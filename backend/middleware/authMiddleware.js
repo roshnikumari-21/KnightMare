@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import User from '../models/User.js';
 
+
 const authenticateUser = async (req, res, next) => {
     const { token } = req.headers;
     if (!token) {
@@ -8,14 +9,12 @@ const authenticateUser = async (req, res, next) => {
     }
     try {
         const token_decode = jwt.verify(token, process.env.JWT_SECRET)
-        const user = user.findOne({token_decode})
-        req.body.userId = token_decode.id
+        const user = User.findOne({token_decode})
+        req.body.user = user
         next()
     } catch (error) {
         console.log(error)
         res.json({ success: false, message: error.message })
     }
-
 }
-
 export default authenticateUser;

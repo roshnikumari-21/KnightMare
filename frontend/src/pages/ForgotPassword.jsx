@@ -53,7 +53,7 @@ const forgotPassword = () => {
       className="flex justify-center items-center min-h-screen bg-black text-white"
     >
       <div className="w-80 p-5 shadow-lg rounded-lg backdrop-blur-lg relative" style={{ marginTop: '-10%' }}>
-        <h2 className="text-3xl font-semibold pb-2 text-center text-white neon-text">Forgot Password ?</h2>
+        <h2 className="text-3xl font-semibold pb-2 text-center text-white neon-text">Forgot Password or want to change?</h2>
         <form className="mt-3" onSubmit={handleForgotPassword}>
           <div className="mb-3">
             <input
