@@ -4,13 +4,13 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { commoncontext } from "../contexts/commoncontext";
-import { useGoogleLogin } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
 import { googleAuth } from "../utils/api";
 
 
 const Login = () => {
-  const { setToken, setUser ,showNavbar , setShowNavbar } = useContext(commoncontext);
-   setShowNavbar(true);
+  const { setToken, setUser, showNavbar, setShowNavbar } = useContext(commoncontext);
+  setShowNavbar(true);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -19,12 +19,12 @@ const Login = () => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const responseGoogle = async (authResult) => {
-		try {
-			if (authResult["code"]) {
-				const result = await googleAuth(authResult.code);
-				if (result.data.success){
+    try {
+      if (authResult["code"]) {
+        const result = await googleAuth(authResult.code);
+        if (result.data.success) {
           localStorage.setItem("token", response.data.token);
-          localStorage.setItem("user",JSON.stringify(response.data.user));
+          localStorage.setItem("user", JSON.stringify(response.data.user));
           setToken(response.data.token);
           setUser(response.data.user);
           toast.success("Login successful!");
@@ -32,20 +32,49 @@ const Login = () => {
         } else {
           toast.error(response.data.message || "Login failed");
         }
-			} else {
-				console.log(authResult);
-				throw new Error(authResult);
-			}
-		} catch (e) {
-			console.log('Error while Google Login...', e);
-		}
-	};
+      } else {
+        console.log(authResult);
+        throw new Error(authResult);
+      }
+    } catch (e) {
+      console.log('Error while Google Login...', e);
+    }
+  };
 
-  const GoogleLogin = useGoogleLogin({
-		onSuccess: responseGoogle,
-		onError: responseGoogle,
-		flow: "auth-code",
-	});
+  const handleGoogleSuccess = async (response) => {
+    const googleToken = response.credential;
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/googlelogin`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token: googleToken }),
+      });
+
+      const data = await res.json();
+      localStorage.setItem('token', data.token);
+      // console.log(data);
+
+      if (res.ok) {
+        navigate('/user/dashboard');
+      } else {
+        console.error('Error during Google Login:', data.message);
+      }
+    } catch (error) {
+      console.error('Google Login API Error:', error);
+    }
+  };
+
+  const handleGoogleFailure = (error) => {
+    console.error('Google Login Error:', error);
+  };
+
+  // const GoogleLogin = useGoogleLogin({
+  //   onSuccess: responseGoogle,
+  //   onError: responseGoogle,
+  //   flow: "auth-code",
+  // });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -63,10 +92,10 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post(`${backendUrl}/api/auth/login`,formData);
+      const response = await axios.post(`${backendUrl}/api/auth/login`, formData);
       if (response.data.success) {
         localStorage.setItem("token", response.data.token);
-        localStorage.setItem("user",JSON.stringify(response.data.user));
+        localStorage.setItem("user", JSON.stringify(response.data.user));
         setToken(response.data.token);
         setUser(response.data.user);
         toast.success("Login successful!");
@@ -113,7 +142,7 @@ const Login = () => {
               placeholder="Enter your password"
             />
           </div>
-          <div className="font-bold text-sm cursor-pointer text-red-500" onClick = {()=> navigate('/forgotpassword')}>Forgot password?</div>
+          <div className="font-bold text-sm cursor-pointer text-red-500" onClick={() => navigate('/forgotpassword')}>Forgot password?</div>
           <button
             type="submit"
             className="mt-2 w-full py-2 bg-black hover:bg-gray-900 rounded-md text-white font-semibold shadow-md"
@@ -124,14 +153,11 @@ const Login = () => {
         <div className="mt-4 border-t border-gray-700 pt-4">
           <p className="text-center text-gray-400">OR</p>
           <div className="mt-4 space-y-3">
-            <button onClick = {GoogleLogin} className="w-full flex items-center justify-center py-2 bg-gray-800 hover:bg-gray-700 rounded-md text-white">
-              <img
-                src="googlebg.png"
-                alt="Google Logo"
-                className="w-5 h-5 mr-2"
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={handleGoogleFailure}
+                useOneTap
               />
-              Continue with Google
-            </button>
           </div>
           <p className="text-center text-gray-200 mt-4">
             Don't have an account? <a href="/register" className="text-gray-900 hover:underline">Register here</a>

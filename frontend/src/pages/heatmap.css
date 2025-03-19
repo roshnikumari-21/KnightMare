@@ -1,0 +1,32 @@
+.heatmap-container {
+    background: #c0c0c0; /* Dark theme */
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .heatmap-title {
+    color: #ffffff;
+    margin-bottom: 10px;
+  }
+  
+  .color-empty {
+    fill: #29ae53;
+  }
+  
+  .color-scale-1 {
+    fill: #003f09;
+  }
+  
+  .color-scale-2 {
+    fill: #fbfbfb;
+  }
+  
+  .color-scale-3 {
+    fill: #35b541;
+  }
+  
+  .color-scale-4 {
+    fill: #009f03;
+  }
+  

@@ -43,7 +43,12 @@
     animation: glow 1.5s infinite alternate;
 }
 .heii{
-   min-height: 100vh;
+   min-height: 87vh;
+}
+
+.heii2{
+  min-height:100vh;
+  
 }
   .grad {
     background-image: linear-gradient(to bottom, #ea0505, #240101); /* Define your gradient */
@@ -54,6 +59,41 @@
     font-size: 48px; /* Adjust font size as needed */
     font-weight: bold; /* Adjust font weight as needed */
   }
+
+
+  .threed {
+   
+    
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px #133a96, -5px -5px 15px #5cbbe7;
+   
+    color: white;
+    font-weight: bold;
+  }
+ .shiftdown{
+   position:relative;
+  bottom:20px;
+ }
+  /* Heatmap color scale - Green Theme */
+.react-calendar-heatmap .color-empty {
+  fill: #ffffff; /* Light gray for empty cells */
+}
+
+.react-calendar-heatmap .color-scale-0 {
+  fill: #ddfed0;
+}
+.react-calendar-heatmap .color-scale-1 {
+  fill: #9eee95;
+}
+.react-calendar-heatmap .color-scale-2 {
+  fill: #3ab427;
+}
+.react-calendar-heatmap .color-scale-3 {
+  fill: #18762b;
+}
+.react-calendar-heatmap .color-scale-4 {
+  fill: #064012; 
+}
 
   /* Heatmap color scale - Green Theme */
 .react-calendar-heatmap .color-empty {
@@ -76,3 +116,18 @@
   fill: #064012; 
 }
 
+
+
+  .threed {
+   
+    
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px #133a96, -5px -5px 15px #5cbbe7;
+   
+    color: white;
+    font-weight: bold;
+  }
+ .shiftdown{
+   position:relative;
+  bottom:20px;
+ }

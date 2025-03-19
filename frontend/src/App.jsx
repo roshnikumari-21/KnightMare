@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Leaderboard from "./pages/LeaderBoard.jsx";
 import Home from "./pages/Home";
 import Settings from "./pages/settings";
 import HomeUser from "./pages/HomeUser";
@@ -34,6 +35,7 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="/profile" element={<Profile/>}/>
               <Route path="/contact" element={<Contact />} />
+              <Route path="/leaderboard" element={<Leaderboard />} />
               <Route path="/home-user" element={<HomeUser />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/login" element={<Login />} />
