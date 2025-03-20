@@ -131,3 +131,16 @@
    position:relative;
   bottom:20px;
  }
+
+
+
+ .background-grid {
+
+  inset: 0;
+  background-image: 
+      linear-gradient(90deg, rgba(130, 130, 130, 0.1) 1px, transparent 1px),
+      linear-gradient(rgba(112, 112, 112, 0.1) 1px, transparent 1px);
+  background-size: 4rem 4rem;
+  opacity: 0.8; /* Slightly reduce intensity for a smoother look */
+  backdrop-filter: blur(4px); /* Optional: Adds a subtle blur for a modern touch */
+}

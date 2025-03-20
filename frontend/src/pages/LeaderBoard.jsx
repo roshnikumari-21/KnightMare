@@ -35,7 +35,7 @@ const Leaderboard = () => {
 
 
   return (
-    <div className="bg-black text-white min-h-screen p-4">
+    <div className="bg-black background-grid text-white min-h-screen p-4">
       <motion.h1 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
