@@ -32,7 +32,7 @@ const HomeUser = () => {
         <div className="relative heii z-10 p-8 rounded-lg shadow-lg text-white max-w-4xl w-full mx-4  ">
           {/* Header */}
           <h1 className="text-5xl font-semibold mb-6">
-            <span className="text-red-500">W</span>elcome, {user.username}
+            <span className="text-red-500">W</span>elcome, {user?.username}
           </h1>
           <p className="text-gray-300 mb-8">
             Step into the world of{" "}

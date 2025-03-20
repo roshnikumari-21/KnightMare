@@ -54,10 +54,11 @@ const Login = () => {
 
       const data = await res.json();
       localStorage.setItem('token', data.token);
-      // console.log(data);
-
+      setToken(data.token);
+      localStorage.setItem('user',data.user);
+      setUser(data.user);
       if (res.ok) {
-        navigate('/user/dashboard');
+        navigate('/');
       } else {
         console.error('Error during Google Login:', data.message);
       }
@@ -65,17 +66,9 @@ const Login = () => {
       console.error('Google Login API Error:', error);
     }
   };
-
   const handleGoogleFailure = (error) => {
     console.error('Google Login Error:', error);
   };
-
-  // const GoogleLogin = useGoogleLogin({
-  //   onSuccess: responseGoogle,
-  //   onError: responseGoogle,
-  //   flow: "auth-code",
-  // });
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -83,14 +76,12 @@ const Login = () => {
       [name]: value,
     });
   };
-
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
       toast.error("Email and password are required");
       return;
     }
-
     try {
       const response = await axios.post(`${backendUrl}/api/auth/login`, formData);
       if (response.data.success) {
@@ -107,7 +98,6 @@ const Login = () => {
       toast.error(err.response?.data?.message || "An error occurred during login");
     }
   };
-
   return (
     <div
       style={{
