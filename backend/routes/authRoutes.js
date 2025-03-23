@@ -21,7 +21,7 @@ userRouter.post('/googlelogin',googleLogin);
 userRouter.post('/forgotpassword',forgotPassword);
 userRouter.post('/resetpassword',resetPassword);
 userRouter.get('/', getAllUsers);
-userRouter.get("/user", getUser);
+userRouter.get('/user', getUser);
 userRouter.post('/deactivateAccount', authenticateUser, deactivateAccount);
 userRouter.post('/sendFeedback',sendFeedback);
 export default userRouter;

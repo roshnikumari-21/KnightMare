@@ -62,47 +62,28 @@ export const loginUser = async (req, res) => {
 };
 export const googleLogin = async (req, res) => {
   const { token } = req.body;
-
-  // console.log(token)
-
   if (!token) {
     return res.status(400).json({ message: 'Token is required' });
   }
-
   try {
-    // Verify Google Token
     const ticket = await client.verifyIdToken({
       idToken: token,
       audience: process.env.GOOGLE_CLIENT_ID,
     });
-
     const payload = ticket.getPayload();
-    const { email, name, picture, sub } = payload; // Use 'sub' as the unique identifier
-
-    // Find or Create User in Database
+    const { email, name, picture, sub } = payload;
     let user = await User.findOne({ email });
     if (!user) {
-      // Create a new user
-      // username: payload.email.split("@")[0],
-      //   email: payload.email,
-      //   authProvider: "google",
-      //   googleId: payload.sub,
-      //   profilePicture: payload.picture,
-      //   isVerified: true,
-      user = new User({ username: name, email, authProvider: "google", profilePicture: picture, googleId: sub, isVerified: true });
+      user = new User({ username: email.split('@')[0], email, authProvider: "google", profilePicture: picture, googleId: sub, isVerified: true });
       await user.save();
     } else {
       // Only update fields if they are different to avoid redundant writes
-      if (user.name !== name || user.profilePicture !== picture || user.googleId !== sub) {
-        user.name = name;
-        user.profilePicture = picture;
-        user.googleId = sub;
-        await user.save();
-      }
+      if (user.profilePicture !== picture && (picture)) {
+        user.profilePicture = picture;}
+      if (user.googleID != sub) {
+        user.googleId = sub }
+      await user.save();
     }
-
-    // Generate JWT for the User
-    // const jwtToken = generateToken({ id: user._id, type: "user" });
     const jwtToken = user.generateAuthToken();
 
     res.status(200).json({ message: 'Login successful', token: jwtToken, user });
@@ -295,15 +276,16 @@ export const uploadProfilePic = async (req, res) => {
 
 export const getUser = async (req, res) => {
   const token = req.headers.token;
+  const email = req.headers.email;
   if (!token) {
     return res.status(401).json({ success: false, message: "No token provided." });
   }
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.userId;
-    const user = await User.findById(userId).select("-passwordHash");
+    const user = await User.findOne({email}).select("-passwordHash");
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found." });
+      return res.status(400).json({ success: false, message: "User not found." });
     }
     res.json({ success: true, user });
   } catch (error) {

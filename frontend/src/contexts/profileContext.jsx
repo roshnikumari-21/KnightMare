@@ -26,11 +26,12 @@ const ProfileProvider = (props) => {
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      if (token) {
+      if (token){
         try {
           const response = await axios.get(`${backendUrl}/api/auth/user`, {
             headers: {
               token: token,
+              email: user.email,
             },
           });
           if (response.data.success) {
@@ -52,6 +53,7 @@ const ProfileProvider = (props) => {
 
   useEffect(() => {
     if (user) {
+        console.log(user);
       const DailyActivityMap = transformData(user.dailyActivity);
       DailyActivityMap.sort((a, b) => {
         const dateA = new Date(a.date);
@@ -61,7 +63,7 @@ const ProfileProvider = (props) => {
 
       let MaxScore = 0;
       let MinScore = 10000000000000;
-      let HoursPlayed = 23; // This will be done later.
+      let HoursPlayed = 23;
 
       user.ratingHistory.forEach(({ score }) => {
         MaxScore = Math.max(MaxScore, score);
