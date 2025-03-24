@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
     gamesDrawn: { type: Number, default: 0 },
     gamesResigned :{type : Number , default : 0},
     gameHistory: [{ type: mongoose.Schema.Types.ObjectId, ref: "Game", default: () => [] }],
-    dailyActivity: [{ type: Date, default:Date.now}],
+    dailyActivity: [{date: { type: Date, default: Date.now }}],
     longestStreak: { type: Number, default: 0 },
     currentStreak: { type: Number, default: 0 },
     ratingHistory: [
