@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { motion } from 'framer-motion';
 import {FaMedal} from "react-icons/fa";
 import { faTrophy } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { commoncontext } from '../contexts/commoncontext';
 
 
 const Leaderboard = () => {
+   const { setShowNavbar} = useContext(commoncontext);
+   setShowNavbar(true);
 
     const users = [
         { "id": 1, "username": "Magnus", "score": 1580, "best": 5000  },

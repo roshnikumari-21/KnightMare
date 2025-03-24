@@ -7,7 +7,7 @@ const transformData = (activity) => {
   if (!activity || !Array.isArray(activity)) return [];
 
   const activityMap = {};
-  activity.forEach((date) => {
+  activity.forEach(({date}) => {
     const formattedDate = new Date(date).toISOString().split("T")[0];
     activityMap[formattedDate] = (activityMap[formattedDate] || 0) + 1;
   });
@@ -53,7 +53,6 @@ const ProfileProvider = (props) => {
 
   useEffect(() => {
     if (user) {
-        console.log(user);
       const DailyActivityMap = transformData(user.dailyActivity);
       DailyActivityMap.sort((a, b) => {
         const dateA = new Date(a.date);
@@ -98,6 +97,7 @@ const ProfileProvider = (props) => {
       };
 
       setUserProfile(newProfile);
+      console.log(userProfile);
     }
   }, [user]);
 
