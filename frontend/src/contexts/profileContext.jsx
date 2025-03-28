@@ -104,6 +104,7 @@ const ProfileProvider = (props) => {
   const value = {
     backendUrl,
     userProfile,
+    setUserProfile,
     loading,
   };
 

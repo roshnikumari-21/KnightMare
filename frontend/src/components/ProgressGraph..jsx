@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   LineChart,
   Line,
@@ -8,24 +8,18 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { profileContext } from "../contexts/profileContext";
 
-const ProgressGraph = ({ ratingHistory }) => {
-  const dummyData = [
-    { date: "2023-01-01", score: 1200 },
-    { date: "2023-02-01", score: 1250 },
-    { date: "2023-03-01", score: 1300 },
-    { date: "2023-04-01", score: 1350 },
-    { date: "2023-05-01", score: 1400 },
-    { date: "2023-06-01", score: 1450 },
-    { date: "2023-07-01", score: 1200 },
-    { date: "2023-08-01", score: 1550 },
-    { date: "2023-09-01", score: 1600 },
-    { date: "2023-10-01", score: 1650 },
-    { date: "2023-11-01", score: 1700 },
-    { date: "2023-12-01", score: 1750 },
-  ];
+const ProgressGraph = () => {
+  const { userProfile } = useContext(profileContext);
+  const [profile, setProfile] = useState(userProfile);
+  useEffect(() => {
+    setProfile(userProfile);
+  }, [userProfile]);
 
-  const maxScore = Math.max(...dummyData.map((entry) => entry.score));
+  const data = profile?.ratingHistory || [];
+  const minscore = profile?.MinScore || "N/A";
+  const maxscore = profile?.MaxScore || "N/A";
 
   return (
     <>
@@ -40,7 +34,7 @@ const ProgressGraph = ({ ratingHistory }) => {
     >
       <ResponsiveContainer width="100%" height={330}>
         <LineChart
-          data={dummyData}
+          data={data}
           margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
         >
           {/* X-Axis */}
@@ -57,7 +51,7 @@ const ProgressGraph = ({ ratingHistory }) => {
             stroke="#000"
             strokeWidth={2}
             tick={{ fill: "#000", fontWeight: "bold", fontSize: "12px" }}
-            domain={[0, maxScore + 100]}
+            domain={[0, maxscore + 100]}
           />
 
           {/* Tooltip */}
@@ -98,12 +92,12 @@ const ProgressGraph = ({ ratingHistory }) => {
     <div className="flex items-center mr-8">
       <i className="fas fa-trophy text-green-500 mr-2 mt-1"></i>
       <span className="text-white mr-2 font-extrabold">Maximum score:</span>
-      <span className="text-green-500 font-extrabold">1765</span>
+      <span className="text-green-500 font-extrabold">{maxscore}</span>
     </div>
     <div className="flex items-center">
       <i className="fas fa-trophy text-red-500 mr-2 mt-1"></i>
       <span className="text-white mr-2 font-extrabold">Minimum score</span>
-      <span className="text-red-500 font-extrabold">1200</span>
+      <span className="text-red-500 font-extrabold">{minscore}</span>
     </div>
   </div>
   </>
