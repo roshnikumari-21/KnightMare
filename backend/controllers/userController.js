@@ -74,12 +74,10 @@ export const googleLogin = async (req, res) => {
     const { email, name, picture, sub } = payload;
     let user = await User.findOne({ email });
     if (!user) {
-      user = new User({ username: email.split('@')[0], email, authProvider: "google", profilePicture: picture, googleId: sub, isVerified: true });
+      user = new User({ username: email.split('@')[0], email, authProvider: "google", profilePicture:"https://res.cloudinary.com/dzqazpfsq/image/upload/v1742382970/zgp1qxjtz2yca3qkbhb3.png", googleId: sub, isVerified: true });
       await user.save();
     } else {
       // Only update fields if they are different to avoid redundant writes
-      if (user.profilePicture !== picture && (picture)) {
-        user.profilePicture = picture;}
       if (user.googleID != sub) {
         user.googleId = sub }
       await user.save();

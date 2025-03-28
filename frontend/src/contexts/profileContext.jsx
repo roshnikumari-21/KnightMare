@@ -69,6 +69,9 @@ const ProfileProvider = (props) => {
         MinScore = Math.min(MinScore, score);
       });
 
+      if(user.ratingHistory.length == 0) MinScore = "NA";
+      if(user.ratingHistory.length == 0) MaxScore = "NA";
+
       const FirstGameDate = DailyActivityMap.length > 0 ? DailyActivityMap[0].date : null;
       const LastGameDate = DailyActivityMap.length > 0 ? DailyActivityMap[DailyActivityMap.length - 1].date : null;
 
