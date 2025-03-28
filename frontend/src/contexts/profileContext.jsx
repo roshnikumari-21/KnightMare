@@ -23,6 +23,7 @@ const ProfileProvider = (props) => {
   const { token, setUser, user } = useContext(commoncontext);
   const [loading, setLoading] = useState(true);
   const [userProfile, setUserProfile] = useState(null);
+   const [userRank, setUserRank] = useState(null);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -36,6 +37,7 @@ const ProfileProvider = (props) => {
           });
           if (response.data.success) {
             setUser(response.data.user);
+            setUserRank(response.data.rank);
           } else {
             console.error("Failed to fetch user profile:", response.data.message);
           }
@@ -100,7 +102,6 @@ const ProfileProvider = (props) => {
       };
 
       setUserProfile(newProfile);
-      console.log(userProfile);
     }
   }, [user]);
 
@@ -108,6 +109,7 @@ const ProfileProvider = (props) => {
     backendUrl,
     userProfile,
     setUserProfile,
+    userRank,
     loading,
   };
 

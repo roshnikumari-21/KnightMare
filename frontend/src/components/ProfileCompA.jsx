@@ -9,8 +9,6 @@ const ProfileCompA = () => {
     setProfile(userProfile);
   }, [userProfile]);
 
-  console.log(profile);
-
   return (
     <div className="flex flex-col justify-between md:flex-row p-4 pb-0">
       <div className="ml-16">

@@ -7,10 +7,10 @@ import {
   deactivateAccount,
   forgotPassword,
   resetPassword,
-  getAllUsers,
   googleLogin,
   sendFeedback,
-  uploadProfilePic
+  uploadProfilePic,
+  getLeaderboard,
 } from '../controllers/userController.js';
 import authenticateUser from '../middleware/authMiddleware.js';
 const userRouter = express.Router();
@@ -20,8 +20,11 @@ userRouter.post('/login', loginUser);
 userRouter.post('/googlelogin',googleLogin);
 userRouter.post('/forgotpassword',forgotPassword);
 userRouter.post('/resetpassword',resetPassword);
-userRouter.get('/', getAllUsers);
+userRouter.get('/leaderboard',authenticateUser, getLeaderboard);
 userRouter.get('/user', getUser);
 userRouter.post('/deactivateAccount', authenticateUser, deactivateAccount);
 userRouter.post('/sendFeedback',sendFeedback);
 export default userRouter;
+
+
+

@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken'
 import User from '../models/User.js';
 
-
 const authenticateUser = async (req, res, next) => {
     const { token } = req.headers;
     if (!token) {
@@ -13,7 +12,7 @@ const authenticateUser = async (req, res, next) => {
         req.body.user = user
         next()
     } catch (error) {
-        console.log(error)
+        console.log("error",error)
         res.json({ success: false, message: error.message })
     }
 }
