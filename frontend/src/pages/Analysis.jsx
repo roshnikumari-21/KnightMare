@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { motion } from 'framer-motion';
+import { commoncontext } from '../contexts/commoncontext';
 
 const Analysis = () => {
+  const {setShowNavbar} = useContext(commoncontext);
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
   const [bubbles, setBubbles] = useState([]);
+  setShowNavbar(true);
 
   useEffect(() => {
     
