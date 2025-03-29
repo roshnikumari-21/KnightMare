@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { profileContext } from "../contexts/profileContext";
 
 const ProfileCompA = () => {
-  const { userProfile } = useContext(profileContext);
+  const { userProfile ,userRank} = useContext(profileContext);
   const [profile, setProfile] = useState(userProfile);
 
   useEffect(() => {
@@ -20,6 +20,13 @@ const ProfileCompA = () => {
         </p>
 
         <div>
+        <div className="flex text-center bg-black border-1 border-white p-1 pl-4 rounded-lg mb-[5px] shadow-[0_4px_6px_rgba(255,255,255,0.1)] hover:shadow-[0_6px_8px_rgba(255,255,255,0.2)] transition-shadow duration-300">
+            <i className="fas fa-trophy text-amber-200 mr-2 mt-1"></i>
+            <span className="text-white mr-2 font-extrabold">Rank:</span>
+            <span className="text-amber-200 font-extrabold">
+              {userRank ?userRank :"NA"}
+            </span>
+          </div>
           {/* Score */}
           <div className="flex text-center bg-black border-1 border-white p-1 pl-4 rounded-lg mb-[5px] shadow-[0_4px_6px_rgba(255,255,255,0.1)] hover:shadow-[0_6px_8px_rgba(255,255,255,0.2)] transition-shadow duration-300">
             <i className="fas fa-trophy text-red-600 mr-2 mt-1"></i>

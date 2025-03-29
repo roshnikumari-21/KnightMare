@@ -84,7 +84,7 @@ const Leaderboard = () => {
         >
           <div
             style={{
-              backgroundImage: "url('/bg2.jpg')",
+              backgroundImage: `url(${topUsers[1].profilePicture})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
@@ -107,7 +107,7 @@ const Leaderboard = () => {
         >
           <div
             style={{
-              backgroundImage: "url('/bg2.jpg')",
+              backgroundImage: `url(${topUsers[0].profilePicture})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
@@ -130,7 +130,7 @@ const Leaderboard = () => {
         >
           <div
             style={{
-              backgroundImage: "url('/bg2.jpg')",
+              backgroundImage: `url(${topUsers[2].profilePicture})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
@@ -180,20 +180,19 @@ const Leaderboard = () => {
             <tbody>
   {leaderboard.length > 0 ? (
     leaderboard
-      .sort((a, b) => b.score - a.score) // Sort in descending order
+      .sort((a, b) => b.score - a.score)
       .map((user, index, arr) => {
         let rank = index === 0 ? 1 : arr[index - 1].score === user.score ? arr[index - 1].rank : index + 1;
-        user.rank = rank; // Store rank in user object for later use
+        user.rank = rank;
         
         return (
-          <tr key={user._id} className="border-black border-4">
+          <tr key={user._id} className={`border-black ${(userProfile.username === user.username) ? 'bg-cyan-500' : 'bg-slate-900'} border-4`}>
             <td className="px-4 py-2">
               <FontAwesomeIcon icon={faTrophy} className="text-blue-900" /> {rank}
             </td>
             <td className="px-4 py-2 flex items-center space-x-2">
               <img 
-                src={user.profilePicture || "/useravatar.png"} 
-                alt="Profile" 
+                src={user.profilePicture} 
                 className="w-8 bg-black h-8 rounded-full" 
               />
               <span>{user.username}</span>
