@@ -333,7 +333,12 @@ export const getLeaderboard = async (req, res) => {
     const skip = (page - 1) * limit;
 
     const leaderboard = await User.aggregate([
-      { $sort: { score: -1 } },
+      { 
+        $sort: { 
+          score: -1,  
+          _id: 1  
+        } 
+      },
       { $skip: skip },
       { $limit: limit },
       {

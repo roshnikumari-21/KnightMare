@@ -8,13 +8,14 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { profileContext } from '../contexts/profileContext';
 
 const Leaderboard = () => {
-  const { setShowNavbar, backendUrl ,token } = useContext(commoncontext);
-  const { userProfile , userRank} = useContext(profileContext);
+  const { setShowNavbar, backendUrl, token } = useContext(commoncontext);
+  const { userProfile, userRank } = useContext(profileContext);
   setShowNavbar(true);
-
+  const [topUsers,setTopUsers] = useState([]);
   const [leaderboard, setLeaderboard] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [lastrank,setlastrank] = useState(1);
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 20,
@@ -23,9 +24,30 @@ const Leaderboard = () => {
   });
 
   useEffect(() => {
-    fetchLeaderboard();
+    const fetchInitialData = async () => {
+      await fetchTopUsers();
+      await fetchLeaderboard();
+    };
+    fetchInitialData();
   }, [pagination.page]);
 
+  const fetchTopUsers = async () => {
+    try {
+      const response = await axios.get(`${backendUrl}/api/auth/leaderboard`, {
+        params: {
+          page: 1,
+          limit: 3
+        },
+        headers: {
+          token: token
+        }
+      });
+      setTopUsers(response.data.data);
+    } catch (err) {
+      console.error("Error fetching top users:", err);
+      setTopUsers([]);
+    }
+  };
   const fetchLeaderboard = async () => {
     try {
       setLoading(true);
@@ -56,12 +78,8 @@ const Leaderboard = () => {
       setPagination({ ...pagination, page: newPage });
     }
   };
-  console.log()
-
   if (loading) return <LoadingSpinner />;
   if (error) return <div className="text-red-500 text-center py-8">{error}</div>;
-
-  const topUsers = leaderboard.slice(0, 3);
 
   return (
     <div className="bg-black background-grid text-white min-h-screen p-4">
@@ -182,9 +200,9 @@ const Leaderboard = () => {
     leaderboard
       .sort((a, b) => b.score - a.score)
       .map((user, index, arr) => {
-        let rank = index === 0 ? 1 : arr[index - 1].score === user.score ? arr[index - 1].rank : index + 1;
+       
+        let rank = (index === 0) ? lastrank : (arr[index - 1].score === user.score) ? arr[index - 1].rank : arr[index - 1].rank + 1;
         user.rank = rank;
-        
         return (
           <tr key={user._id} className={`border-black ${(userProfile.username === user.username) ? 'bg-cyan-500' : 'bg-slate-900'} border-4`}>
             <td className="px-4 py-2">
@@ -209,7 +227,6 @@ const Leaderboard = () => {
     </tr>
   )}
 </tbody>
-
           </table>
         </div>
 
