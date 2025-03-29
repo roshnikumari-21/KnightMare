@@ -136,6 +136,37 @@ const Sidebar = () => {
           </span>
         </NavLink>
         <NavLink
+  to="/analysis"
+  className={({ isActive }) =>
+    `flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200 group ${
+      isActive
+        ? "bg-blue-600 text-white"
+        : "text-gray-300 hover:bg-gray-700"
+    }`
+  }
+>
+<svg className="w-6 h-6 flex-shrink-0"
+  fill="none"
+  stroke="currentColor"
+  viewBox="0 0 24 24">
+  <rect x="4" y="4" width="16" height="16" strokeWidth="1.5"/>
+  <path d="M4 8h16M4 12h16M4 16h16M8 4v16M12 4v16M16 4v16" strokeWidth="1" strokeOpacity="0.5"/>
+  <path 
+    strokeWidth="2"
+    strokeLinecap="round"
+    d="M9 15l3-3m0 0l3 3m-3-3v6"
+  />
+  <circle cx="18" cy="6" r="1.5" fill="currentColor"/>
+</svg>
+  <span
+    className={`transition-opacity duration-200 ${
+      isExpanded ? "opacity-100" : "opacity-0"
+    }`}
+  >
+    Analysis
+  </span>
+</NavLink>
+        <NavLink
           to="/settings"
           className={({ isActive }) =>
             `flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200 group ${
@@ -167,6 +198,7 @@ const Sidebar = () => {
             Settings
           </span>
         </NavLink>
+        
       </nav>
     </div>
   );
