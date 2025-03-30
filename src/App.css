@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+.font-poppins {
+    font-family: 'Poppins', sans-serif;
+}
+@layer components {
+    .hover\:shadow-glow {
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+    }
+}
+
+.sidebar-item-text {
+    transition: opacity 0.2s ease-in-out;
+    transition-delay: 0.1s;
+  }
+  
+  .sidebar:hover .sidebar-item-text {
+    opacity: 1;
+  }
+
+
+  .neon-text {
+    color: #ffffff; /* Text color */
+    text-shadow:
+      0 0 2px #b7b7b7, /* Inner glow */
+      0 0 2px #978e8e, /* Middle glow */
+      0 0 2px #a0a1a1, /* Outer glow */
+      0 0 2px #a3a4a4; /* Far outer glow */
+    animation: glow 1.5s infinite alternate; /* Glow animation */
+  }
+
+
+  .neon-blue {
+    color: #0047ff; /* Bright blue text color */
+    text-shadow:
+      0 0 5px #4d79ff,  /* Inner glow */
+      0 0 10px #4d79ff, /* Middle glow */
+      0 0 20px #4d79ff, /* Outer glow */
+      0 0 40px #1a53ff, /* Stronger outer glow */
+      0 0 60px #0033cc; /* Far outer glow */
+    animation: glow 1.5s infinite alternate;
+}
+.heii{
+   min-height: 87vh;
+}
+
+.heii2{
+  min-height:100vh;
+  
+}
+  .grad {
+    background-image: linear-gradient(to bottom, #ea0505, #240101); /* Define your gradient */
+    -webkit-background-clip: text; /* Clip the background to the text */
+    background-clip: text; /* Standard property */
+    -webkit-text-fill-color: transparent; /* Make the text transparent */
+    color: transparent; /* Fallback for non-WebKit browsers */
+    font-size: 48px; /* Adjust font size as needed */
+    font-weight: bold; /* Adjust font weight as needed */
+  }
+
+
+  .threed {
+   
+    
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px #133a96, -5px -5px 15px #5cbbe7;
+   
+    color: white;
+    font-weight: bold;
+  }
+ .shiftdown{
+   position:relative;
+  bottom:20px;
+ }
+  /* Heatmap color scale - Green Theme */
+.react-calendar-heatmap .color-empty {
+  fill: #ffffff; /* Light gray for empty cells */
+}
+
+.react-calendar-heatmap .color-scale-0 {
+  fill: #ddfed0;
+}
+.react-calendar-heatmap .color-scale-1 {
+  fill: #9eee95;
+}
+.react-calendar-heatmap .color-scale-2 {
+  fill: #3ab427;
+}
+.react-calendar-heatmap .color-scale-3 {
+  fill: #18762b;
+}
+.react-calendar-heatmap .color-scale-4 {
+  fill: #064012; 
+}
+
+  /* Heatmap color scale - Green Theme */
+.react-calendar-heatmap .color-empty {
+  fill: #ffffff; /* Light gray for empty cells */
+}
+
+.react-calendar-heatmap .color-scale-0 {
+  fill: #ddfed0;
+}
+.react-calendar-heatmap .color-scale-1 {
+  fill: #9eee95;
+}
+.react-calendar-heatmap .color-scale-2 {
+  fill: #3ab427;
+}
+.react-calendar-heatmap .color-scale-3 {
+  fill: #18762b;
+}
+.react-calendar-heatmap .color-scale-4 {
+  fill: #064012; 
+}
+
+
+
+  .threed {
+   
+    
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px #133a96, -5px -5px 15px #5cbbe7;
+   
+    color: white;
+    font-weight: bold;
+  }
+ .shiftdown{
+   position:relative;
+  bottom:20px;
+ }
+
+
+
+ .background-grid {
+
+  inset: 0;
+  background-image: 
+      linear-gradient(90deg, rgba(130, 130, 130, 0.1) 1px, transparent 1px),
+      linear-gradient(rgba(112, 112, 112, 0.1) 1px, transparent 1px);
+  background-size: 4rem 4rem;
+  opacity: 0.8; /* Slightly reduce intensity for a smoother look */
+  backdrop-filter: blur(4px); /* Optional: Adds a subtle blur for a modern touch */
+}
