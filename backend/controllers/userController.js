@@ -284,6 +284,7 @@ export const getUser = async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.userId;
     const user = await User.findOne({email}).select("-passwordHash");
+    console.log(user)
     if (!user) {
       return res.status(400).json({ success: false, message: "User not found." });
     }
