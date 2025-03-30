@@ -56,15 +56,16 @@ const DeactivateAccount = () => {
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
-      className="flex justify-center items-center min-h-screen bg-black text-white"
+      className="flex justify-center items-center min-h-screen bg-black text-white p-4"
     >
-      <div className="w-80 p-5 shadow-lg rounded-lg backdrop-blur-lg relative">
-        <h2 className="text-3xl font-semibold pb-2 text-center text-white neon-text">
+      <div className="w-full max-w-xs sm:max-w-sm md:max-w-md p-5 shadow-lg rounded-lg backdrop-blur-lg relative">
+        <h2 className="text-2xl sm:text-3xl font-semibold pb-2 text-center text-white neon-text">
           Deactivate Account
         </h2>
         <p className="text-sm text-center text-gray-300 mb-6">
           Are you sure you want to deactivate your account? This action cannot be undone.
         </p>
+        
         <form onSubmit={handleDeactivate}>
           {/* Password Field */}
           <div className="mb-4">
@@ -78,7 +79,7 @@ const DeactivateAccount = () => {
               required
             />
           </div>
-
+  
           {/* Confirmation Text Field */}
           <div className="mb-4">
             <input
@@ -91,7 +92,7 @@ const DeactivateAccount = () => {
               required
             />
           </div>
-
+  
           {/* Submit Button */}
           <button
             type="submit"
@@ -101,6 +102,7 @@ const DeactivateAccount = () => {
             {isLoading ? "Deactivating..." : "Deactivate Account"}
           </button>
         </form>
+  
         <div className="mt-4 border-t border-gray-700 pt-4">
           <p className="text-center text-gray-400">Changed your mind?</p>
           <p className="text-center text-gray-200 mt-2">
@@ -110,6 +112,7 @@ const DeactivateAccount = () => {
       </div>
     </div>
   );
+  
 };
 
 export default DeactivateAccount;

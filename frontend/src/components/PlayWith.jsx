@@ -19,19 +19,20 @@ function PlayWith({ onSelect }) {
   };
 
   return (
-    <div >
-    <select
-      onChange={handleChange}
-      className="px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none"
-    >
-      {sides.map((side) => (
-        <option key={side.value} value={side.value}>
-          {side.label}
-        </option>
-      ))}
-    </select>
+    <div className="flex justify-center items-center w-full p-4">
+      <select
+        onChange={handleChange}
+        className="px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none w-full max-w-xs"
+      >
+        {sides.map((side) => (
+          <option key={side.value} value={side.value}>
+            {side.label}
+          </option>
+        ))}
+      </select>
     </div>
   );
+  
 }
 
 export default PlayWith;
