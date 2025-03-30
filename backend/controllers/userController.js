@@ -83,7 +83,8 @@ export const googleLogin = async (req, res) => {
       await user.save();
     }
     const jwtToken = user.generateAuthToken();
-    res.status(200).json({ message: 'Login successful', token: jwtToken,user:user});
+
+    res.status(200).json({ message: 'Login successful', token: jwtToken, user });
   } catch (error) {
     console.error('Error verifying Google token:', error.message || error);
     res.status(401).json({ message: 'Invalid token' });

@@ -3,18 +3,18 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 const userSchema = new mongoose.Schema({
-    username: { type: String, unique: true, required: true, trim: true },
-    email: { type: String, unique: true, required: true },
-    passwordHash: { 
-      type: String, 
-      required: function () { return this.authProvider === "local"; }
-    },
-    authProvider: { type: String, enum: ["local", "google"], default: "local" },
-    googleId: { type: String,sparse: true, default: null },
-    profilePicture: { type: String, default:"https://res.cloudinary.com/dzqazpfsq/image/upload/v1742382970/zgp1qxjtz2yca3qkbhb3.png" },
-    isVerified: { type: Boolean, default: false },
-    resetToken: { type: String, default: null },
-    resetTokenExpires: { type: Date, default: null },
+  username: { type: String, unique: true, required: true, trim: true },
+  email: { type: String, unique: true, required: true },
+  passwordHash: {
+    type: String,
+    required: function () { return this.authProvider === "local"; }
+  },
+  authProvider: { type: String, enum: ["local", "google"], default: "local" },
+  googleId: { type: String, sparse: true, default: null },
+  profilePicture: { type: String, default: "https://res.cloudinary.com/dzqazpfsq/image/upload/v1742382970/zgp1qxjtz2yca3qkbhb3.png" },
+  isVerified: { type: Boolean, default: false },
+  resetToken: { type: String, default: null },
+  resetTokenExpires: { type: Date, default: null },
 
     score: { type: Number, default: 0 },
     gamesPlayed: { type: Number, default: 0 },

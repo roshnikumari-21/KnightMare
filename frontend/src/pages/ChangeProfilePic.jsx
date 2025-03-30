@@ -63,15 +63,21 @@ const ChangeProfilePic = () => {
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
-      className="flex justify-center items-center min-h-screen bg-black text-white"
+      className="flex justify-center items-center min-h-screen bg-black text-white px-4 sm:px-6"
     >
-      <div className="w-80 p-5 shadow-lg rounded-lg backdrop-blur-lg relative" style={{ marginTop: '-10%' }}>
-        <h2 className="text-2xl font-semibold pb-2 text-center text-white neon-text">Change Profile Picture</h2>
+      <div 
+        className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg p-5 shadow-lg rounded-lg backdrop-blur-lg relative"
+        style={{ marginTop: '-10%' }}
+      >
+        <h2 className="text-xl sm:text-2xl font-semibold pb-2 text-center text-white neon-text">
+          Change Profile Picture
+        </h2>
+        
         <form className="mt-3" onSubmit={handleSubmit}>
           {/* Image Upload */}
           <div className="mb-3">
             <label htmlFor="profilePicture" className="cursor-pointer">
-              <div className="w-40 h-40 bg-gray-800 border border-gray-700 rounded-full flex mx-auto justify-center items-center">
+              <div className="w-32 sm:w-40 h-32 sm:h-40 bg-gray-800 border border-gray-700 rounded-full flex mx-auto justify-center items-center">
                 {previewImage ? (
                   <img
                     src={previewImage}
@@ -80,9 +86,11 @@ const ChangeProfilePic = () => {
                   />
                 ) : (
                   <div className="flex flex-col items-center">
-                  <FaCamera className="text-gray-400 text-3xl mb-2" />
-                  <span className="text-gray-400 text-sm">Click to choose file</span>
-                </div>
+                    <FaCamera className="text-gray-400 text-2xl sm:text-3xl mb-2" />
+                    <span className="text-gray-400 text-xs sm:text-sm">
+                      Click to choose file
+                    </span>
+                  </div>
                 )}
               </div>
               <input
@@ -96,7 +104,7 @@ const ChangeProfilePic = () => {
               />
             </label>
           </div>
-
+  
           {/* Submit Button */}
           <button
             type="submit"
@@ -108,6 +116,7 @@ const ChangeProfilePic = () => {
       </div>
     </div>
   );
+  
 };
 
 export default ChangeProfilePic;

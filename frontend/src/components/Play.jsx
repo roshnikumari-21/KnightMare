@@ -31,18 +31,23 @@ const handleStartGame = (settings) => {
     setShowBoard(true);
   };
   
-    return (
-        <div  className="heii2 bg-cover bg-center overflow-hidden"  style={{ backgroundImage: "url('/chessfloor2.jpg')" }}>
-            {!showBoard && (
-                <div className="flex justify-center items-center  ">
-                    <GameSetup onStartGame={handleStartGame} />
-                </div>
-            )}
-            {showBoard && (
-                <Chess level={level} timeFormat={timeFormat} side={side} />
-            )}
+  return (
+    <div 
+      className="heii2 bg-cover bg-center overflow-hidden min-h-screen flex flex-col items-center justify-center"
+      style={{ backgroundImage: "url('/chessfloor2.jpg')" }}
+    >
+      {!showBoard ? (
+        <div className="flex justify-center items-center w-full h-full p-4">
+          <GameSetup onStartGame={handleStartGame} />
         </div>
-    );
+      ) : (
+        <div className="w-full h-full flex justify-center items-center">
+          <Chess level={level} timeFormat={timeFormat} side={side} />
+        </div>
+      )}
+    </div>
+  );
+  
 };
 
 export default Play;

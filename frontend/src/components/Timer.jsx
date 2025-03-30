@@ -27,10 +27,15 @@ function Timer({ time, onTimeEnd, isActive }) {
   };
 
   return (
-    <div className={`p-2 rounded-lg ${isActive ? 'bg-gray-700' : 'bg-gray-600'} text-white font-mono`}>
+    <div
+      className={`p-2 rounded-lg ${
+        isActive ? "bg-gray-700" : "bg-gray-600"
+      } text-white font-mono text-sm sm:text-base md:text-lg`}
+    >
       <span>{formatTime(seconds)}</span>
     </div>
   );
+  
 }
 
 export default Timer;

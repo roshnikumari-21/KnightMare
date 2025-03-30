@@ -8,7 +8,8 @@ function SelectLevel({ onSelect }) {
     return (
       <select
         onChange={(e) => onSelect(Number(e.target.value))}
-        className="px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none"
+        className="w-full sm:w-auto px-3 py-2 sm:px-5 sm:py-3 text-sm sm:text-base bg-gray-700 text-white rounded-lg 
+                   focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
       >
         {levels.map((level) => (
           <option key={level.value} value={level.value}>
@@ -17,6 +18,7 @@ function SelectLevel({ onSelect }) {
         ))}
       </select>
     );
+    
   }
   
   export default SelectLevel;

@@ -13,47 +13,34 @@ const HomeUser = () => {
 
   return (
     <div
-      style={{
-        backgroundImage: "url('/bg2.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        display: "flex",
-        flexDirection: "column",
-      }}
+      className="flex flex-col items-center justify-center min-h-screen bg-cover bg-center px-4"
+      style={{ backgroundImage: "url('/bg2.jpg')" }}
     >
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <div className="relative heii z-10 p-8 rounded-lg shadow-lg text-white max-w-4xl w-full mx-4  ">
-          {/* Header */}
-          <h1 className="text-5xl font-semibold mb-6">
-            <span className="text-red-500">W</span>elcome, {user?.username}
-          </h1>
-          <p className="text-gray-300 mb-8">
-            Step into the world of{" "}
-            <span className="text-red-500 font-bold">Knightmare Chess</span>,
-            where <span className="text-gray-400 italic">strategy</span> meets{" "}
-            <span className="text-gray-500">darkness</span>. Every move could
-            awaken an ancient{" "}
-            <span className="text-red-500 font-bold">curse</span>. Are you ready
-            to face the shadows?
-          </p>
-
-          {/* Action Buttons */}
+      <div className="relative z-10 p-6 md:p-10 rounded-xl shadow-2xl text-white max-w-md sm:max-w-xl md:max-w-4xl w-full mx-4 backdrop-blur-xl bg-gray-800/70">
+        {/* Header */}
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-6 text-center sm:text-left">
+          <span className="text-red-500">W</span>elcome, {user?.username}
+        </h1>
+        <p className="text-gray-300 mb-8 text-sm sm:text-base md:text-lg leading-relaxed">
+          Step into the world of{" "}
+          <span className="text-red-500 font-bold">Knightmare Chess</span>, where{" "}
+          <span className="text-gray-400 italic">strategy</span> meets{" "}
+          <span className="text-gray-500">darkness</span>. Every move could awaken
+          an ancient <span className="text-red-500 font-bold">curse</span>. Are
+          you ready to face the shadows?
+        </p>
+  
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row justify-center gap-4">
           <button
             onClick={handle}
-            className="bg-white text-black font-semibold px-4 mr-6 py-2 hover:bg-slate-300 rounded-sm"
+            className="bg-red-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-red-700 hover:shadow-lg transition-all duration-300"
           >
             Start a Game
           </button>
           <button
             onClick={handle}
-            className="bg-white text-black font-semibold px-4 py-2 hover:bg-slate-300 rounded-sm"
+            className="bg-gray-700 text-white font-semibold px-6 py-2 rounded-lg hover:bg-gray-600 hover:shadow-lg transition-all duration-300"
           >
             Analyze
           </button>
@@ -61,6 +48,7 @@ const HomeUser = () => {
       </div>
     </div>
   );
+  
 };
 
 export default HomeUser; // ✅ Export the component correctly
