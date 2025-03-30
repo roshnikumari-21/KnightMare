@@ -1,7 +1,7 @@
 import React from "react";
 import ProfileCompA from "../components/ProfileCompA";
 import HeatMap from "../components/HeatMap";
-import ProgressGraph from "../components/ProgressGraph.";
+import ProgressGraph from "../components/ProgressGraph";
 import ProfileSettings from "../components/ProfileSettings";
 
 const Profile = () => {

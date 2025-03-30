@@ -11,11 +11,11 @@ const Leaderboard = () => {
   const { setShowNavbar, backendUrl, token } = useContext(commoncontext);
   const { userProfile, userRank } = useContext(profileContext);
   setShowNavbar(true);
-  const [topUsers,setTopUsers] = useState([]);
+  const [topUsers, setTopUsers] = useState([]);
   const [leaderboard, setLeaderboard] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [lastrank,setlastrank] = useState(1);
+  const [lastrank, setlastrank] = useState(1);
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 20,
@@ -48,6 +48,7 @@ const Leaderboard = () => {
       setTopUsers([]);
     }
   };
+
   const fetchLeaderboard = async () => {
     try {
       setLoading(true);
@@ -78,101 +79,124 @@ const Leaderboard = () => {
       setPagination({ ...pagination, page: newPage });
     }
   };
+
   if (loading) return <LoadingSpinner />;
   if (error) return <div className="text-red-500 text-center py-8">{error}</div>;
 
   return (
-    <div className="bg-black background-grid text-white min-h-screen p-4">
+    <div className="bg-black text-white min-h-screen p-4 md:p-8">
       <motion.h1 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
-        className="text-3xl font-bold text-center mb-20"
+        className="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-12"
       >
         Leaderboard
       </motion.h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      {/* Top 3 Users - Compact Mobile Version */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-6 mb-6 md:mb-8">
+        {/* 2nd Place */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.0 }}
-          whileHover={{ scale: 1.05 }}
-          className="bg-gray-800 threed relative flex flex-col items-center justify-center ml-8 p-3 mr-6 rounded-lg"
+          whileHover={{ scale: 1.03 }}
+          className="bg-gray-800 rounded-lg p-2 md:p-4 flex flex-col items-center"
         >
-          <div
-            style={{
-              backgroundImage: `url(${topUsers[1].profilePicture})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-            className="min-w-[7vw] w-[7vw] h-[7vw] min-h-[7vw] rounded-lg shadow-[0_0_10px_rgba(0,0,0,0.5)] hover:shadow-[0_0_15px_rgba(255,255,255,0.5)]"
-          ></div>
-          <h2 className="text-xl mb-3 font-semibold">{topUsers[1].username}</h2>
-          <div className='bg-gray-400 border-white w-fit p-2 rounded-lg'>
-            <FontAwesomeIcon icon={faTrophy} className="text-gray-600 text-2xl" />
-          </div>
-          <p>Rank: 2</p>     
-          <p className="text-gray-400">Earned {topUsers[1].score} points</p>
+          {topUsers[1] && (
+            <>
+              <div
+                style={{
+                  backgroundImage: `url(${topUsers[1].profilePicture})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+                className="w-12 h-12 md:w-24 md:h-24 rounded-lg shadow hover:shadow-white/20 transition-shadow"
+              ></div>
+              <h2 className="text-sm md:text-xl mt-1 md:mt-2 font-medium md:font-semibold text-center truncate max-w-full">
+                {topUsers[1].username}
+              </h2>
+              <div className='bg-gray-400 mt-1 md:mt-2 p-1 md:p-2 rounded-lg'>
+                <FontAwesomeIcon icon={faTrophy} className="text-gray-600 text-sm md:text-2xl" />
+              </div>
+              <p className="text-xs md:text-base mt-0.5">Rank: 2</p>     
+              <p className="text-gray-400 text-xs md:text-base">Score: {topUsers[1].score}</p>
+            </>
+          )}
         </motion.div>
 
+        {/* 1st Place */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.0 }}
-          whileHover={{ scale: 1.05 }}
-          className="bg-slate-900 shiftdown threed flex flex-col items-center justify-center ml-6 p-4 mr-6 rounded-lg"
+          whileHover={{ scale: 1.03 }}
+          className="bg-slate-900 rounded-lg p-2 md:p-6 flex flex-col items-center order-first sm:order-none"
         >
-          <div
-            style={{
-              backgroundImage: `url(${topUsers[0].profilePicture})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-            className="min-w-[7vw] w-[7vw] h-[7vw] min-h-[7vw] rounded-lg shadow-[0_0_10px_rgba(0,0,0,0.5)] hover:shadow-[0_0_15px_rgba(255,255,255,0.5)]"
-          ></div>
-          <h2 className="text-2xl mb-3 font-semibold">{topUsers[0].username}</h2>
-          <div className='bg-yellow-300 border-white w-fit p-2 rounded-lg'>
-            <FontAwesomeIcon icon={faTrophy} className="text-yellow-600 text-2xl" />
-          </div>
-          <p>Rank: 1</p>     
-          <p className="text-gray-400">Earned {topUsers[0].score} points</p>
+          {topUsers[0] && (
+            <>
+              <div
+                style={{
+                  backgroundImage: `url(${topUsers[0].profilePicture})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+                className="w-14 h-14 md:w-28 md:h-28 rounded-lg shadow hover:shadow-yellow-300/30 transition-shadow"
+              ></div>
+              <h2 className="text-base md:text-2xl mt-1 md:mt-3 font-medium md:font-semibold text-center truncate max-w-full">
+                {topUsers[0].username}
+              </h2>
+              <div className='bg-yellow-300 mt-1 md:mt-3 p-1 md:p-2 rounded-lg'>
+                <FontAwesomeIcon icon={faTrophy} className="text-yellow-600 text-sm md:text-2xl" />
+              </div>
+              <p className="text-xs md:text-base mt-0.5">Rank: 1</p>     
+              <p className="text-gray-400 text-xs md:text-base">Score: {topUsers[0].score}</p>
+            </>
+          )}
         </motion.div>
 
+        {/* 3rd Place */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.0 }}
-          whileHover={{ scale: 1.05 }}
-          className="bg-gray-800 threed flex flex-col items-center justify-center ml-6 p-3 mr-8 rounded-lg"
+          whileHover={{ scale: 1.03 }}
+          className="bg-gray-800 rounded-lg p-2 md:p-4 flex flex-col items-center"
         >
-          <div
-            style={{
-              backgroundImage: `url(${topUsers[2].profilePicture})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-            className="min-w-[7vw] w-[7vw] h-[7vw] min-h-[7vw] rounded-lg shadow-[0_0_10px_rgba(0,0,0,0.5)] hover:shadow-[0_0_15px_rgba(255,255,255,0.5)]"
-          ></div>
-          <h2 className="text-xl mb-3 font-semibold">{topUsers[2].username}</h2>
-          <div className='bg-yellow-700 border-white w-fit p-2 rounded-lg'>
-            <FontAwesomeIcon icon={faTrophy} className="text-yellow-900 text-2xl" />
-          </div>
-          <p>Rank: 3</p>     
-          <p className="text-gray-400">Earned {topUsers[2].score} points</p>
+          {topUsers[2] && (
+            <>
+              <div
+                style={{
+                  backgroundImage: `url(${topUsers[2].profilePicture})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+                className="w-12 h-12 md:w-24 md:h-24 rounded-lg shadow hover:shadow-white/20 transition-shadow"
+              ></div>
+              <h2 className="text-sm md:text-xl mt-1 md:mt-2 font-medium md:font-semibold text-center truncate max-w-full">
+                {topUsers[2].username}
+              </h2>
+              <div className='bg-yellow-700 mt-1 md:mt-2 p-1 md:p-2 rounded-lg'>
+                <FontAwesomeIcon icon={faTrophy} className="text-yellow-900 text-sm md:text-2xl" />
+              </div>
+              <p className="text-xs md:text-base mt-0.5">Rank: 3</p>     
+              <p className="text-gray-400 text-xs md:text-base">Score: {topUsers[2].score}</p>
+            </>
+          )}
         </motion.div>
       </div>
 
+      {/* User Rank Banner */}
       {userRank && (
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="bg-gray-800 p-2 rounded-lg mb-8"
+          className="bg-gray-800 p-2 md:p-3 rounded-lg mb-4 md:mb-8 text-center text-xs md:text-base"
         >
-          <p className="text-center">
-            You have {userProfile.score} score and are ranked {userRank} out of {pagination.totalUsers} users
-          </p>
+          You have <span className="font-bold">{userProfile.score}</span> points and are ranked 
+          <span className="font-bold"> {userRank}</span> out of {pagination.totalUsers} users
         </motion.div>
       )}
 
@@ -181,92 +205,117 @@ const Leaderboard = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.5, delay: 0.4 }}
-        className="mt-8"
+        className="mt-4 md:mt-8"
       >
-        <h2 className="text-2xl text-center font-bold mb-4">Top Users</h2>
-        <div className="overflow-x-auto flex justify-center">
-          <table className="w-11/12 bg-gray-900 rounded-lg">
-            <thead>
-              <tr className="font-bold border-black border-4">
-                <td className="px-4 py-2">Rank</td>
-                <td className="px-4 py-2">Username</td>
-                <td className="px-4 py-2">Score</td>
-                <td className="px-4 py-2">Total Hours</td>
-                <td className="px-4 py-2">Streak</td>
-              </tr>
-            </thead>
-            <tbody>
-  {leaderboard.length > 0 ? (
-    leaderboard
-      .sort((a, b) => b.score - a.score)
-      .map((user, index, arr) => {
-       
-        let rank = (index === 0) ? lastrank : (arr[index - 1].score === user.score) ? arr[index - 1].rank : arr[index - 1].rank + 1;
-        user.rank = rank;
-        return (
-          <tr key={user._id} className={`border-black ${(userProfile.username === user.username) ? 'bg-cyan-500' : 'bg-slate-900'} border-4`}>
-            <td className="px-4 py-2">
-              <FontAwesomeIcon icon={faTrophy} className="text-blue-900" /> {rank}
-            </td>
-            <td className="px-4 py-2 flex items-center space-x-2">
-              <img 
-                src={user.profilePicture} 
-                className="w-8 bg-black h-8 rounded-full" 
-              />
-              <span>{user.username}</span>
-            </td>
-            <td className="px-4 py-2">{user.score}</td>
-            <td className="px-4 py-2">{user.gamesPlayed * 0.5}</td>
-            <td className="px-4 py-2">{user.currentStreak}</td>
-          </tr>
-        );
-      })
-  ) : (
-    <tr>
-      <td colSpan="5" className="text-center p-4 text-gray-400">Loading...</td>
-    </tr>
-  )}
-</tbody>
-          </table>
+        <h2 className="text-lg md:text-2xl text-center font-bold mb-3 md:mb-4">Top Users</h2>
+        <div className="overflow-x-auto">
+          <div className="min-w-full inline-block align-middle">
+            <table className="min-w-full bg-gray-900 rounded-lg overflow-hidden">
+              <thead>
+                <tr className="border-b border-gray-700">
+                  <th className="px-2 py-1 md:px-4 md:py-3 text-left text-xs md:text-sm font-semibold">Rank</th>
+                  <th className="px-2 py-1 md:px-4 md:py-3 text-left text-xs md:text-sm font-semibold">Username</th>
+                  <th className="px-2 py-1 md:px-4 md:py-3 text-left text-xs md:text-sm font-semibold">Score</th>
+                  <th className="px-2 py-1 md:px-4 md:py-3 text-left text-xs md:text-sm font-semibold hidden sm:table-cell">Hours</th>
+                  <th className="px-2 py-1 md:px-4 md:py-3 text-left text-xs md:text-sm font-semibold hidden sm:table-cell">Streak</th>
+                </tr>
+              </thead>
+              <tbody>
+                {leaderboard.length > 0 ? (
+                  leaderboard
+                    .sort((a, b) => b.score - a.score)
+                    .map((user, index, arr) => {
+                      let rank = (index === 0) ? lastrank : (arr[index - 1].score === user.score) ? arr[index - 1].rank : arr[index - 1].rank + 1;
+                      user.rank = rank;
+                      return (
+                        <tr 
+                          key={user._id} 
+                          className={`border-b border-gray-800 ${(userProfile.username === user.username) ? 'bg-cyan-900/50' : 'bg-slate-900/50 hover:bg-gray-800'}`}
+                        >
+                          <td className="px-2 py-1 md:px-4 md:py-3 whitespace-nowrap">
+                            <FontAwesomeIcon icon={faTrophy} className="text-blue-900 mr-1 text-xs md:text-base" /> {rank}
+                          </td>
+                          <td className="px-2 py-1 md:px-4 md:py-3 whitespace-nowrap">
+                            <div className="flex items-center space-x-1 md:space-x-2">
+                              <img 
+                                src={user.profilePicture} 
+                                className="w-5 h-5 md:w-8 md:h-8 rounded-full bg-black" 
+                                alt={user.username}
+                              />
+                              <span className="text-xs md:text-base truncate max-w-[80px] md:max-w-none">{user.username}</span>
+                            </div>
+                          </td>
+                          <td className="px-2 py-1 md:px-4 md:py-3 whitespace-nowrap text-xs md:text-base">{user.score}</td>
+                          <td className="px-2 py-1 md:px-4 md:py-3 whitespace-nowrap text-xs md:text-base hidden sm:table-cell">
+                            {(user.gamesPlayed * 0.5).toFixed(1)}
+                          </td>
+                          <td className="px-2 py-1 md:px-4 md:py-3 whitespace-nowrap text-xs md:text-base hidden sm:table-cell">
+                            {user.currentStreak}
+                          </td>
+                        </tr>
+                      );
+                    })
+                ) : (
+                  <tr>
+                    <td colSpan="5" className="text-center p-3 text-gray-400 text-sm md:text-base">No users found</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        {/* Pagination */}
-        <div className="flex justify-center mt-4 space-x-2">
-          <button
-            onClick={() => handlePageChange(pagination.page - 1)}
-            disabled={pagination.page === 1}
-            className={`px-3 py-1 rounded-md ${pagination.page === 1 ? 'bg-gray-200 text-black cursor-not-allowed' : 'bg-blue-500 text-black hover:bg-blue-600'}`}
-          >
-            Previous
-          </button>
-          {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
-            let pageNum;
-            if (pagination.totalPages <= 5) {
-              pageNum = i + 1;
-            } else if (pagination.page <= 3) {
-              pageNum = i + 1;
-            } else if (pagination.page >= pagination.totalPages - 2) {
-              pageNum = pagination.totalPages - 4 + i;
-            } else {
-              pageNum = pagination.page - 2 + i;
-            }
-            return (
-              <button
-                key={pageNum}
-                onClick={() => handlePageChange(pageNum)}
-                className={`px-3 py-1 rounded-md ${pagination.page === pageNum ? 'bg-blue-600 text-black' : 'bg-blue-500 text-black hover:bg-blue-600'}`}
-              >
-                {pageNum}
-              </button>
-            );
-          })}
-          <button
-            onClick={() => handlePageChange(pagination.page + 1)}
-            disabled={pagination.page === pagination.totalPages}
-            className={`px-3 py-1 rounded-md ${pagination.page === pagination.totalPages ? 'bg-gray-200 text-black cursor-not-allowed' : 'bg-blue-500 text-black hover:bg-blue-600'}`}
-          >
-            Next
-          </button>
+        {/* Pagination - Responsive */}
+        <div className="flex flex-col sm:flex-row items-center justify-between mt-3 md:mt-4 space-y-1 md:space-y-0">
+          <div className="text-xs md:text-sm text-gray-400">
+            Page {pagination.page} of {pagination.totalPages}
+          </div>
+          <div className="flex space-x-1 md:space-x-2">
+            <button
+              onClick={() => handlePageChange(pagination.page - 1)}
+              disabled={pagination.page === 1}
+              className={`px-2 py-0.5 md:px-3 md:py-1 text-xs md:text-sm rounded ${
+                pagination.page === 1 ? 'bg-gray-700 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+              }`}
+            >
+              Prev
+            </button>
+            
+            {/* Show limited page numbers on mobile */}
+            {Array.from({ length: Math.min(3, pagination.totalPages) }, (_, i) => {
+              let pageNum;
+              if (pagination.totalPages <= 3) {
+                pageNum = i + 1;
+              } else if (pagination.page <= 2) {
+                pageNum = i + 1;
+              } else if (pagination.page >= pagination.totalPages - 1) {
+                pageNum = pagination.totalPages - 2 + i;
+              } else {
+                pageNum = pagination.page - 1 + i;
+              }
+              return (
+                <button
+                  key={pageNum}
+                  onClick={() => handlePageChange(pageNum)}
+                  className={`px-2 py-0.5 md:px-3 md:py-1 text-xs md:text-sm rounded ${
+                    pagination.page === pageNum ? 'bg-blue-700' : 'bg-blue-600 hover:bg-blue-700'
+                  }`}
+                >
+                  {pageNum}
+                </button>
+              );
+            })}
+            
+            <button
+              onClick={() => handlePageChange(pagination.page + 1)}
+              disabled={pagination.page === pagination.totalPages}
+              className={`px-2 py-0.5 md:px-3 md:py-1 text-xs md:text-sm rounded ${
+                pagination.page === pagination.totalPages ? 'bg-gray-700 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+              }`}
+            >
+              Next
+            </button>
+          </div>
         </div>
       </motion.div>
     </div>

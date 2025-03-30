@@ -7,7 +7,7 @@ export const AudioProvider = ({ children }) => {
   useEffect(() => {
     audioRef.current = new Audio(audioFile);
     audioRef.current.loop = true;
-    audioRef.current.volume = 0.015;
+    audioRef.current.volume = 0.05;
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
