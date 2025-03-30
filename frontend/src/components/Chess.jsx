@@ -36,7 +36,9 @@ const [isUserTurn, setIsUserTurn] = useState(false);
   const [blackTime, setBlackTime] = useState(timeFormat);
   const [isWhiteTimerActive, setIsWhiteTimerActive] = useState(false);
 
-
+  useEffect(() => {
+    console.log("Current moves:", moves);
+  }, [moves]);
   const playCaptureSound = () => {
     const audio = new Audio(captureSound); // Create an audio object
     audio.play().catch((error) => console.error("Failed to play sound:", error)); // Play the sound
@@ -94,6 +96,7 @@ const [isUserTurn, setIsUserTurn] = useState(false);
     
     // If playing as black, trigger initial AI move
     if (side === 'black') {
+      console.log("current player ",currentPlayer)
       setTimeout(() => {
         makeAIMove(board, 'white');
       }, 0);
@@ -265,11 +268,15 @@ const [isUserTurn, setIsUserTurn] = useState(false);
       const newBoard = makeMove(currentBoard, from, to);
       
       setBoard(newBoard);
+     
+      // After making move but BEFORE changing currentPlayer:
+updateMoveHistory(from, to, player);
+
       setCurrentPlayer(prev => {
         const newPlayer = prev === 'white' ? 'black' : 'white';
         return newPlayer;
       });
-      updateMoveHistory(from, to);
+      
       setIsWhiteTimerActive(prev => !prev);
     });
   };
@@ -277,15 +284,18 @@ const [isUserTurn, setIsUserTurn] = useState(false);
   // Handle square clicks
   const handleSquareClick = useCallback(async (clickedSquare) => {
     if (currentPlayer !== side) {
+
       console.log(`Not your turn! Current player: ${currentPlayer}, Your side: ${side}`);
       return;
     }
+    
   
     if (gameOver || !clickedSquare) return;
   
     const newBoard = board.map(row => 
       row.map(sq => ({ ...sq, isSelected: false, isLegalMove: false }))
     );
+
   
     if (!selectedSquare) {
       if (clickedSquare.piece?.color === currentPlayer) {
@@ -304,10 +314,15 @@ const [isUserTurn, setIsUserTurn] = useState(false);
         playCaptureSound();
         
         // Update move history
-        updateMoveHistory(selectedSquare, clickedSquare);
-  
+    
+        
+        console.log("Inside handlesquareclick: ", currentPlayer)
         // Update game state
         setBoard(newBoard);
+      
+        // After making move but BEFORE changing currentPlayer:
+updateMoveHistory(selectedSquare, clickedSquare, currentPlayer);
+
         setCurrentPlayer(prev => {
           const newPlayer = prev === 'white' ? 'black' : 'white';
           
@@ -355,6 +370,8 @@ const [isUserTurn, setIsUserTurn] = useState(false);
     // Update piece position
     newBoard[to.row][to.col].piece = piece;
     newBoard[from.row][from.col].piece = null;
+   
+
   
     // Update castling rights
     updateCastlingRights(piece, from);
@@ -379,7 +396,7 @@ const [isUserTurn, setIsUserTurn] = useState(false);
     return newBoard;
   };
   // Promotion handling
-const [promotingPawn, setPromotingPawn] = useState(null);
+const [promotingPawn , setPromotingPawn] = useState(null);
 
 const handlePromotion = (board, position, color) => {
   setPromotingPawn({ position, color });
@@ -412,48 +429,87 @@ const PromotionModal = () => {
     </div>
   );
 };
-const updateMoveHistory = (from, to) => {
-  console.log('From:', from, 'To:', to); // Debugging line
-
+const updateMoveHistory = (from, to, movingPlayer) => {
   const notation = getMoveNotation(from, to);
-
+  
   setMoves(prev => {
-    let newMoves;
-  
-    // Calculate the move number
-    const moveNumber = Math.ceil((prev.length + 1) / 2);
-  console.log('Move number:', moveNumber); // Debugging line
-    if (currentPlayer === 'white') {
-      // If it's white's move, add a new move pair
-      newMoves = [...prev, { moveNumber, white: notation, black: null }];
-    } else {
-      // If it's black's move, update the last move pair
-      if (prev.length > 0) {
-        const lastMove = prev[prev.length - 1];
-        newMoves = [...prev.slice(0, -1), { ...lastMove, black: notation }];
-      } 
+    // For white's move - create new pair
+    if (movingPlayer === 'white') {
+      const moveNumber = Math.floor(prev.length) + 1;
+      return [...prev, { 
+        moveNumber, 
+        white: notation, 
+        black: null 
+      }];
     }
-  
-    console.log('Moves array:', newMoves); // Debugging line
-    return newMoves;
+    // For black's move - update last pair
+    else {
+      // If no moves exist yet (black moving first)
+      if (prev.length === 0) {
+        return [{ 
+          moveNumber: 1, 
+          white: null, 
+          black: notation 
+        }];
+      }
+      
+      const lastMove = prev[prev.length - 1];
+      
+      // If last move has white but no black, update it
+      if (lastMove.white && !lastMove.black) {
+        return [
+          ...prev.slice(0, -1),
+          { 
+            ...lastMove, 
+            black: notation 
+          }
+        ];
+      }
+      // Otherwise create new move pair (shouldn't happen in standard chess)
+      else {
+        const moveNumber = prev.length + 1;
+        return [...prev, { 
+          moveNumber, 
+          white: null, 
+          black: notation 
+        }];
+      }
+    }
   });
 };
+const getMoveNotation = (from, to, board) => {
+  if (!from.piece) return '';
 
-const getMoveNotation = (from, to) => {
-  if (!from.piece) {
-    console.error('Invalid move notation - missing piece:', from);
-    return '';
-  }
-  
   const pieceType = from.piece.type;
-  const piece = pieceType === 'pawn' ? '' : pieceType.toUpperCase();
-  const capture = to.piece ? 'x' : '';
+  const isCapture = to.piece !== null;
   const file = String.fromCharCode(97 + to.col);
   const rank = 8 - to.row;
-  
-  return `${piece}${capture}${file}${rank}`;
-};
 
+  // Handle castling
+  if (pieceType === 'king' && Math.abs(from.col - to.col) === 2) {
+    return to.col > from.col ? 'O-O' : 'O-O-O';
+  }
+
+  // Handle pawn moves
+  if (pieceType === 'pawn') {
+    if (isCapture) {
+      const fromFile = String.fromCharCode(97 + from.col);
+      return `${fromFile}x${file}${rank}`;
+    }
+    return `${file}${rank}`;
+  }
+
+  // Handle other pieces
+  const pieceLetter = {
+    knight: 'N',
+    bishop: 'B',
+    rook: 'R',
+    queen: 'Q',
+    king: 'K'
+  }[pieceType];
+
+  return `${pieceLetter}${isCapture ? 'x' : ''}${file}${rank}`;
+};
   const parseUCIToCoordinates = (uci, currentBoard) => {
     const col = uci.charCodeAt(0) - 97;
     const row = 8 - parseInt(uci[1]);
