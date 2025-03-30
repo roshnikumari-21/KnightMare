@@ -4,7 +4,7 @@ import { assets } from '../assets/assets';
 import { AudioContext } from "../Context/AudioContext";
 import { commoncontext } from '../contexts/commoncontext';
 import { toast } from 'react-toastify';
-
+ 
 const Navbar = () => {
     const Navigate = useNavigate();
     const { isPlaying, playAudio, pauseAudio } = useContext(AudioContext);

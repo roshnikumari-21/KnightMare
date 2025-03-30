@@ -50,30 +50,25 @@ const forgotPassword = () => {
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
-      className="flex justify-center items-center min-h-screen bg-black text-white p-4"
+      className="flex justify-center items-center min-h-screen bg-black text-white"
     >
-      <div 
-        className="w-full max-w-sm md:max-w-md p-6 shadow-lg rounded-lg backdrop-blur-lg relative"
-        style={{ marginTop: '-8%' }}
-      >
-        <h2 className="text-2xl sm:text-3xl font-semibold pb-3 text-center text-white neon-text">
-          Forgot Password or want to change?
-        </h2>
-        <form className="mt-4" onSubmit={handleForgotPassword}>
-          <div className="mb-4">
+      <div className="w-80 p-5 shadow-lg rounded-lg backdrop-blur-lg relative" style={{ marginTop: '-10%' }}>
+        <h2 className="text-3xl font-semibold pb-2 text-center text-white neon-text">Forgot Password or want to change?</h2>
+        <form className="mt-3" onSubmit={handleForgotPassword}>
+          <div className="mb-3">
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-white-500"
               placeholder="Enter your email"
               required
             />
           </div>
           <button
             type="submit"
-            className="mt-3 w-full py-2 font-bold bg-red-500 hover:bg-red-600 rounded-md text-white font-semibold shadow-md transition duration-300 ease-in-out"
+            className="mt-2 w-full py-2 font-bold bg-red-500 hover:bg-gray-900 rounded-md text-white font-semibold shadow-md"
           >
             Send Reset Email
           </button>
@@ -81,7 +76,6 @@ const forgotPassword = () => {
       </div>
     </div>
   );
-  
 };
 
 export default forgotPassword;

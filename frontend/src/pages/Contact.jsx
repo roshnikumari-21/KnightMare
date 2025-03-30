@@ -40,13 +40,10 @@ export default function ContactUs() {
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
-      className="backdrop-blur-sm text-white flex flex-col items-center justify-center p-5 min-h-screen"
+      className="backdrop-blur-sm text-white flex flex-col items-center heii justify-center p-5"
     >
-      <h1 className="text-3xl sm:text-4xl mb-3 flex items-center text-center">
-        Contact Us
-      </h1>
-      
-      <div className="backdrop-blur-sm p-6 rounded-lg shadow-xl w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
+      <h1 className="text-4xl mb-3 flex items-center">Contact Us</h1>
+      <div className="backdrop-blur-sm p-6 rounded-lg shadow-xl w-full max-w-lg">
         <form onSubmit={handleSubmit} className="flex flex-col">
           <input
             placeholder="Enter your Name"
@@ -54,39 +51,33 @@ export default function ContactUs() {
             name="name"
             value={formData.name}
             onChange={handleChange}
-            className="p-2 border border-white rounded focus:outline-none bg-transparent text-white placeholder-gray-300 w-full"
+            className="p-2 border mb-2 border-white rounded focus:outline-none"
             required
           />
-          
           <input
             placeholder="Enter your Email"
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="p-2 mt-4 border border-white rounded focus:outline-none bg-transparent text-white placeholder-gray-300 w-full"
+            className="p-2 mt-4 border border-white rounded focus:outline-none"
             required
           />
-  
+
           <label className="mt-4 mb-2 text-white">Your Message</label>
           <textarea
             name="Feedback"
             value={formData.Feedback}
             onChange={handleChange}
             rows="4"
-            className="p-2 border border-white rounded focus:outline-none bg-transparent text-white placeholder-gray-300 w-full"
+            className="p-2 border border-white rounded focus:outline-none"
             required
           />
-          
-          <button
-            type="submit"
-            className="mt-4 p-2 bg-black hover:bg-slate-900 rounded text-white font-bold w-full"
-          >
+          <button type="submit" className="mt-4 p-2 bg-black hover:bg-slate-900 rounded text-white font-bold">
             Send Your Message
           </button>
         </form>
       </div>
     </div>
   );
-  
 }

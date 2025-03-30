@@ -8,8 +8,7 @@ function SelectTimeFormat({ onSelect }) {
     return (
       <select
         onChange={(e) => onSelect(Number(e.target.value))}
-        className="w-full sm:w-auto px-3 py-2 sm:px-5 sm:py-3 text-sm sm:text-base bg-gray-700 text-white rounded-lg 
-                   focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+        className="px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none"
       >
         {formats.map((format) => (
           <option key={format.value} value={format.value}>
@@ -18,6 +17,6 @@ function SelectTimeFormat({ onSelect }) {
         ))}
       </select>
     );
-  }    
+  }
   
   export default SelectTimeFormat;

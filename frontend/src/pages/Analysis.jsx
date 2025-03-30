@@ -41,12 +41,12 @@ const Analysis = () => {
   }, []);
 
   return (
-    <div className="mt-[6%] bg-gray-900 text-white flex flex-col items-center justify-center p-4 sm:p-6 relative overflow-hidden min-h-[70vh]">
+    <div className="mt-[6%] bg-gray-900 text-white flex flex-col items-center justify-center p-6 relative overflow-hidden min-h-[70vh]">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {bubbles.map((bubble) => {
           const x = bubble.isFollowing ? mousePosition.x : bubble.x;
           const y = bubble.isFollowing ? mousePosition.y : bubble.y;
-  
+          
           return (
             <motion.div
               key={bubble.id}
@@ -73,38 +73,38 @@ const Analysis = () => {
           );
         })}
       </div>
-  
+
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="relative z-10 text-center max-w-xl sm:max-w-2xl"
+        className="relative z-10 text-center max-w-2xl"
       >
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
           Game Analysis Dashboard
         </h1>
         
-        <p className="text-lg sm:text-xl text-gray-300 mb-6 sm:mb-8">
+        <p className="text-xl text-gray-300 mb-8">
           We're crunching the numbers to bring you <span className="text-blue-300 font-medium">deep insights</span> into your gameplay.
           This powerful tool will be ready soon!
         </p>
-  
-        <div className="w-full bg-gray-700 rounded-full h-2 mb-6 sm:mb-8">
+
+        <div className="w-full bg-gray-700 rounded-full h-2.5 mb-8">
           <motion.div 
-            className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full"
+            className="bg-gradient-to-r from-blue-500 to-purple-600 h-2.5 rounded-full"
             initial={{ width: 0 }}
             animate={{ width: "65%" }}
             transition={{ duration: 2, delay: 0.5 }}
           />
         </div>
-  
+
         <motion.div
-          className="inline-block bg-gray-800 bg-opacity-60 backdrop-blur-sm px-4 sm:px-6 py-2 sm:py-3 rounded-lg border border-gray-700 shadow-lg"
+          className="inline-block bg-gray-800 bg-opacity-60 backdrop-blur-sm px-6 py-3 rounded-lg border border-gray-700 shadow-lg"
           whileHover={{ y: -2 }}
         >
-          <p className="text-blue-300 font-mono flex items-center justify-center text-sm sm:text-base">
+          <p className="text-blue-300 font-mono flex items-center justify-center">
             <motion.svg 
-              className="w-4 sm:w-5 h-4 sm:h-5 mr-2"
+              className="w-5 h-5 mr-2"
               animate={{
                 scale: [1, 1.2, 1],
               }}
@@ -123,7 +123,6 @@ const Analysis = () => {
       </motion.div>
     </div>
   );
-  
 };
 
 export default Analysis;

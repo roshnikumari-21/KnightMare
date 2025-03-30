@@ -98,7 +98,7 @@ const Login = () => {
       toast.error(err.response?.data?.message || "An error occurred during login");
     }
   };
- return (
+  return (
     <div
       style={{
         backgroundImage: "url('chessfloor2.jpg')",
@@ -106,9 +106,9 @@ const Login = () => {
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
-      className="flex justify-center items-center min-h-screen bg-black text-white px-4 sm:px-6 lg:px-8"
+      className="flex justify-center items-center heii bg-black text-white"
     >
-      <div className="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl p-5 shadow-lg rounded-lg backdrop-blur-lg relative" style={{ marginTop: '-10%' }}>
+      <div className="w-80 p-5 shadow-lg rounded-lg backdrop-blur-lg relative" style={{ marginTop: '-10%' }}>
         <h2 className="text-3xl font-semibold pb-2 text-center text-white neon-text">Welcome</h2>
         <p className="text-sm text-center">Sign in to your account</p>
         <form className="mt-3" onSubmit={handleLogin}>
@@ -132,7 +132,7 @@ const Login = () => {
               placeholder="Enter your password"
             />
           </div>
-          <div className="font-bold text-sm cursor-pointer text-red-500 text-center sm:text-left" onClick={() => navigate('/forgotpassword')}>Forgot password?</div>
+          <div className="font-bold text-sm cursor-pointer text-red-500" onClick={() => navigate('/forgotpassword')}>Forgot password?</div>
           <button
             type="submit"
             className="mt-2 w-full py-2 bg-black hover:bg-gray-900 rounded-md text-white font-semibold shadow-md"
@@ -142,7 +142,7 @@ const Login = () => {
         </form>
         <div className="mt-4 border-t border-gray-700 pt-4">
           <p className="text-center text-gray-400">OR</p>
-          <div className="mt-4 space-y-3 flex justify-center">
+          <div className="mt-4 space-y-3">
               <GoogleLogin
                 onSuccess={handleGoogleSuccess}
                 onError={handleGoogleFailure}
@@ -156,6 +156,5 @@ const Login = () => {
       </div>
     </div>
   );
-
 };
 export default Login;
