@@ -74,12 +74,10 @@ export const googleLogin = async (req, res) => {
     const { email, name, picture, sub } = payload;
     let user = await User.findOne({ email });
     if (!user) {
-      user = new User({ username: email.split('@')[0], email, authProvider: "google", profilePicture: picture, googleId: sub, isVerified: true });
+      user = new User({ username: email.split('@')[0], email, authProvider: "google", profilePicture:"https://res.cloudinary.com/dzqazpfsq/image/upload/v1742382970/zgp1qxjtz2yca3qkbhb3.png", googleId: sub, isVerified: true });
       await user.save();
     } else {
       // Only update fields if they are different to avoid redundant writes
-      if (user.profilePicture !== picture && (picture)) {
-        user.profilePicture = picture;}
       if (user.googleID != sub) {
         user.googleId = sub }
       await user.save();
@@ -284,11 +282,15 @@ export const getUser = async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.userId;
     const user = await User.findOne({email}).select("-passwordHash");
-    console.log(user)
+
     if (!user) {
       return res.status(400).json({ success: false, message: "User not found." });
     }
-    res.json({ success: true, user });
+    const higherScoreCount = await User.countDocuments({
+      score: { $gt: user.score }
+    });
+    const rank = higherScoreCount + 1;
+    res.json({ success: true, user ,rank });
   } catch (error) {
     console.error("Error fetching user:", error);
     res.status(500).json({ success: false, message: "Server error. Please try again." });
@@ -317,5 +319,61 @@ export const deactivateAccount = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error. Please try again later." });
   }
 };
-export const getAllUsers = async (req, res) => {
+
+export const getLeaderboard = async (req, res) => {
+  try {
+    if (!req.body.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Not authenticated'
+      });
+    }
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 20;
+    const skip = (page - 1) * limit;
+
+    const leaderboard = await User.aggregate([
+      { 
+        $sort: { 
+          score: -1,  
+          _id: 1  
+        } 
+      },
+      { $skip: skip },
+      { $limit: limit },
+      {
+        $project: {
+          username: 1,
+          score: 1,
+          gamesPlayed: 1,
+          gamesWon: 1,
+          currentStreak: 1,
+          longestStreak: 1,
+          profilePicture: 1,
+        }
+      }
+    ]);
+    const totalUsers = await User.countDocuments();
+    const totalPages = Math.ceil(totalUsers / limit);
+
+    res.status(200).json({
+      success: true,
+      data: leaderboard,
+      pagination: {
+        page,
+        limit,
+        totalUsers,
+        totalPages,
+        hasNextPage: page < totalPages,
+        hasPreviousPage: page > 1
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch leaderboard',
+      error: error.message
+    });
+  }
 };

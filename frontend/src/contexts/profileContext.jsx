@@ -7,7 +7,7 @@ const transformData = (activity) => {
   if (!activity || !Array.isArray(activity)) return [];
 
   const activityMap = {};
-  activity.forEach((date) => {
+  activity.forEach(({date}) => {
     const formattedDate = new Date(date).toISOString().split("T")[0];
     activityMap[formattedDate] = (activityMap[formattedDate] || 0) + 1;
   });
@@ -23,6 +23,7 @@ const ProfileProvider = (props) => {
   const { token, setUser, user } = useContext(commoncontext);
   const [loading, setLoading] = useState(true);
   const [userProfile, setUserProfile] = useState(null);
+   const [userRank, setUserRank] = useState(null);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -36,6 +37,7 @@ const ProfileProvider = (props) => {
           });
           if (response.data.success) {
             setUser(response.data.user);
+            setUserRank(response.data.rank);
           } else {
             console.error("Failed to fetch user profile:", response.data.message);
           }
@@ -53,7 +55,6 @@ const ProfileProvider = (props) => {
 
   useEffect(() => {
     if (user) {
-        console.log(user);
       const DailyActivityMap = transformData(user.dailyActivity);
       DailyActivityMap.sort((a, b) => {
         const dateA = new Date(a.date);
@@ -69,6 +70,9 @@ const ProfileProvider = (props) => {
         MaxScore = Math.max(MaxScore, score);
         MinScore = Math.min(MinScore, score);
       });
+
+      if(user.ratingHistory.length == 0) MinScore = "NA";
+      if(user.ratingHistory.length == 0) MaxScore = "NA";
 
       const FirstGameDate = DailyActivityMap.length > 0 ? DailyActivityMap[0].date : null;
       const LastGameDate = DailyActivityMap.length > 0 ? DailyActivityMap[DailyActivityMap.length - 1].date : null;
@@ -104,6 +108,8 @@ const ProfileProvider = (props) => {
   const value = {
     backendUrl,
     userProfile,
+    setUserProfile,
+    userRank,
     loading,
   };
 

@@ -11,6 +11,7 @@ import HomeUser from "./pages/HomeUser";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Play from "./components/Play";
+import Analysis from "./pages/Analysis";
 import { ToastContainer} from 'react-toastify';
 import Profile from "./pages/Profile";
 import { AudioProvider } from "./Context/AudioContext.jsx";
@@ -41,6 +42,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/playWithAI" element={<Play />} />
+              <Route path="/analysis" element = {<Analysis/>}/>
               <Route path="/forgotpassword" element = {<ForgotPassword/>}/>
               <Route path="/resetpassword" element = {<ResetPassword/>}/>
               <Route path="/changeprofilepic" element = {<ChangeProfilePic/>}/>

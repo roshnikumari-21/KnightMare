@@ -10,9 +10,9 @@ const Profile = () => {
     style={{
       backgroundImage: "url('/bgmodernblack.jpg')",
       backgroundSize: "cover",
-      backgroundRepeat: "repeat-y",
+      backgroundRepeat: "repeat",
       minHeight: "100vh",
-      width: "100%", 
+      minwidth: "100vw", 
     }}
     >
     <ProfileCompA />
