@@ -9,7 +9,8 @@ import {
     validateMove,
     ShowLegalMoves,
     initialBoard,
-    boardToFEN
+    boardToFEN,
+    checkGameState
 } from '../chess-logic/functions';
 import { makeMove } from '../chess-logic/MoveExecution';
 import captureSound from "../assets/captureSound.mp3";
@@ -24,6 +25,7 @@ function Chess({ level, timeFormat, side }) {
   const [moves, setMoves] = useState([]);
   const [enPassantTarget, setEnPassantTarget] = useState(null);
   const [legalMoves, setLegalMoves] = useState([]);
+  const [kingInCheck, setKingInCheck] = useState({ white: false, black: false });
   const [castlingRights, setCastlingRights] = useState({ 
       white: { K: true, Q: true },
       black: { K: true, Q: true }
@@ -47,10 +49,15 @@ const [isUserTurn, setIsUserTurn] = useState(false);
 
 
 
-
-
-
-
+  useEffect(() => {
+    const whiteState = checkGameState(board, 'white', castlingRights, enPassantTarget);
+    const blackState = checkGameState(board, 'black', castlingRights, enPassantTarget);
+    
+    setKingInCheck({
+      white: whiteState.includes('check'),
+      black: blackState.includes('check')
+    });
+  }, [board, castlingRights, enPassantTarget]); 
 
 
 
@@ -128,7 +135,7 @@ const [isUserTurn, setIsUserTurn] = useState(false);
 
 
  // In your handleSquareClick function:
-const handleSquareClick = useCallback((clickedSquare) => {
+ const handleSquareClick = useCallback((clickedSquare) => {
   if (currentPlayer !== side || gameOver || !clickedSquare) return;
 
   // Reset board selections
@@ -152,7 +159,7 @@ const handleSquareClick = useCallback((clickedSquare) => {
       newBoard[clickedSquare.row][clickedSquare.col].isSelected = true;
       setBoard(newBoard);
       setSelectedSquare(clickedSquare);
-      setLegalMoves(moves); // This makes moves appear
+      setLegalMoves(moves);
     }
   } else {
     const isValidMove = validateMove(
@@ -165,12 +172,15 @@ const handleSquareClick = useCallback((clickedSquare) => {
     );
 
     if (isValidMove) {
+      // Create a copy of current castling rights
+      const updatedCastlingRights = JSON.parse(JSON.stringify(castlingRights));
+      
       const updatedBoard = makeMove(
         newBoard,
         selectedSquare,
         clickedSquare,
-        castlingRights,
-        setCastlingRights,
+        updatedCastlingRights, // Pass the copy
+        (newRights) => setCastlingRights(newRights),
         setEnPassantTarget
       );
 
@@ -178,6 +188,15 @@ const handleSquareClick = useCallback((clickedSquare) => {
       setBoard(updatedBoard);
       updateMoveHistory(selectedSquare, clickedSquare, currentPlayer);
       
+      // Update check status immediately
+      const whiteCheck = checkGameState(updatedBoard, 'white', updatedCastlingRights, enPassantTarget).includes('check');
+      const blackCheck = checkGameState(updatedBoard, 'black', updatedCastlingRights, enPassantTarget).includes('check');
+      
+      setKingInCheck({
+        white: whiteCheck,
+        black: blackCheck
+      });
+
       // Switch player
       const newPlayer = currentPlayer === 'white' ? 'black' : 'white';
       setCurrentPlayer(newPlayer);
@@ -207,16 +226,16 @@ const handleSquareClick = useCallback((clickedSquare) => {
             console.error('Invalid AI move:', move);
             return;
         }
+        const updatedCastlingRights = JSON.parse(JSON.stringify(castlingRights));
         
         const newBoard = makeMove(
-            currentBoard,
-            from,
-            to,
-            castlingRights,
-            setCastlingRights,
-            setEnPassantTarget
+          currentBoard,
+          from,
+          to,
+          updatedCastlingRights,
+          (newRights) => setCastlingRights(newRights),
+          setEnPassantTarget
         );
-        
         setBoard(newBoard);
         updateMoveHistory(from, to, player);
         
@@ -224,6 +243,9 @@ const handleSquareClick = useCallback((clickedSquare) => {
         setCurrentPlayer(player === 'white' ? 'black' : 'white');
         setIsWhiteTimerActive(prev => !prev);
     });
+
+
+    
 }, [boardToFEN, castlingRights]);
 
   // Promotion handling
@@ -393,9 +415,9 @@ const getMoveNotation = (from, to, board) => {
   board={flippedBoard}
   handleSquareClick={handleSquareClick}
   legalMoves={legalMoves}
-  side={side} // 'white' or 'black'
+  side={side}
+  kingInCheck={kingInCheck}
 />
-  
           {/* Box below the board */}
           <div className="flex justify-between items-center  bg-gray-800 rounded-lg ">
             <div className="text-md font-bold pl-4">

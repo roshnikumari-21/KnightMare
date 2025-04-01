@@ -6,6 +6,9 @@ import { pieceSymbol } from "./BoardUtils";
 export function makeMove(board, from, to, castlingRights, setCastlingRights, setEnPassantTarget) {
     const newBoard = board.map(row => row.map(sq => ({...sq})));
     const piece = newBoard[from.row][from.col].piece;
+
+    const newCastlingRights = {...castlingRights}; // copyy of current rights
+  
     
     // Handle castling
     if (piece.type === 'king' && Math.abs(from.col - to.col) === 2) {
@@ -28,9 +31,11 @@ export function makeMove(board, from, to, castlingRights, setCastlingRights, set
   
     // Update castling rights if needed
     if (piece.type === 'king' || piece.type === 'rook') {
-        updateCastlingRights(piece, from, castlingRights, setCastlingRights);
+      updateCastlingRights(piece, from, newCastlingRights);
+      // Update the state with the new rights
+      setCastlingRights(newCastlingRights);
     }
-  
+    
     // Handle pawn special cases
     if (piece.type === 'pawn') {
         if (Math.abs(from.row - to.row) === 2) {
@@ -43,21 +48,16 @@ export function makeMove(board, from, to, castlingRights, setCastlingRights, set
     return newBoard;
 }
 
-export function updateCastlingRights(piece, start, castlingRights, setCastlingRights) {
-    setCastlingRights(prev => {
-        const newRights = {...prev};
-        const color = piece.color;
-        
-        if (piece.type === 'king') {
-            newRights[color].K = false;
-            newRights[color].Q = false;
-        } else if (piece.type === 'rook') {
-            if (start.col === 0) newRights[color].Q = false;
-            if (start.col === 7) newRights[color].K = false;
-        }
-        
-        return newRights;
-    });
+export function updateCastlingRights(piece, from, castlingRights) {
+  const color = piece.color;
+  
+  if (piece.type === 'king') {
+    castlingRights[color].K = false;
+    castlingRights[color].Q = false;
+  } else if (piece.type === 'rook') {
+    if (from.col === 0) castlingRights[color].Q = false;
+    if (from.col === 7) castlingRights[color].K = false;
+  }
 }
 
 

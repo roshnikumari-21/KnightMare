@@ -6,7 +6,7 @@ import {
 import "./chessboard.css";
 import captureSound from "../assets/captureSound.mp3";
 
-const ChessBoard = ({ board, handleSquareClick, legalMoves, side }) => {
+const ChessBoard = ({ board, handleSquareClick, legalMoves, side,kingInCheck }) => {
   const playSound = () => {
     const audio = new Audio(captureSound);
     audio.play().catch(console.error);
@@ -27,11 +27,23 @@ const ChessBoard = ({ board, handleSquareClick, legalMoves, side }) => {
     }
   };
 
+  const kingPositions = useMemo(() => {
+    const positions = { white: null, black: null };
+    board.forEach((row, rowIndex) => {
+      row.forEach((square, colIndex) => {
+        if (square.piece?.type === 'king') {
+          positions[square.piece.color] = { row: rowIndex, col: colIndex };
+        }
+      });
+    });
+    return positions;
+  }, [board]);
+
   const adjustedLegalMoves = useMemo(() => {
     if (!legalMoves) return [];
     
     return legalMoves.map(move => {
-      // If playing as black, flip the coordinates
+    
       if (side === 'black') {
         return {
           ...move,
@@ -57,10 +69,17 @@ const ChessBoard = ({ board, handleSquareClick, legalMoves, side }) => {
         {board.map((row, rowIndex) => (
           <div key={rowIndex} className="board-row">
             {row.map((square, colIndex) => {
+               const isKingInCheck = (
+                (rowIndex === kingPositions.white?.row && colIndex === kingPositions.white?.col && kingInCheck.white) ||
+                (rowIndex === kingPositions.black?.row && colIndex === kingPositions.black?.col && kingInCheck.black)
+              );
               const isLegal = adjustedLegalMoves?.some(m => 
                 m.row === rowIndex && m.col === colIndex
               );
+
+              
               const isCapture = isLegal && square.piece;
+
 
               return (
                 <div
@@ -70,6 +89,7 @@ const ChessBoard = ({ board, handleSquareClick, legalMoves, side }) => {
                     chess-square 
                     ${square.isLight ? 'light' : 'dark'}
                     ${square.isSelected ? 'selected' : ''}
+                    ${isKingInCheck ? 'king-in-check' : ''}
                   `}
                 >
                   {square.piece && (
