@@ -37,14 +37,14 @@ const [isUserTurn, setIsUserTurn] = useState(false);
 
   const [whiteTime, setWhiteTime] = useState(timeFormat);
   const [blackTime, setBlackTime] = useState(timeFormat);
-  const [isWhiteTimerActive, setIsWhiteTimerActive] = useState(false);
+ 
 
 
 
-
+  
 
   useEffect(() => {
-    console.log("Legal moves:", legalMoves);
+    console.log("Legal moves:", legalMoves); // debugging
   }, [legalMoves]);
 
 
@@ -52,14 +52,19 @@ const [isUserTurn, setIsUserTurn] = useState(false);
   useEffect(() => {
     const whiteState = checkGameState(board, 'white', castlingRights, enPassantTarget);
     const blackState = checkGameState(board, 'black', castlingRights, enPassantTarget);
-    
+    if(whiteState=='checkmate'){
+      setGameOver(true);
+    }
+    if(blackState=='checkmate'){
+      setGameOver(true);
+    }
     setKingInCheck({
       white: whiteState.includes('check'),
       black: blackState.includes('check')
     });
   }, [board, castlingRights, enPassantTarget]); 
 
-
+ 
 
 
 
@@ -92,30 +97,40 @@ const [isUserTurn, setIsUserTurn] = useState(false);
     side === 'black' ? [...board].reverse().map(row => [...row].reverse()) : board,
     [board, side]
   );
-  useEffect(() => {
-    // Only active timer for human player's turn
-    setIsWhiteTimerActive(
-      (side === 'white' && currentPlayer === 'white') ||
-      (side === 'black' && currentPlayer === 'black')
-    );
-  }, [currentPlayer, side]);
-  // Timer control
-  useEffect(() => {
-    if (gameOver || !gameStarted) return;
-  
-    const interval = setInterval(() => {
-      // Handle time deduction only for human player's turn
-      if (isUserTurn) {
-        if (side === 'white') {
-          setWhiteTime(prev => Math.max(0, prev - 1));
-        } else {
-          setBlackTime(prev => Math.max(0, prev - 1));
-        }
-      }
-    }, 1000);
 
-    return () => clearInterval(interval);
-  }, [gameOver, gameStarted, isUserTurn, side]); // curentplayer dependency se maybe issue ho skta hai clearinterval me - checkit later 
+
+
+  // Timer control
+
+useEffect(() => {
+  if (gameOver || !gameStarted) return;
+
+  const interval = setInterval(() => {
+    // Deduct time based on current player
+    if (currentPlayer === 'white') {
+      setWhiteTime(prev => {
+        if (prev <= 1) {
+          setGameOver(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    } else {
+      setBlackTime(prev => {
+        if (prev <= 1) {
+          setGameOver(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }
+  }, 1000);
+
+  return () => clearInterval(interval);
+}, [gameOver, gameStarted, currentPlayer]); // Only depend on these
+
+
+
 
   // Initial AI move for black side
   useEffect(() => {
@@ -241,11 +256,8 @@ const [isUserTurn, setIsUserTurn] = useState(false);
         
         // Switch turn back to human player
         setCurrentPlayer(player === 'white' ? 'black' : 'white');
-        setIsWhiteTimerActive(prev => !prev);
+        setCurrentPlayer(player === 'white' ? 'black' : 'white');
     });
-
-
-    
 }, [boardToFEN, castlingRights]);
 
   // Promotion handling
@@ -394,6 +406,8 @@ const getMoveNotation = (from, to, board) => {
     }
     return null;
   };
+
+  
   return (
     <div className="chess-container p-3 bg-gray-900   text-white">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
@@ -404,28 +418,36 @@ const getMoveNotation = (from, to, board) => {
               Magnus Carlsen {/* Computer's name */}
             </div>
             <Timer 
-              time={side === 'white' ? whiteTime : blackTime}
-              isActive={!isUserTurn && gameStarted}
-              onTimeEnd={() => setGameOver(true)}
+             time={side === 'white' ? blackTime : whiteTime}
+             isActive={
+               currentPlayer === (side === 'white' ? 'black' : 'white') && 
+               gameStarted && 
+               !gameOver
+             }
+             onTimeEnd={() => setGameOver(true)}
             />
-          </div>
+            </div>
   
           {/* Chessboard */}
           <ChessBoard 
-  board={flippedBoard}
-  handleSquareClick={handleSquareClick}
-  legalMoves={legalMoves}
-  side={side}
-  kingInCheck={kingInCheck}
-/>
+            board={flippedBoard}
+            handleSquareClick={handleSquareClick}
+            legalMoves={legalMoves}
+            side={side}
+            kingInCheck={kingInCheck}
+          />
           {/* Box below the board */}
           <div className="flex justify-between items-center  bg-gray-800 rounded-lg ">
             <div className="text-md font-bold pl-4">
               { 'Pampa'|| username} {/* Your username */}
             </div>
             <Timer 
-              time={side === 'black' ? whiteTime : blackTime}
-              isActive={isUserTurn && gameStarted}
+              time={side === 'white' ? whiteTime : blackTime}
+              isActive={
+                currentPlayer === side && 
+                gameStarted && 
+                !gameOver
+              }
               onTimeEnd={() => setGameOver(true)}
             />
           </div>
