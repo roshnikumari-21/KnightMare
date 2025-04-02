@@ -15,7 +15,8 @@ import {
 import { makeMove } from '../chess-logic/MoveExecution';
 import captureSound from "../assets/captureSound.mp3";
 import notifySound from "../assets/notifySound.mp3"
-
+import { checkThreefoldRepetition } from '../chess-logic/creepyfunctions/ThreeFoldRepetition';
+import Result from './chess-components/Result';
 function Chess({ level, timeFormat, side }) {
   // Game state
   const [board, setBoard] = useState(initialBoard());
@@ -33,11 +34,18 @@ function Chess({ level, timeFormat, side }) {
 
   // Timer state
   const [gameStarted, setGameStarted] = useState(false);
-const [isUserTurn, setIsUserTurn] = useState(false);
-
   const [whiteTime, setWhiteTime] = useState(timeFormat);
   const [blackTime, setBlackTime] = useState(timeFormat);
- 
+
+  // game result 
+  const [gameResult, setGameResult] = useState(null);
+
+  const endGame = (result) => {
+    setGameOver(true);
+    setGameResult(result);
+    // playGameEndSound(result);
+  };
+  
 
 
 
@@ -49,22 +57,30 @@ const [isUserTurn, setIsUserTurn] = useState(false);
 
 
 
+  
+ 
   useEffect(() => {
     const whiteState = checkGameState(board, 'white', castlingRights, enPassantTarget);
     const blackState = checkGameState(board, 'black', castlingRights, enPassantTarget);
-    if(whiteState=='checkmate'){
-      setGameOver(true);
-    }
-    if(blackState=='checkmate'){
-      setGameOver(true);
-    }
+  
     setKingInCheck({
       white: whiteState.includes('check'),
       black: blackState.includes('check')
     });
-  }, [board, castlingRights, enPassantTarget]); 
-
- 
+    if (whiteState === 'checkmate') {
+      endGame(side === 'black' ? 'win' : 'lose');
+    } 
+    else if (blackState === 'checkmate') {
+      endGame(side === 'white' ? 'win' : 'lose');
+    }
+    else if (whiteState === 'stalemate' || blackState === 'stalemate') {
+      endGame('stalemate');
+    }
+    else if (checkThreefoldRepetition(moves)) {
+      endGame('threefold');
+    }
+  }, [board, castlingRights, enPassantTarget]);
+  
 
 
 
@@ -81,9 +97,7 @@ const [isUserTurn, setIsUserTurn] = useState(false);
     audio.play().catch((error) => console.error("Failed to play sound:", error)); // Play the sound
   };
   
-  useEffect(() => {
-    setIsUserTurn(side === currentPlayer);
-  }, [currentPlayer, side]);
+ 
   useEffect(() => {
     // Start timer after both players have moved once
     setGameStarted(moves.length >= 1);
@@ -460,9 +474,18 @@ const getMoveNotation = (from, to, board) => {
           </div>
   
           <MoveHistory moves={moves} />
+          {gameOver && (
+          <div className="mt-4">
+            <Result 
+              result={gameResult} 
+              playerColor={side}
+            />
+          </div>
+        )}
   
-          <div className="flex space-x-4">
-            <ResignButton onResign={() => setGameOver(true)} />
+          <div className="flex space-x-4 ">
+          {!gameOver && <ResignButton onResign={() => setGameOver(true)} />}
+    
             {gameOver && <StartNewGame onNewGame={() => window.location.reload()} />}
           </div>
         </div>
