@@ -17,6 +17,12 @@ import captureSound from "../assets/captureSound.mp3";
 import notifySound from "../assets/notifySound.mp3"
 import { checkThreefoldRepetition } from '../chess-logic/creepyfunctions/ThreeFoldRepetition';
 import Result from './chess-components/Result';
+import { initCutPieces, updateCutPieces, calculateAdvantage } from '../chess-logic/CutPieces';
+import CutPieces from './chess-components/CutPieces';
+
+
+
+
 function Chess({ level, timeFormat, side }) {
   // Game state
   const [board, setBoard] = useState(initialBoard());
@@ -46,6 +52,9 @@ function Chess({ level, timeFormat, side }) {
     // playGameEndSound(result);
   };
   
+  // cut pieces 
+  const [cutPieces, setCutPieces] = useState(initCutPieces());
+
 
 
 
@@ -204,13 +213,20 @@ useEffect(() => {
       // Create a copy of current castling rights
       const updatedCastlingRights = JSON.parse(JSON.stringify(castlingRights));
       
+      
       const updatedBoard = makeMove(
         newBoard,
         selectedSquare,
         clickedSquare,
-        updatedCastlingRights, // Pass the copy
+        updatedCastlingRights,
         (newRights) => setCastlingRights(newRights),
-        setEnPassantTarget
+        setEnPassantTarget,
+        (capturedPiece) => {
+          if (capturedPiece) {
+            setCutPieces(prev => updateCutPieces(prev, capturedPiece, currentPlayer));
+            playCaptureSound();
+          }
+        }
       );
 
       // Update game state
@@ -263,8 +279,15 @@ useEffect(() => {
           to,
           updatedCastlingRights,
           (newRights) => setCastlingRights(newRights),
-          setEnPassantTarget
+          setEnPassantTarget,
+          (capturedPiece) => {
+            if (capturedPiece) {
+              setCutPieces(prev => updateCutPieces(prev, capturedPiece, player));
+              playCaptureSound();
+            }
+          }
         );
+        
         setBoard(newBoard);
         updateMoveHistory(from, to, player);
         
@@ -421,27 +444,31 @@ const getMoveNotation = (from, to, board) => {
     return null;
   };
 
-  
   return (
-    <div className="chess-container p-3 bg-gray-900   text-white">
+    <div className="chess-container p-3 bg-gray-900 text-white">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
         <div className="md:col-span-2">
           {/* Box above the board */}
-          <div className="flex justify-between items-center  bg-gray-800 rounded-lg ">
-            <div className="text-md font-bold pl-4">
-              Magnus Carlsen {/* Computer's name */}
-            </div>
+          <div className="flex justify-between items-center bg-gray-800 rounded-lg p-2">
+          <div className="flex items-center space-x-2 bg-gray-700/50 px-3 py-1 rounded-md">
+          <div className="text-md font-bold text-white">Magnus Carlsen</div>
+          <CutPieces 
+          pieces={cutPieces[side === 'white' ? 'black' : 'white']} 
+          advantage={calculateAdvantage(cutPieces, side === 'white' ? 'black' : 'white')}
+          />
+
+          </div>
             <Timer 
-             time={side === 'white' ? blackTime : whiteTime}
-             isActive={
-               currentPlayer === (side === 'white' ? 'black' : 'white') && 
-               gameStarted && 
-               !gameOver
-             }
-             onTimeEnd={() => setGameOver(true)}
+              time={side === 'white' ? blackTime : whiteTime}
+              isActive={
+                currentPlayer === (side === 'white' ? 'black' : 'white') && 
+                gameStarted && 
+                !gameOver
+              }
+              onTimeEnd={() => setGameOver(true)}
             />
-            </div>
-  
+          </div>
+    
           {/* Chessboard */}
           <ChessBoard 
             board={flippedBoard}
@@ -450,11 +477,16 @@ const getMoveNotation = (from, to, board) => {
             side={side}
             kingInCheck={kingInCheck}
           />
+          
           {/* Box below the board */}
-          <div className="flex justify-between items-center  bg-gray-800 rounded-lg ">
-            <div className="text-md font-bold pl-4">
-              { 'Pampa'|| username} {/* Your username */}
-            </div>
+          <div className="flex justify-between items-center bg-gray-800 rounded-lg p-2">
+          <div className="flex items-center space-x-2 bg-gray-700/50 px-3 py-1 rounded-md">
+          <div className="text-md font-bold text-white">You</div>
+          <CutPieces
+            pieces={cutPieces[side]}
+            advantage={calculateAdvantage(cutPieces, side)}
+          />
+          </div>
             <Timer 
               time={side === 'white' ? whiteTime : blackTime}
               isActive={
@@ -466,26 +498,26 @@ const getMoveNotation = (from, to, board) => {
             />
           </div>
         </div>
-  
+    
         {/* Move history and controls */}
         <div className="space-y-4">
           <div className="text-center text-xl font-bold">
             {`${['Easy', 'Intermediate', 'Hard'][level / 10]} | ${timeFormat / 60}+0`}
           </div>
-  
-          <MoveHistory moves={moves} />
-          {gameOver && (
-          <div className="mt-4">
-            <Result 
-              result={gameResult} 
-              playerColor={side}
-            />
-          </div>
-        )}
-  
-          <div className="flex space-x-4 ">
-          {!gameOver && <ResignButton onResign={() => setGameOver(true)} />}
     
+          <MoveHistory moves={moves} />
+          
+          {gameOver && (
+            <div className="mt-4">
+              <Result 
+                result={gameResult} 
+                playerColor={side}
+              />
+            </div>
+          )}
+    
+          <div className="flex space-x-4">
+            {!gameOver && <ResignButton onResign={() => setGameOver(true)} />}
             {gameOver && <StartNewGame onNewGame={() => window.location.reload()} />}
           </div>
         </div>

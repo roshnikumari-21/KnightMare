@@ -3,13 +3,18 @@ import { pieceSymbol } from "./BoardUtils";
 
 
 
-export function makeMove(board, from, to, castlingRights, setCastlingRights, setEnPassantTarget) {
+export function makeMove(board, from, to, castlingRights, setCastlingRights, setEnPassantTarget,onCapture) {
     const newBoard = board.map(row => row.map(sq => ({...sq})));
     const piece = newBoard[from.row][from.col].piece;
 
     const newCastlingRights = {...castlingRights}; // copyy of current rights
   
-    
+     // Handle capture
+    if (to.piece) {
+      if (typeof onCapture === 'function') {
+        onCapture(to.piece);
+      }
+    }
     // Handle castling
     if (piece.type === 'king' && Math.abs(from.col - to.col) === 2) {
         const isKingside = to.col > from.col;
