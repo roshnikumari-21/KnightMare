@@ -32,11 +32,11 @@
 }
 
 .chess-square.light {
-  background-color: #d4c7a8;
+  background-color:rgb(188, 188, 240);
 }
 
 .chess-square.dark {
-  background-color: #7a6a52;
+  background-color: #182b35;
 }
 
 .chess-square.selected {

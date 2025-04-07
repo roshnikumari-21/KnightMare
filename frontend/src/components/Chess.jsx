@@ -15,6 +15,13 @@ import {
 import { makeMove } from '../chess-logic/MoveExecution';
 import captureSound from "../assets/captureSound.mp3";
 import notifySound from "../assets/notifySound.mp3"
+import { checkThreefoldRepetition } from '../chess-logic/creepyfunctions/ThreeFoldRepetition';
+import Result from './chess-components/Result';
+import { initCutPieces, updateCutPieces, calculateAdvantage } from '../chess-logic/CutPieces';
+import CutPieces from './chess-components/CutPieces';
+
+
+
 
 function Chess({ level, timeFormat, side }) {
   // Game state
@@ -33,33 +40,56 @@ function Chess({ level, timeFormat, side }) {
 
   // Timer state
   const [gameStarted, setGameStarted] = useState(false);
-const [isUserTurn, setIsUserTurn] = useState(false);
-
   const [whiteTime, setWhiteTime] = useState(timeFormat);
   const [blackTime, setBlackTime] = useState(timeFormat);
-  const [isWhiteTimerActive, setIsWhiteTimerActive] = useState(false);
+
+  // game result 
+  const [gameResult, setGameResult] = useState(null);
+
+  const endGame = (result) => {
+    setGameOver(true);
+    setGameResult(result);
+    // playGameEndSound(result);
+  };
+  
+  // cut pieces 
+  const [cutPieces, setCutPieces] = useState(initCutPieces());
 
 
 
 
+  
 
   useEffect(() => {
-    console.log("Legal moves:", legalMoves);
+    console.log("Legal moves:", legalMoves); // debugging
   }, [legalMoves]);
 
 
 
+  
+ 
   useEffect(() => {
     const whiteState = checkGameState(board, 'white', castlingRights, enPassantTarget);
     const blackState = checkGameState(board, 'black', castlingRights, enPassantTarget);
-    
+  
     setKingInCheck({
       white: whiteState.includes('check'),
       black: blackState.includes('check')
     });
-  }, [board, castlingRights, enPassantTarget]); 
-
-
+    if (whiteState === 'checkmate') {
+      endGame(side === 'black' ? 'win' : 'lose');
+    } 
+    else if (blackState === 'checkmate') {
+      endGame(side === 'white' ? 'win' : 'lose');
+    }
+    else if (whiteState === 'stalemate' || blackState === 'stalemate') {
+      endGame('stalemate');
+    }
+    else if (checkThreefoldRepetition(moves)) {
+      endGame('threefold');
+    }
+  }, [board, castlingRights, enPassantTarget]);
+  
 
 
 
@@ -76,9 +106,7 @@ const [isUserTurn, setIsUserTurn] = useState(false);
     audio.play().catch((error) => console.error("Failed to play sound:", error)); // Play the sound
   };
   
-  useEffect(() => {
-    setIsUserTurn(side === currentPlayer);
-  }, [currentPlayer, side]);
+ 
   useEffect(() => {
     // Start timer after both players have moved once
     setGameStarted(moves.length >= 1);
@@ -92,30 +120,40 @@ const [isUserTurn, setIsUserTurn] = useState(false);
     side === 'black' ? [...board].reverse().map(row => [...row].reverse()) : board,
     [board, side]
   );
-  useEffect(() => {
-    // Only active timer for human player's turn
-    setIsWhiteTimerActive(
-      (side === 'white' && currentPlayer === 'white') ||
-      (side === 'black' && currentPlayer === 'black')
-    );
-  }, [currentPlayer, side]);
-  // Timer control
-  useEffect(() => {
-    if (gameOver || !gameStarted) return;
-  
-    const interval = setInterval(() => {
-      // Handle time deduction only for human player's turn
-      if (isUserTurn) {
-        if (side === 'white') {
-          setWhiteTime(prev => Math.max(0, prev - 1));
-        } else {
-          setBlackTime(prev => Math.max(0, prev - 1));
-        }
-      }
-    }, 1000);
 
-    return () => clearInterval(interval);
-  }, [gameOver, gameStarted, isUserTurn, side]); // curentplayer dependency se maybe issue ho skta hai clearinterval me - checkit later 
+
+
+  // Timer control
+
+useEffect(() => {
+  if (gameOver || !gameStarted) return;
+
+  const interval = setInterval(() => {
+    // Deduct time based on current player
+    if (currentPlayer === 'white') {
+      setWhiteTime(prev => {
+        if (prev <= 1) {
+          setGameOver(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    } else {
+      setBlackTime(prev => {
+        if (prev <= 1) {
+          setGameOver(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }
+  }, 1000);
+
+  return () => clearInterval(interval);
+}, [gameOver, gameStarted, currentPlayer]); // Only depend on these
+
+
+
 
   // Initial AI move for black side
   useEffect(() => {
@@ -175,13 +213,20 @@ const [isUserTurn, setIsUserTurn] = useState(false);
       // Create a copy of current castling rights
       const updatedCastlingRights = JSON.parse(JSON.stringify(castlingRights));
       
+      
       const updatedBoard = makeMove(
         newBoard,
         selectedSquare,
         clickedSquare,
-        updatedCastlingRights, // Pass the copy
+        updatedCastlingRights,
         (newRights) => setCastlingRights(newRights),
-        setEnPassantTarget
+        setEnPassantTarget,
+        (capturedPiece) => {
+          if (capturedPiece) {
+            setCutPieces(prev => updateCutPieces(prev, capturedPiece, currentPlayer));
+            playCaptureSound();
+          }
+        }
       );
 
       // Update game state
@@ -234,18 +279,22 @@ const [isUserTurn, setIsUserTurn] = useState(false);
           to,
           updatedCastlingRights,
           (newRights) => setCastlingRights(newRights),
-          setEnPassantTarget
+          setEnPassantTarget,
+          (capturedPiece) => {
+            if (capturedPiece) {
+              setCutPieces(prev => updateCutPieces(prev, capturedPiece, player));
+              playCaptureSound();
+            }
+          }
         );
+        
         setBoard(newBoard);
         updateMoveHistory(from, to, player);
         
         // Switch turn back to human player
         setCurrentPlayer(player === 'white' ? 'black' : 'white');
-        setIsWhiteTimerActive(prev => !prev);
+        setCurrentPlayer(player === 'white' ? 'black' : 'white');
     });
-
-
-    
 }, [boardToFEN, castlingRights]);
 
   // Promotion handling
@@ -394,53 +443,81 @@ const getMoveNotation = (from, to, board) => {
     }
     return null;
   };
+
   return (
-    <div className="chess-container p-3 bg-gray-900   text-white">
+    <div className="chess-container p-3 bg-gray-900 text-white">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
         <div className="md:col-span-2">
           {/* Box above the board */}
-          <div className="flex justify-between items-center  bg-gray-800 rounded-lg ">
-            <div className="text-md font-bold pl-4">
-              Magnus Carlsen {/* Computer's name */}
-            </div>
+          <div className="flex justify-between items-center bg-gray-800 rounded-lg p-2">
+          <div className="flex items-center space-x-2 bg-gray-700/50 px-3 py-1 rounded-md">
+          <div className="text-md font-bold text-white">Magnus Carlsen</div>
+          <CutPieces 
+          pieces={cutPieces[side === 'white' ? 'black' : 'white']} 
+          advantage={calculateAdvantage(cutPieces, side === 'white' ? 'black' : 'white')}
+          />
+
+          </div>
             <Timer 
-              time={side === 'white' ? whiteTime : blackTime}
-              isActive={!isUserTurn && gameStarted}
+              time={side === 'white' ? blackTime : whiteTime}
+              isActive={
+                currentPlayer === (side === 'white' ? 'black' : 'white') && 
+                gameStarted && 
+                !gameOver
+              }
               onTimeEnd={() => setGameOver(true)}
             />
           </div>
-  
+    
           {/* Chessboard */}
           <ChessBoard 
-  board={flippedBoard}
-  handleSquareClick={handleSquareClick}
-  legalMoves={legalMoves}
-  side={side}
-  kingInCheck={kingInCheck}
-/>
+            board={flippedBoard}
+            handleSquareClick={handleSquareClick}
+            legalMoves={legalMoves}
+            side={side}
+            kingInCheck={kingInCheck}
+          />
+          
           {/* Box below the board */}
-          <div className="flex justify-between items-center  bg-gray-800 rounded-lg ">
-            <div className="text-md font-bold pl-4">
-              { 'Pampa'|| username} {/* Your username */}
-            </div>
+          <div className="flex justify-between items-center bg-gray-800 rounded-lg p-2">
+          <div className="flex items-center space-x-2 bg-gray-700/50 px-3 py-1 rounded-md">
+          <div className="text-md font-bold text-white">You</div>
+          <CutPieces
+            pieces={cutPieces[side]}
+            advantage={calculateAdvantage(cutPieces, side)}
+          />
+          </div>
             <Timer 
-              time={side === 'black' ? whiteTime : blackTime}
-              isActive={isUserTurn && gameStarted}
+              time={side === 'white' ? whiteTime : blackTime}
+              isActive={
+                currentPlayer === side && 
+                gameStarted && 
+                !gameOver
+              }
               onTimeEnd={() => setGameOver(true)}
             />
           </div>
         </div>
-  
+    
         {/* Move history and controls */}
         <div className="space-y-4">
           <div className="text-center text-xl font-bold">
             {`${['Easy', 'Intermediate', 'Hard'][level / 10]} | ${timeFormat / 60}+0`}
           </div>
-  
+    
           <MoveHistory moves={moves} />
-  
+          
+          {gameOver && (
+            <div className="mt-4">
+              <Result 
+                result={gameResult} 
+                playerColor={side}
+              />
+            </div>
+          )}
+    
           <div className="flex space-x-4">
-            <ResignButton onResign={() => setGameOver(true)} />
+            {!gameOver && <ResignButton onResign={() => setGameOver(true)} />}
             {gameOver && <StartNewGame onNewGame={() => window.location.reload()} />}
           </div>
         </div>

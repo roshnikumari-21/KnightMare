@@ -257,7 +257,7 @@ export function ShowLegalMoves(
     }
 }
 
-// Function to check for checkmate/stalemate
+
 export function checkGameState(board, color, castlingRights, enPassantTarget) {
     const enemyColor = color === 'white' ? 'black' : 'white';
     const kingPos = FindKing(board, color);
