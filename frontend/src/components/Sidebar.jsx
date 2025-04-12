@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { commoncontext } from "../contexts/commoncontext";
 import { AudioContext } from "../Context/AudioContext";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const Sidebar = () => {
   const Navigate = useNavigate();
@@ -26,32 +26,42 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`bg-black shadow-xl transition-all duration-300 ease-in-out ${
+      className={`hidden md:block bg-black shadow-xl transition-all duration-300 ease-in-out ${
         isExpanded ? "w-56" : "w-16"
       }`}
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
     >
       {/* User Profile Section */}
-      <div onClick={() => Navigate('/profile')} className="p-4 cursor-pointer border-b border-gray-700">
+      //{" "}
+      <div
+        onClick={() => Navigate("/profile")}
+        className="pr-2 pb-2 cursor-pointer border-b border-gray-700"
+      >
+        //{" "}
         <div className="flex items-center gap-3 overflow-hidden">
-          <div style={{
-            backgroundImage: `url(${user?.profilePicture})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }} className="w-8 h-8 rounded-full bg-white flex items-center justify-center">
-            {user?"":"P"}
+          //{" "}
+          <div
+            style={{
+              backgroundImage: `url(${user?.profilePicture})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+            className="w-10 h-10 rounded-full bg-white flex items-center justify-center"
+          >
+            {user ? "" : "P"}
           </div>
           {isExpanded && (
             <div className="text-white">
-              <p className="font-medium">{user ? user.username : "Sign in to see details"}</p>
-              <p className="text-xs text-gray-400">{user ? user.email :""}</p>
+              <p className="font-medium">
+                {user ? user.username : "Sign in to see details"}
+              </p>
+              <p className="text-xs text-gray-400">{user ? user.email : ""}</p>
             </div>
           )}
         </div>
       </div>
-
       {/* Navigation Links */}
       <nav className="space-y-1 p-2">
         {/* Main Navigation Links */}
@@ -86,7 +96,7 @@ const Sidebar = () => {
             Home
           </span>
         </NavLink>
-        
+
         <NavLink
           to="/playWithAI"
           className={({ isActive }) =>
@@ -118,7 +128,7 @@ const Sidebar = () => {
             Play
           </span>
         </NavLink>
-        
+
         <NavLink
           to="/leaderBoard"
           className={({ isActive }) =>
@@ -150,7 +160,7 @@ const Sidebar = () => {
             LeaderBoard
           </span>
         </NavLink>
-        
+
         <NavLink
           to="/analysis"
           className={({ isActive }) =>
@@ -161,18 +171,24 @@ const Sidebar = () => {
             }`
           }
         >
-          <svg className="w-5 h-5 flex-shrink-0"
+          <svg
+            className="w-5 h-5 flex-shrink-0"
             fill="none"
             stroke="currentColor"
-            viewBox="0 0 24 24">
-            <rect x="4" y="4" width="16" height="16" strokeWidth="1.5"/>
-            <path d="M4 8h16M4 12h16M4 16h16M8 4v16M12 4v16M16 4v16" strokeWidth="1" strokeOpacity="0.5"/>
-            <path 
+            viewBox="0 0 24 24"
+          >
+            <rect x="4" y="4" width="16" height="16" strokeWidth="1.5" />
+            <path
+              d="M4 8h16M4 12h16M4 16h16M8 4v16M12 4v16M16 4v16"
+              strokeWidth="1"
+              strokeOpacity="0.5"
+            />
+            <path
               strokeWidth="2"
               strokeLinecap="round"
               d="M9 15l3-3m0 0l3 3m-3-3v6"
             />
-            <circle cx="18" cy="6" r="1.5" fill="currentColor"/>
+            <circle cx="18" cy="6" r="1.5" fill="currentColor" />
           </svg>
           <span
             className={`transition-opacity duration-200 ${
@@ -182,7 +198,7 @@ const Sidebar = () => {
             Analysis
           </span>
         </NavLink>
-        
+
         <NavLink
           to="/settings"
           className={({ isActive }) =>
@@ -217,7 +233,6 @@ const Sidebar = () => {
 
         {/* Mobile-only Navigation Links - Hidden on larger devices */}
         <div className="md:hidden pt-2 mt-2">
-
           {/* About Us */}
           <NavLink
             to="/about"
@@ -229,8 +244,18 @@ const Sidebar = () => {
               }`
             }
           >
-            <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <svg
+              className="w-5 h-5 flex-shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
             </svg>
             <span
               className={`transition-opacity duration-200 ${
@@ -252,8 +277,18 @@ const Sidebar = () => {
               }`
             }
           >
-            <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            <svg
+              className="w-5 h-5 flex-shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              />
             </svg>
             <span
               className={`transition-opacity duration-200 ${
@@ -270,8 +305,18 @@ const Sidebar = () => {
               onClick={Logout}
               className="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-200 w-full text-gray-300 hover:bg-gray-700"
             >
-              <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              <svg
+                className="w-5 h-5 flex-shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                />
               </svg>
               <span
                 className={`transition-opacity duration-200 ${
@@ -286,8 +331,18 @@ const Sidebar = () => {
               onClick={() => Navigate("/login")}
               className="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-200 w-full text-gray-300 hover:bg-gray-700"
             >
-              <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+              <svg
+                className="w-5 h-5 flex-shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                />
               </svg>
               <span
                 className={`transition-opacity duration-200 ${
@@ -299,7 +354,7 @@ const Sidebar = () => {
             </button>
           )}
 
-<button
+          <button
             onClick={toggleSound}
             className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-200 w-full ${
               isPlaying ? "text-blue-400" : "text-gray-300"
@@ -340,11 +395,13 @@ const Sidebar = () => {
                 isExpanded ? "opacity-100" : "opacity-0"
               }`}
             >
-              {isPlaying ? 'Sound On' : 'Sound Off'}
+              {isPlaying ? "Sound On" : "Sound Off"}
             </span>
           </button>
         </div>
       </nav>
+      {/* Rest of your sidebar content remains the same */}
+      {/* ... */}
     </div>
   );
 };
