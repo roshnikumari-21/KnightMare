@@ -212,12 +212,12 @@ const Navbar = () => {
               to="/"
               onClick={() => setMobileMenuOpen(false)}
               className={({ isActive }) =>
-                `w-full text-center py-3 rounded-lg transition-colors duration-200 ${
+                `w-full text-center py-3 rounded-l  transition-colors duration-200 ${
                   isActive
                     ? "bg-blue-600 text-white"
-                    : "text-gray-300 hover:bg-gray-700"
+                    : "text-gray-300 "
                 }`
-              }
+              }  
             >
               Home
             </NavLink>
