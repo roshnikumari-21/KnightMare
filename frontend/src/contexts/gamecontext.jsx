@@ -118,6 +118,8 @@ const GameProvider = (props) => {
   }, [moves]);
 
   const endGame = async (result) => {
+    setGameResult(result);
+    setGameOver(true);
     console.log("Ending game with result:", result);
     try {
       if (!result || result === 'ongoing') {
@@ -193,11 +195,6 @@ const GameProvider = (props) => {
       console.log('Local storage cleared');
     }
   };
-
-  useEffect(() => {
-    console.log(gameResult);
-   if(gameResult) endGame(gameResult);
-  }, [gameResult])
 
   const resetGame = () => {
     setBoard(initialBoard());

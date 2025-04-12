@@ -370,7 +370,7 @@ const getMoveNotation = (from, to, board) => {
                 gameStarted && 
                 !gameOver
               }
-              onTimeEnd={() => {setGameOver(true);(whiteTime===0)?((side==='white'?(setGameResult("player_timeout")):(setGameResult("ai_timeout")))):((side==='white'?(setGameResult("ai_timeout")):(setGameResult("player_timeout"))))}}
+              onTimeEnd={() => {console.log("hi");(!whiteTime)?((side==='white'?(endGame("player_timeout")):(endGame("ai_timeout")))):((side==='white'?(endGame("ai_timeout")):(endGame("player_timeout"))))}}
             />
           </div>
         </div>
@@ -389,7 +389,7 @@ const getMoveNotation = (from, to, board) => {
             </div>
           )}
           <div className="flex space-x-4">
-            {!gameOver && <ResignButton onResign={() => {setGameOver(true);setGameResult("player_resign")}} />}
+            {!gameOver && <ResignButton onResign={() => {setGameOver(true);endGame("player_resign");}} />}
             {gameOver && <StartNewGame onNewGame={() => {window.location.reload();resetGame();}} />}
           </div>
         </div>

@@ -1,8 +1,8 @@
 function SelectLevel({ onSelect }) {
     const levels = [
       { value: 0, label: 'Level 0 (Easiest)' },
-      { value: 10, label: 'Level 10 (Intermediate)' },
-      { value: 20, label: 'Level 20 (Hardest)' },
+      { value: 1, label: 'Level 10 (Intermediate)' },
+      { value: 2, label: 'Level 20 (Hardest)' },
     ];
   
     return (
