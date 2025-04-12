@@ -34,16 +34,12 @@ export default function ContactUs() {
   };
   return (
     <div
-      style={{
-        backgroundImage: "url('chessfloor2.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-      className="backdrop-blur-sm text-white flex flex-col items-center heii justify-center p-5"
+     
+      className="backdrop-blur-sm bg-black text-white flex flex-col items-center heii justify-center p-5"
     >
-      <h1 className="text-4xl mb-3 flex items-center">Contact Us</h1>
-      <div className="backdrop-blur-sm p-6 rounded-lg shadow-xl w-full max-w-lg">
+      <h1 className="text-4xl font-semibold mb-1 flex text-blue-600 items-center ">Leave a Whisper</h1>
+      <p className="text-gray-400 text-sm">"Your message may wake the slumbering spirits..."</p>
+      <div className=" shadow-blue-500 p-6 rounded-lg shadow-lg w-full max-w-lg">
         <form onSubmit={handleSubmit} className="flex flex-col">
           <input
             placeholder="Enter your Name"

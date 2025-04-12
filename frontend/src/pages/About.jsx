@@ -1,3 +1,5 @@
+
+
 import React, { useContext, useState } from "react";
 import { motion } from "framer-motion";
 import { commoncontext } from "../contexts/commoncontext";
@@ -6,6 +8,7 @@ const RulesPage = () => {
   const { token, user, showNavbar, setShowNavbar } = useContext(commoncontext);
   setShowNavbar(true);
   const [activeTab, setActiveTab] = useState("basic");
+  
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
@@ -22,33 +25,30 @@ const RulesPage = () => {
   };
 
   const teamMembers = [
-    { name: "Aprajita Kumari", role: "The Necromancer", specialty: "Raises dead pieces from the graveyard" },
-    { name: "Roshni Kumari", role: "The Shadowmancer", specialty: "Moves unseen in the darkness" },
-    { name: "Sakshi Kumari", role: "The Timekeeper", specialty: "Controls the clock of doom" },
-    { name: "Ayush Kumar Singh", role: "The Architect", specialty: "Builds the labyrinth of despair" },
-    { name: "Prince Kumar", role: "The Illusionist", specialty: "Creates visions of false moves" },
-    { name: "Gobind Kumar", role: "The Torturer", specialty: "Inflicts pain on rule-breakers" },
+    { name: "Aprajita Kumari", role: "The Strategist", specialty: "Master of piece resurrection" },
+    { name: "Roshni Kumari", role: "The Visionary", specialty: "Expert in unseen maneuvers" },
+    { name: "Sakshi Kumari", role: "The Chronomancer", specialty: "Controller of game tempo" },
+    { name: "Ayush Kumar Singh", role: "The Architect", specialty: "Designer of game structures" },
+    { name: "Prince Kumar", role: "The Illusionist", specialty: "Creator of tactical deceptions" },
+    { name: "Gobind Kumar", role: "The Enforcer", specialty: "Guardian of game integrity" },
   ];
 
   return (
-    <div className="bg-gray-900 min-h-screen text-gray-100 font-sans bg-[url('/dark-chess-bg.jpg')] bg-cover bg-fixed bg-blend-overlay">
-      {/* Blood Drip Decoration */}
-      <div className="absolute top-0 left-0 w-full h-2 bg-red-900 opacity-70"></div>
-      
+    <div className="bg-black min-h-screen text-white font-sans">
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-4 py-16 relative z-10">
+      <div className="max-w-6xl mx-auto px-4 py-8 md:py-16 relative z-10">
         {/* Animated Title */}
         <motion.div 
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, type: "spring" }}
-          className="text-center mb-16"
+          className="text-center mb-8 md:mb-16"
         >
-          <h1 className="text-6xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-purple-800">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-gray-800">
             KNIGHTMARE CHESS
           </h1>
-          <p className="text-xl text-gray-300 italic">
-            "Where every move could be your last..."
+          <p className="text-lg md:text-xl text-blue-200 italic">
+            "Where strategy meets the shadows..."
           </p>
         </motion.div>
 
@@ -57,31 +57,31 @@ const RulesPage = () => {
           variants={fadeIn}
           initial="hidden"
           animate="visible"
-          className="flex justify-center mb-12 border-b border-gray-700"
+          className="flex flex-wrap justify-center mb-8 md:mb-12 border-b border-gray-800"
         >
           <button
             onClick={() => setActiveTab("basic")}
-            className={`px-6 py-3 font-medium ${activeTab === "basic" ? "text-red-500 border-b-2 border-red-500" : "text-gray-400 hover:text-white"}`}
+            className={`px-4 py-2 md:px-6 md:py-3 text-sm md:text-base font-medium ${activeTab === "basic" ? "text-blue-400 border-b-2 border-blue-400" : "text-gray-400 hover:text-white"}`}
           >
             Basic Rules
           </button>
           <button
             onClick={() => setActiveTab("penalties")}
-            className={`px-6 py-3 font-medium ${activeTab === "penalties" ? "text-red-500 border-b-2 border-red-500" : "text-gray-400 hover:text-white"}`}
+            className={`px-4 py-2 md:px-6 md:py-3 text-sm md:text-base font-medium ${activeTab === "penalties" ? "text-blue-400 border-b-2 border-blue-400" : "text-gray-400 hover:text-white"}`}
           >
-            Dark Penalties
+            Game Penalties
           </button>
           <button
             onClick={() => setActiveTab("resignation")}
-            className={`px-6 py-3 font-medium ${activeTab === "resignation" ? "text-red-500 border-b-2 border-red-500" : "text-gray-400 hover:text-white"}`}
+            className={`px-4 py-2 md:px-6 md:py-3 text-sm md:text-base font-medium ${activeTab === "resignation" ? "text-blue-400 border-b-2 border-blue-400" : "text-gray-400 hover:text-white"}`}
           >
-            Forbidden Resignation
+            Resignation
           </button>
           <button
             onClick={() => setActiveTab("team")}
-            className={`px-6 py-3 font-medium ${activeTab === "team" ? "text-red-500 border-b-2 border-red-500" : "text-gray-400 hover:text-white"}`}
+            className={`px-4 py-2 md:px-6 md:py-3 text-sm md:text-base font-medium ${activeTab === "team" ? "text-blue-400 border-b-2 border-blue-400" : "text-gray-400 hover:text-white"}`}
           >
-            The Architects
+            The Team
           </button>
         </motion.div>
 
@@ -90,30 +90,30 @@ const RulesPage = () => {
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
-          className="bg-gray-900/80 backdrop-blur-sm rounded-xl shadow-2xl border border-gray-800 p-8"
+          className="bg-gray-900/80 backdrop-blur-sm rounded-xl shadow-2xl border border-gray-800 p-4 md:p-8"
         >
           {/* Basic Rules */}
           {activeTab === "basic" && (
             <motion.div variants={fadeIn}>
-              <h2 className="text-3xl font-bold mb-6 text-red-500">The Ancient Laws</h2>
-              <div className="space-y-6">
-                <motion.div variants={fadeIn} className="p-6 bg-gray-800/50 rounded-lg border-l-4 border-red-700">
-                  <h3 className="text-xl font-semibold text-white mb-2">1. Movement of the Damned</h3>
-                  <p className="text-gray-300">Pieces move as in traditional chess, but with these cursed exceptions:</p>
-                  <ul className="list-disc pl-6 mt-2 space-y-2 text-gray-400">
-                    <li>Pawns may sacrifice themselves to summon a minor demon (knight)</li>
-                    <li>Bishops move through mirrors in this realm</li>
-                    <li>The King's shadow moves one extra square when castled</li>
+              <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-blue-400">The Core Rules</h2>
+              <div className="space-y-4 md:space-y-6">
+                <motion.div variants={fadeIn} className="p-4 md:p-6 bg-gray-800/50 rounded-lg border-l-4 border-blue-600">
+                  <h3 className="text-lg md:text-xl font-semibold text-white mb-2">1. Piece Movement</h3>
+                  <p className="text-gray-300">Standard chess piece movements with these enhancements:</p>
+                  <ul className="list-disc pl-4 md:pl-6 mt-2 space-y-1 md:space-y-2 text-gray-400">
+                    <li>Pawns can promote to any captured piece</li>
+                    <li>Bishops gain an extra square on diagonal moves</li>
+                    <li>Castling can be done with any rook if path is clear</li>
                   </ul>
                 </motion.div>
 
-                <motion.div variants={fadeIn} className="p-6 bg-gray-800/50 rounded-lg border-l-4 border-purple-700">
-                  <h3 className="text-xl font-semibold text-white mb-2">2. Check & Checkmate</h3>
-                  <p className="text-gray-300">When the Dark King is threatened:</p>
-                  <ul className="list-disc pl-6 mt-2 space-y-2 text-gray-400">
-                    <li>Three consecutive checks summon the Blood Knight</li>
-                    <li>Checkmate must be confirmed by the opponent's scream</li>
-                    <li>Stalemate results in both players losing a piece randomly</li>
+                <motion.div variants={fadeIn} className="p-4 md:p-6 bg-gray-800/50 rounded-lg border-l-4 border-blue-500">
+                  <h3 className="text-lg md:text-xl font-semibold text-white mb-2">2. Check & Checkmate</h3>
+                  <p className="text-gray-300">Special conditions for victory:</p>
+                  <ul className="list-disc pl-4 md:pl-6 mt-2 space-y-1 md:space-y-2 text-gray-400">
+                    <li>Three checks in a row grants a tempo advantage</li>
+                    <li>Checkmate must be confirmed by opponent</li>
+                    <li>Stalemate results in piece sacrifice for both players</li>
                   </ul>
                 </motion.div>
               </div>
@@ -123,53 +123,49 @@ const RulesPage = () => {
           {/* Penalties */}
           {activeTab === "penalties" && (
             <motion.div variants={fadeIn}>
-              <h2 className="text-3xl font-bold mb-6 text-red-500">Punishments of the Abyss</h2>
-              <div className="grid md:grid-cols-2 gap-6">
-                <motion.div variants={fadeIn} className="p-6 bg-gray-800/50 rounded-lg border border-red-900">
-                  <h3 className="text-xl font-semibold text-white mb-2 flex items-center">
-                    <span className="text-red-500 mr-2">⚔️</span> Illegal Moves
+              <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-blue-400">Game Penalties</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                <motion.div variants={fadeIn} className="p-4 md:p-6 bg-gray-800/50 rounded-lg border border-blue-900">
+                  <h3 className="text-lg md:text-xl font-semibold text-white mb-2 flex items-center">
+                    <span className="text-blue-400 mr-2">⚔️</span> Illegal Moves
                   </h3>
-                  <p className="text-gray-300">Moving a piece illegally will:</p>
-                  <ul className="list-disc pl-6 mt-2 space-y-2 text-gray-400">
-                    <li>Cost you 2 minutes of your time</li>
-                    <li>Summon a ghost piece for your opponent</li>
-                    <li>Mark your soul (3 offenses banishes you for 24 hours)</li>
+                  <ul className="list-disc pl-4 md:pl-6 mt-2 space-y-1 md:space-y-2 text-gray-400">
+                    <li>2 minute time penalty</li>
+                    <li>Opponent gains a tempo advantage</li>
+                    <li>Three offenses result in match suspension</li>
                   </ul>
                 </motion.div>
 
-                <motion.div variants={fadeIn} className="p-6 bg-gray-800/50 rounded-lg border border-purple-900">
-                  <h3 className="text-xl font-semibold text-white mb-2 flex items-center">
-                    <span className="text-purple-500 mr-2">⏳</span> Time Violations
+                <motion.div variants={fadeIn} className="p-4 md:p-6 bg-gray-800/50 rounded-lg border border-blue-800">
+                  <h3 className="text-lg md:text-xl font-semibold text-white mb-2 flex items-center">
+                    <span className="text-blue-300 mr-2">⏳</span> Time Violations
                   </h3>
-                  <p className="text-gray-300">Running out of time has consequences:</p>
-                  <ul className="list-disc pl-6 mt-2 space-y-2 text-gray-400">
-                    <li>Your rating will bleed (lose extra points)</li>
-                    <li>The Time Reaper takes a random piece from your next game</li>
-                    <li>3 timeouts in a week curses your account with slower piece movement</li>
+                  <ul className="list-disc pl-4 md:pl-6 mt-2 space-y-1 md:space-y-2 text-gray-400">
+                    <li>Additional rating point loss</li>
+                    <li>Next game starts with time disadvantage</li>
+                    <li>Repeated violations slow your piece movement</li>
                   </ul>
                 </motion.div>
 
-                <motion.div variants={fadeIn} className="p-6 bg-gray-800/50 rounded-lg border border-yellow-600">
-                  <h3 className="text-xl font-semibold text-white mb-2 flex items-center">
-                    <span className="text-yellow-500 mr-2">👻</span> Abandoned Games
+                <motion.div variants={fadeIn} className="p-4 md:p-6 bg-gray-800/50 rounded-lg border border-blue-700">
+                  <h3 className="text-lg md:text-xl font-semibold text-white mb-2 flex items-center">
+                    <span className="text-blue-200 mr-2">⚠️</span> Abandoned Games
                   </h3>
-                  <p className="text-gray-300">Leaving a game unfinished:</p>
-                  <ul className="list-disc pl-6 mt-2 space-y-2 text-gray-400">
-                    <li>Your pieces become haunted in future games</li>
-                    <li>The Chess Revenant will hunt your rating</li>
-                    <li>Persistent abandonment locks you in the Dungeon matchmaking queue</li>
+                  <ul className="list-disc pl-4 md:pl-6 mt-2 space-y-1 md:space-y-2 text-gray-400">
+                    <li>Rating penalty multiplier</li>
+                    <li>Temporary matchmaking restrictions</li>
+                    <li>Persistent abandonment leads to queue penalties</li>
                   </ul>
                 </motion.div>
 
-                <motion.div variants={fadeIn} className="p-6 bg-gray-800/50 rounded-lg border border-green-900">
-                  <h3 className="text-xl font-semibold text-white mb-2 flex items-center">
-                    <span className="text-green-500 mr-2">💀</span> Cheating
+                <motion.div variants={fadeIn} className="p-4 md:p-6 bg-gray-800/50 rounded-lg border border-blue-600">
+                  <h3 className="text-lg md:text-xl font-semibold text-white mb-2 flex items-center">
+                    <span className="text-blue-100 mr-2">🔍</span> Fair Play
                   </h3>
-                  <p className="text-gray-300">The ultimate sin in Knightmare Chess:</p>
-                  <ul className="list-disc pl-6 mt-2 space-y-2 text-gray-400">
-                    <li>First offense: All pieces turn against you for 7 games</li>
-                    <li>Second offense: Account suspended in the Void for 30 days</li>
-                    <li>Third offense: Permanent banishment to the Shadow Realm</li>
+                  <ul className="list-disc pl-4 md:pl-6 mt-2 space-y-1 md:space-y-2 text-gray-400">
+                    <li>First offense: Game restrictions</li>
+                    <li>Second offense: Temporary suspension</li>
+                    <li>Third offense: Permanent account termination</li>
                   </ul>
                 </motion.div>
               </div>
@@ -179,35 +175,32 @@ const RulesPage = () => {
           {/* Resignation */}
           {activeTab === "resignation" && (
             <motion.div variants={fadeIn}>
-              <h2 className="text-3xl font-bold mb-6 text-red-500">The Art of Surrender</h2>
-              <div className="space-y-6">
-                <motion.div variants={fadeIn} className="p-6 bg-gray-800/50 rounded-lg border-l-4 border-red-700">
-                  <h3 className="text-xl font-semibold text-white mb-2">When to Resign</h3>
-                  <p className="text-gray-300">Resignation is permitted when:</p>
-                  <ul className="list-disc pl-6 mt-2 space-y-2 text-gray-400">
-                    <li>The Dark Oracle predicts less than 5% chance of survival</li>
-                    <li>Your King is surrounded by 3 or more enemy pieces</li>
-                    <li>You've lost your Queen and both Rooks</li>
+              <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-blue-400">Resignation Protocol</h2>
+              <div className="space-y-4 md:space-y-6">
+                <motion.div variants={fadeIn} className="p-4 md:p-6 bg-gray-800/50 rounded-lg border-l-4 border-blue-600">
+                  <h3 className="text-lg md:text-xl font-semibold text-white mb-2">When to Resign</h3>
+                  <ul className="list-disc pl-4 md:pl-6 mt-2 space-y-1 md:space-y-2 text-gray-400">
+                    <li>When material disadvantage is significant</li>
+                    <li>When king safety cannot be maintained</li>
+                    <li>When opponent has clear winning path</li>
                   </ul>
                 </motion.div>
 
-                <motion.div variants={fadeIn} className="p-6 bg-gray-800/50 rounded-lg border-l-4 border-purple-700">
-                  <h3 className="text-xl font-semibold text-white mb-2">Resignation Ritual</h3>
-                  <p className="text-gray-300">Proper resignation requires:</p>
-                  <ul className="list-disc pl-6 mt-2 space-y-2 text-gray-400">
-                    <li>Type "/resign" in the chat to summon the resignation menu</li>
-                    <li>Confirm your surrender by clicking the bleeding skull</li>
-                    <li>Your King must be sacrificed (clicked) to complete the ritual</li>
+                <motion.div variants={fadeIn} className="p-4 md:p-6 bg-gray-800/50 rounded-lg border-l-4 border-blue-500">
+                  <h3 className="text-lg md:text-xl font-semibold text-white mb-2">How to Resign</h3>
+                  <ul className="list-disc pl-4 md:pl-6 mt-2 space-y-1 md:space-y-2 text-gray-400">
+                    <li>Type "/resign" in game chat</li>
+                    <li>Click the resign button in menu</li>
+                    <li>Confirm your resignation</li>
                   </ul>
                 </motion.div>
 
-                <motion.div variants={fadeIn} className="p-6 bg-gray-800/50 rounded-lg border-l-4 border-yellow-600">
-                  <h3 className="text-xl font-semibold text-white mb-2">Improper Resignation</h3>
-                  <p className="text-gray-300">Abandoning without the ritual:</p>
-                  <ul className="list-disc pl-6 mt-2 space-y-2 text-gray-400">
-                    <li>Counts as 2 losses for rating purposes</li>
-                    <li>Your next game starts with a missing pawn</li>
-                    <li>The Chess Wraith will whisper your shame to other players</li>
+                <motion.div variants={fadeIn} className="p-4 md:p-6 bg-gray-800/50 rounded-lg border-l-4 border-blue-400">
+                  <h3 className="text-lg md:text-xl font-semibold text-white mb-2">Improper Resignation</h3>
+                  <ul className="list-disc pl-4 md:pl-6 mt-2 space-y-1 md:space-y-2 text-gray-400">
+                    <li>Abandoning counts as double loss</li>
+                    <li>Temporary rating penalties apply</li>
+                    <li>Repeated offenses trigger matchmaking delays</li>
                   </ul>
                 </motion.div>
               </div>
@@ -217,30 +210,30 @@ const RulesPage = () => {
           {/* Team */}
           {activeTab === "team" && (
             <motion.div variants={fadeIn}>
-              <h2 className="text-3xl font-bold mb-6 text-red-500">The Architects of Despair</h2>
-              <p className="text-gray-400 mb-8 italic text-center">
-                "We don't just create games... we craft nightmares"
+              <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-blue-400">The Development Team</h2>
+              <p className="text-blue-200 mb-6 md:mb-8 italic text-center">
+                "Dedicated to creating the ultimate chess experience"
               </p>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {teamMembers.map((member, index) => (
                   <motion.div 
                     key={index}
                     variants={fadeIn}
-                    whileHover={{ scale: 1.05 }}
-                    className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden shadow-lg border border-gray-700 hover:border-red-500 transition-all"
+                    whileHover={{ scale: 1.03 }}
+                    className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl overflow-hidden shadow-md  hover:shadow-blue-400 transition-all"
                   >
-                    <div className="p-6">
-                      <div className="flex items-center mb-4">
-                        <div className="w-16 h-16 rounded-full bg-gray-700 flex items-center justify-center text-2xl">
+                    <div className="p-4 md:p-6">
+                      <div className="flex items-center mb-3 md:mb-4">
+                        <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-gray-700 flex items-center justify-center text-xl md:text-2xl font-bold text-blue-300">
                           {member.name.charAt(0)}
                         </div>
-                        <div className="ml-4">
-                          <h3 className="text-xl font-bold text-white">{member.name}</h3>
-                          <p className="text-red-500">{member.role}</p>
+                        <div className="ml-3 md:ml-4">
+                          <h3 className="text-base md:text-lg font-bold text-white">{member.name}</h3>
+                          <p className="text-blue-400 text-sm md:text-base">{member.role}</p>
                         </div>
                       </div>
-                      <p className="text-gray-400 italic">"{member.specialty}"</p>
+                      <p className="text-gray-400 italic text-sm md:text-base">"{member.specialty}"</p>
                     </div>
                   </motion.div>
                 ))}
@@ -248,56 +241,58 @@ const RulesPage = () => {
 
               <motion.div 
                 variants={fadeIn}
-                className="mt-12 p-6 bg-black/50 rounded-lg border border-gray-800 text-center"
+                className="mt-8 md:mt-12 p-4 md:p-6 bg-gray-900 rounded-lg border border-gray-800 text-center"
               >
-                <h3 className="text-2xl font-bold text-white mb-4">Join Our Cult</h3>
-                <p className="text-gray-400 mb-4">
-                  Want to contribute to the nightmare? We're always looking for new tormentors...
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Join Our Team</h3>
+                <p className="text-gray-400 mb-3 md:mb-4 text-sm md:text-base">
+                  Interested in contributing to Knightmare Chess?
                 </p>
-                <button className="px-6 py-3 bg-red-900 hover:bg-red-800 text-white rounded-lg font-medium transition-colors">
-                  Apply for Torture
+                <button className="px-4 py-2 md:px-6 md:py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium transition-colors text-sm md:text-base">
+                  Contact Us
                 </button>
               </motion.div>
             </motion.div>
           )}
         </motion.div>
 
-        {/* Animated Chess Pieces */}
-        <motion.div 
-          animate={{ 
-            x: [0, 100, 0],
-            rotate: [0, 10, -10, 0]
-          }}
-          transition={{ 
-            repeat: Infinity, 
-            duration: 8,
-            ease: "easeInOut"
-          }}
-          className="absolute top-1/4 left-10 text-4xl opacity-20"
-        >
-          ♜
-        </motion.div>
-        <motion.div 
-          animate={{ 
-            y: [0, 50, 0],
-            rotate: [0, -15, 15, 0]
-          }}
-          transition={{ 
-            repeat: Infinity, 
-            duration: 7,
-            ease: "easeInOut",
-            delay: 0.5
-          }}
-          className="absolute bottom-1/3 right-20 text-4xl opacity-20"
-        >
-          ♛
-        </motion.div>
+        {/* Animated Chess Pieces (Mobile Hidden) */}
+        <div className="hidden md:block">
+          <motion.div 
+            animate={{ 
+              x: [0, 100, 0],
+              rotate: [0, 10, -10, 0]
+            }}
+            transition={{ 
+              repeat: Infinity, 
+              duration: 8,
+              ease: "easeInOut"
+            }}
+            className="absolute top-1/4 left-10 text-4xl opacity-20 text-blue-300"
+          >
+            ♜
+          </motion.div>
+          <motion.div 
+            animate={{ 
+              y: [0, 50, 0],
+              rotate: [0, -15, 15, 0]
+            }}
+            transition={{ 
+              repeat: Infinity, 
+              duration: 7,
+              ease: "easeInOut",
+              delay: 0.5
+            }}
+            className="absolute bottom-1/3 right-20 text-4xl opacity-20 text-blue-300"
+          >
+            ♛
+          </motion.div>
+        </div>
       </div>
 
-      {/* Blood Pool Footer */}
-      <div className="w-full h-16 bg-gradient-to-t from-red-900/70 to-transparent mt-16 flex items-center justify-center">
-        <p className="text-gray-400 text-sm">
-          © 2023 Knightmare Chess - All rights reserved... or suffer the consequences
+      {/* Footer */}
+      <div className="w-full py-4 bg-gradient-to-t from-blue-900/70 to-transparent mt-8 md:mt-16 flex items-center justify-center">
+        <p className="text-gray-400 text-xs md:text-sm">
+          © {new Date().getFullYear()} Knightmare Chess - All rights reserved
         </p>
       </div>
     </div>
@@ -305,4 +300,3 @@ const RulesPage = () => {
 };
 
 export default RulesPage;
-
