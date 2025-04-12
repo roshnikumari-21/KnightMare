@@ -1,23 +1,22 @@
 import React from "react";
 
+//no backend interaction needed here.
+
 function PlayWith({ onSelect }) {
   const sides = [
     { value: "white", label: "White" },
     { value: "black", label: "Black" },
     { value: "mystery", label: "Mystery" },
   ];
-
   const handleChange = (e) => {
     const selectedSide = e.target.value;
     if (selectedSide === "mystery") {
-      // Randomly select White or Black
       const randomSide = Math.random() < 0.5 ? "white" : "black";
       onSelect(randomSide);
     } else {
       onSelect(selectedSide);
     }
   };
-
   return (
     <div >
     <select

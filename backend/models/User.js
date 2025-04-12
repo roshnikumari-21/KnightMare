@@ -23,15 +23,35 @@ const userSchema = new mongoose.Schema({
     gamesDrawn: { type: Number, default: 0 },
     gamesResigned :{type : Number , default : 0},
     gameHistory: [{ type: mongoose.Schema.Types.ObjectId, ref: "Game", default: () => [] }],
-    dailyActivity: [{date: { type: Date, default: Date.now }}],
     longestStreak: { type: Number, default: 0 },
     currentStreak: { type: Number, default: 0 },
     ratingHistory: [
       {
-        date: { type: Date, default: Date.now },
-        score: { type: Number, required: true, min: 0 }
+        date: { 
+          type: Date, 
+          default: Date.now,
+          set: function(date) {
+            if (date && typeof date === 'object' && '$date' in date) {
+              return new Date(date.$date);
+            }
+            return date;
+          }
+        },
+        score: { type: Number, required: true}
       }
     ],
+    dailyActivity: [{
+      date: { 
+        type: Date, 
+        default: Date.now,
+        set: function(date) {
+          if (date && typeof date === 'object' && '$date' in date) {
+            return new Date(date.$date);
+          }
+          return date;
+        }
+      }
+    }],
   });
   userSchema.pre('save', function (next) {
     if (this.authProvider === 'local' && !this.passwordHash) {
@@ -41,7 +61,7 @@ const userSchema = new mongoose.Schema({
       this.resetToken = null;
       this.resetTokenExpires = null;
     }
-    this.gamesPlayed = this.gamesWon + this.gamesLost + this.gamesDrawn;
+    this.gamesPlayed = this.gamesWon + this.gamesLost + this.gamesDrawn + this.gamesResigned;
     if (this.dailyActivity.length > 365) {
       this.dailyActivity = this.dailyActivity.slice(-365);
     }
