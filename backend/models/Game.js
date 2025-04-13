@@ -64,45 +64,95 @@ const gameSchema = new mongoose.Schema({
 }, { 
   timestamps: true});
 
-gameSchema.methods.endGame = async function(result) {
-  this.duration = (this.endTime - this.startTime) / 1000;
-  const ratingChanges = {
-    easy: {
-      win: 5,
-      lose: -2,
-      player_resign: -1,
-      player_timeout: -1,
-      ai_timeout: 5,
-      draw: 3,
-      stalemate: 0,
-      threefold_repetition: 0,
-      ongoing: 0
-    },
-    medium: {
-      win: 10,
-      lose: -1,
-      player_resign: -1,
-      player_timeout: -1,
-      ai_timeout: 10,
-      draw: 5,
-      stalemate: 2,
-      threefold_repetition: 2,
-      ongoing: 0
-    },
-    hard: {
-      win: 20,
-      lose: -2,
-      player_resign: -1,
-      player_timeout: -1,
-      ai_timeout: 20,
-      draw: 10,
-      stalemate: 5,
-      threefold_repetition: 5,
-      ongoing: 0
+  gameSchema.methods.endGame = async function(result) {
+    this.endTime = new Date();
+    this.duration = (this.endTime - this.startTime) / 1000;
+    
+    // Base positive rating changes - even losses give some points
+    const baseRatingChanges = {
+      easy: {
+        win: 15,
+        lose: 3,       // Positive for losing (learning experience)
+        draw: 8,
+        stalemate: 5,
+        threefold_repetition: 5,
+        ai_timeout: 15,
+        player_timeout: 1,  // Small positive for timeout (they tried)
+        player_resign: -4,  // Only negative for resignations
+        ongoing: 0
+      },
+      medium: {
+        win: 25,
+        lose: 5,
+        draw: 12,
+        stalemate: 8,
+        threefold_repetition: 8,
+        ai_timeout: 25,
+        player_timeout: 2,
+        player_resign: -6,
+        ongoing: 0
+      },
+      hard: {
+        win: 40,
+        lose: 8,       // More points for attempting hard difficulty
+        draw: 20,
+        stalemate: 12,
+        threefold_repetition: 12,
+        ai_timeout: 40,
+        player_timeout: 3,
+        player_resign: -8,
+        ongoing: 0
+      }
+    };
+
+    let ratingChange = baseRatingChanges[this.difficulty][result];
+    
+    // Reward higher-rated players less for easy wins, more for hard challenges
+    const ratingFactor = 1 - (this.playerRating / 3000); // Normalized factor
+    ratingChange *= (0.8 + (this.difficulty === 'hard' ? ratingFactor * 0.4 : 0));
+    
+    // Reward longer games more
+    const moveCount = this.moves.length;
+    const lengthFactor = Math.min(1.5, 0.5 + (moveCount / 30)); // 30 moves = full value
+    ratingChange *= lengthFactor;
+    
+    // Special handling for resignations - only penalize after minimum moves
+    if (result === 'player_resign') {
+      const minMovesForPenalty = {
+        easy: 8,
+        medium: 12,
+        hard: 15
+      };
+      
+      if (moveCount < minMovesForPenalty[this.difficulty]) {
+        // Very early resignation - reduced penalty
+        ratingChange *= 0.5;
+      } else if (moveCount < minMovesForPenalty[this.difficulty] * 2) {
+        // Mid-game resignation - partial penalty
+        ratingChange *= 0.8;
+      }
+      // Late resignations keep full penalty
     }
-  };
-  this.ratingChange = ratingChanges[this.difficulty][this.result];
-  return this.save();
+    const playerMaterial = this.capturedPieces?.player?.length || 0;
+    const aiMaterial = this.capturedPieces?.ai?.length || 0;
+    const materialDifference = aiMaterial - playerMaterial;
+    
+    if (materialDifference > 0) {
+      ratingChange *= (1 + materialDifference * 0.15);
+    } else if (materialDifference < 0) {
+      ratingChange *= (1 + materialDifference * 0.03);
+    }
+
+    if (ratingChange > 0) {
+      ratingChange = Math.max(1, ratingChange);
+    }
+    if (ratingChange < 0) {
+      ratingChange = Math.max(-15, ratingChange);
+    }
+    
+    this.ratingChange = Math.round(ratingChange);
+    
+    return this.save();
 };
 
 
