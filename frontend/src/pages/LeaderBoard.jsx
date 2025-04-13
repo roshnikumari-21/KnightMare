@@ -102,7 +102,9 @@ const Leaderboard = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.0 }}
           whileHover={{ scale: 1.03 }}
-          className="bg-gray-800 rounded-lg p-2 md:p-4 flex flex-col items-center"
+          className="bg-gray-800 rounded-lg p-2 md:p-4 flex flex-col items-center
+          shadow-lg shadow-blue-500/30 hover:shadow-blue-400/50
+          transition-shadow duration-300"
         >
           {topUsers[1] && (
             <>
@@ -132,7 +134,9 @@ const Leaderboard = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.0 }}
           whileHover={{ scale: 1.03 }}
-          className="bg-slate-900 rounded-lg p-2 md:p-6 flex flex-col items-center order-first sm:order-none"
+          className="bg-gray-800 rounded-lg p-2 md:p-4 flex flex-col items-center
+          shadow-lg shadow-blue-500/30 hover:shadow-blue-400/50
+          transition-shadow duration-300"
         >
           {topUsers[0] && (
             <>
@@ -162,7 +166,9 @@ const Leaderboard = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.0 }}
           whileHover={{ scale: 1.03 }}
-          className="bg-gray-800 rounded-lg p-2 md:p-4 flex flex-col items-center"
+          className="bg-gray-800 rounded-lg p-2 md:p-4 flex flex-col items-center
+          shadow-lg shadow-blue-500/30 hover:shadow-blue-400/50
+          transition-shadow duration-300"
         >
           {topUsers[2] && (
             <>
@@ -172,7 +178,9 @@ const Leaderboard = () => {
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
-                className="w-12 h-12 md:w-24 md:h-24 rounded-lg shadow hover:shadow-white/20 transition-shadow"
+                className="w-12 h-12 md:w-24 md:h-24 rounded-lg 
+              
+             transition-all duration-300"
               ></div>
               <h2 className="text-sm md:text-xl mt-1 md:mt-2 font-medium md:font-semibold text-center truncate max-w-full">
                 {topUsers[2].username}

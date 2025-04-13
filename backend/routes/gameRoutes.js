@@ -1,14 +1,9 @@
-import express from 'express';
-// import {
-//   createGame,
-//   getGame,
-//   updateGame,
-//   getAllGames
-// } from '../controllers/gameController.js';
-import authenticateUser from '../middleware/authMiddleware.js';
-const gameRouter = express.Router();
-// gameRouter.post('/', authenticateUser, createGame);
-// gameRouter.get('/:gameId', authenticateUser, getGame);
-// gameRouter.put('/:gameId', authenticateUser, updateGame);
-// gameRouter.get('/', authenticateUser, getAllGames);
-export default gameRouter;
+import express from "express";
+import { endGame, getGameHistory, getGameDetails } from "../controllers/gameController.js";
+
+const gameRoutes = express.Router();
+gameRoutes.post("/end",endGame);
+gameRoutes.get("/history", getGameHistory);
+gameRoutes.get("/:gameId", getGameDetails);
+
+export default gameRoutes;

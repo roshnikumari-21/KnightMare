@@ -1,4 +1,4 @@
-function StartNewGame({ onNewGame }) {
+function StartNewGame({onNewGame}) {
     return (
       <button
         onClick={onNewGame}
@@ -8,5 +8,4 @@ function StartNewGame({ onNewGame }) {
       </button>
     );
   }
-  
   export default StartNewGame;

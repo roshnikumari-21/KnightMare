@@ -1,5 +1,7 @@
 import React from 'react';
-
+//this component renders the cut pieces.
+// advantage is passed from chess and , this just shows in green if advantage is positive.
+// no backend interaction needed here.
 const PIECE_SYMBOLS = {
   white: {
     pawn: '♙',
@@ -20,9 +22,8 @@ const PIECE_SYMBOLS = {
 };
 
 const CutPieces = ({ pieces, advantage }) => {
-  // Group pieces by their original color
   const groupedPieces = pieces.reduce((acc, piece) => {
-    const color = piece.color; // Original piece color
+    const color = piece.color;
     acc[color] = acc[color] || {};
     acc[color][piece.type] = (acc[color][piece.type] || 0) + 1;
     return acc;
@@ -30,7 +31,6 @@ const CutPieces = ({ pieces, advantage }) => {
 
   return (
     <div className="flex items-center space-x-2 ml-2">
-      {/* White pieces captured */}
       {groupedPieces.white && Object.entries(groupedPieces.white).map(([type, count]) => (
         <span
           key={`white-${type}`}
@@ -45,8 +45,6 @@ const CutPieces = ({ pieces, advantage }) => {
           {count > 1 && <sup className="text-xs">{count}</sup>}
         </span>
       ))}
-      
-      {/* Black pieces captured */}
       {groupedPieces.black && Object.entries(groupedPieces.black).map(([type, count]) => (
         <span
           key={`black-${type}`}

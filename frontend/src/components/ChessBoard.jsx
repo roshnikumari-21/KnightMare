@@ -1,21 +1,20 @@
 import React, { useMemo } from 'react';
-import { 
-  FaChessKing, FaChessQueen, FaChessRook, 
-  FaChessBishop, FaChessKnight, FaChessPawn 
-} from 'react-icons/fa';
+import { FaChessKing, FaChessQueen, FaChessRook, FaChessBishop, FaChessKnight, FaChessPawn } from 'react-icons/fa';
 import "./chessboard.css";
 import captureSound from "../assets/captureSound.mp3";
+
+//this component renders the chesssboard and handles clicks , and what to do on those 
+// clicks , 
+// No backend interaction needed here .
 
 const ChessBoard = ({ board, handleSquareClick, legalMoves, side,kingInCheck }) => {
   const playSound = () => {
     const audio = new Audio(captureSound);
     audio.play().catch(console.error);
   };
-
   const getPieceIcon = (piece) => {
     const color = piece.color === 'white' ? 'white' : 'black';
     const props = { size: "80%", color };
-    
     switch(piece.type) {
       case 'king': return <FaChessKing {...props} />;
       case 'queen': return <FaChessQueen {...props} />;
@@ -41,9 +40,7 @@ const ChessBoard = ({ board, handleSquareClick, legalMoves, side,kingInCheck }) 
 
   const adjustedLegalMoves = useMemo(() => {
     if (!legalMoves) return [];
-    
     return legalMoves.map(move => {
-    
       if (side === 'black') {
         return {
           ...move,
@@ -76,11 +73,7 @@ const ChessBoard = ({ board, handleSquareClick, legalMoves, side,kingInCheck }) 
               const isLegal = adjustedLegalMoves?.some(m => 
                 m.row === rowIndex && m.col === colIndex
               );
-
-              
               const isCapture = isLegal && square.piece;
-
-
               return (
                 <div
                   key={`${rowIndex}-${colIndex}`}

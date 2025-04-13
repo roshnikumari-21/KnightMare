@@ -1,4 +1,6 @@
 import React from 'react';
+// this component gets result and playercolor from  chess.jsx and just shows result , finally
+// needs no interaction with backend.
 
 const Result = ({ result, playerColor }) => {
   const messages = {
@@ -11,6 +13,21 @@ const Result = ({ result, playerColor }) => {
       title: "Game Over",
       message: "Your king has fallen, but you'll return stronger!",
       emoji: "💪"
+    },
+    player_resign:{
+      title: "You Resigned",
+      message: "There is a penalty for resigning and that is more than losing a game, so think before resigning next time.",
+      emoji: "☠️"
+    },
+    player_timeout:{
+      title: "TimeOut",
+      message: "Uh oh!You have no time left , think faster next time.",
+      emoji: "🤣"
+    },
+    ai_timeout:{
+      title: "TimeOut",
+      message: "We are sorry that this AI was too slow , anyway congrats!",
+      emoji: "😉"
     },
     stalemate: {
       title: "Stalemate!",
@@ -29,7 +46,6 @@ const Result = ({ result, playerColor }) => {
       emoji: "🎲"
     }
   };
-
   const message = messages[result] || messages.default;
 
   return (
