@@ -6,7 +6,7 @@ import ProfileSettings from "../components/ProfileSettings";
 
 const Profile = () => {
   return (
-    <div className="bg-black"
+    <div className="bg-gray-950"
     // style={{
     //   backgroundImage: "url('/bgmodernblack.jpg')",
     //   backgroundSize: "cover",

@@ -84,18 +84,18 @@ const Leaderboard = () => {
   if (error) return <div className="text-red-500 text-center py-8">{error}</div>;
 
   return (
-    <div className="bg-black text-white min-h-screen p-4 md:p-8">
+    <div className="bg-gray-950 text-white min-h-screen p-4 md:p-8">
       <motion.h1 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
-        className="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-12"
+        className="text-2xl md:text-4xl font-bold text-center mb-6 md:mb-12"
       >
         Leaderboard
       </motion.h1>
 
       {/* Top 3 Users - Compact Mobile Version */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-6 mb-6 md:mb-8">
+      <div className="grid grid-cols-3 sm:grid-cols-3 gap-3 md:gap-6 mb-6 md:mb-8">
         {/* 2nd Place */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
@@ -116,7 +116,7 @@ const Leaderboard = () => {
                 }}
                 className="w-12 h-12 md:w-24 md:h-24 rounded-lg shadow hover:shadow-white/20 transition-shadow"
               ></div>
-              <h2 className="text-sm md:text-xl mt-1 md:mt-2 font-medium md:font-semibold text-center truncate max-w-full">
+              <h2 className="text-sm md:text-xl mt-1 md:mt-2 font-medium  md:font-semibold text-center truncate max-w-full">
                 {topUsers[1].username}
               </h2>
               <div className='bg-gray-400 mt-1 md:mt-2 p-1 md:p-2 rounded-lg'>

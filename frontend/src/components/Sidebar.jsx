@@ -39,7 +39,7 @@ const Sidebar = () => {
         className="pr-2 pb-2 cursor-pointer border-b border-gray-700"
       >
         //{" "}
-        <div className="flex items-center gap-3 overflow-hidden">
+        <div className="flex items-center gap-3 pb-2 overflow-hidden">
           //{" "}
           <div
             style={{
@@ -64,6 +64,7 @@ const Sidebar = () => {
       </div>
       {/* Navigation Links */}
       <nav className="space-y-1 p-2">
+        
         {/* Main Navigation Links */}
         <NavLink
           to="/"
