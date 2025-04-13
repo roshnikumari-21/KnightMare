@@ -38,8 +38,8 @@ export default function ContactUs() {
       className="backdrop-blur-sm bg-black text-white flex flex-col items-center heii justify-center p-5"
     >
       <h1 className="text-4xl font-semibold mb-1 flex text-blue-600 items-center ">Leave a Whisper</h1>
-      <p className="text-gray-400 text-sm">"Your message may wake the slumbering spirits..."</p>
-      <div className=" shadow-blue-500 p-6 rounded-lg shadow-lg w-full max-w-lg">
+      <p className="text-gray-400 text-sm mb-3">"Your message may wake the slumbering spirits..."</p>
+      <div className=" shadow-blue-500 p-6 bg-gray-950 rounded-lg  shadow-lg w-full max-w-lg">
         <form onSubmit={handleSubmit} className="flex flex-col">
           <input
             placeholder="Enter your Name"
