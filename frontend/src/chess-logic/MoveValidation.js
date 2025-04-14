@@ -146,30 +146,137 @@ export function ShowLegalMoves(
             slideMoves(queenDirections);
             break;
 
-            case "king":
- 
-    const kingMoves = [
-        [1, 0], [-1, 0], [0, 1], [0, -1],
-        [1, 1], [1, -1], [-1, 1], [-1, -1]
-    ];
-    
-    const enemyAttacks = GetAttackedSquares(board, enemyColor);
-    
-    for (const [dx, dy] of kingMoves) {
-        const newX = x + dx;
-        const newY = y + dy;
-        
-        if (isOnBoard(newX, newY) && !isAlly(newX, newY)) {
-            const isSquareAttacked = enemyAttacks.some(sq => 
-                sq.row === newX && sq.col === newY
-            );
             
-            if (!isSquareAttacked) {
-                legal_moves.push({row: newX, col: newY});
-            }
-        }
-    }
+ 
+            case "king":
+                
+                const kingMoves = [
+                    [1, 0], [-1, 0], [0, 1], [0, -1],
+                    [1, 1], [1, -1], [-1, 1], [-1, -1]
+                ];
+                
+                const enemyAttacks = GetAttackedSquares(board, enemyColor);
+                const kingPos = { row: x, col: y };
+                
+        
+                const checkingPieces = [];
+                const enemyPiecesAttackingKing = [];
+                
+        
+                for (let i = 0; i < 8; i++) {
+                    for (let j = 0; j < 8; j++) {
+                        const piece = board[i][j].piece;
+                        if (piece && piece.color === enemyColor) {
     
+                            if (piece.type === 'pawn') {
+                        
+                                const pawnDir = piece.color === 'white' ? -1 : 1;
+                                if ((i + pawnDir === kingPos.row && Math.abs(j - kingPos.col) === 1)) {
+                                    enemyPiecesAttackingKing.push({row: i, col: j, type: 'pawn'});
+                                }
+                            }
+                            else if (piece.type === 'knight') {
+    
+                                const dx = Math.abs(i - kingPos.row);
+                                const dy = Math.abs(j - kingPos.col);
+                                if ((dx === 2 && dy === 1) || (dx === 1 && dy === 2)) {
+                                    enemyPiecesAttackingKing.push({row: i, col: j, type: 'knight'});
+                                }
+                            }
+                            else {
+                             
+                                const dx = kingPos.row - i;
+                                const dy = kingPos.col - j;
+                                
+                              
+                                if (dx === 0 || dy === 0 || Math.abs(dx) === Math.abs(dy)) {
+                                    const stepX = Math.sign(dx);
+                                    const stepY = Math.sign(dy);
+                                    let xPos = i + stepX;
+                                    let yPos = j + stepY;
+                                    let pathClear = true;
+                                 
+                                    while (xPos !== kingPos.row || yPos !== kingPos.col) {
+                                        if (board[xPos][yPos].piece) {
+                                            pathClear = false;
+                                            break;
+                                        }
+                                        xPos += stepX;
+                                        yPos += stepY;
+                                    }
+                                    
+                                    if (pathClear) {
+                                      
+                                        if ((piece.type === 'bishop' && Math.abs(dx) === Math.abs(dy)) ||
+                                            (piece.type === 'rook' && (dx === 0 || dy === 0)) ||
+                                            (piece.type === 'queen')) {
+                                            enemyPiecesAttackingKing.push({row: i, col: j, type: piece.type});
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                const isInCheck = enemyPiecesAttackingKing.length > 0;
+                let restrictedSquares = [];
+                
+                if (isInCheck) {
+                    enemyPiecesAttackingKing.forEach(attacker => {
+                        if (attacker.type === 'knight' || attacker.type === 'pawn') {
+                           
+                            restrictedSquares.push({row: attacker.row, col: attacker.col});
+                        } else {
+                         
+                            const dx = Math.sign(kingPos.row - attacker.row);
+                            const dy = Math.sign(kingPos.col - attacker.col);
+                            let r = attacker.row + dx;
+                            let c = attacker.col + dy;
+                            
+                            while (r !== kingPos.row || c !== kingPos.col) {
+                                restrictedSquares.push({row: r, col: c});
+                                r += dx;
+                                c += dy;
+                            }
+
+                            r = kingPos.row + dx;
+                            c = kingPos.col + dy;
+                            
+                            while (isOnBoard(r, c)) {
+                                restrictedSquares.push({row: r, col: c});
+                                
+                               
+                                if (board[r][c].piece) break;
+                                
+                                r += dx;
+                                c += dy;
+                            }
+                        }
+                    });
+                }
+              
+                for (const [dx, dy] of kingMoves) {
+                    const newX = x + dx;
+                    const newY = y + dy;
+                    
+                    if (isOnBoard(newX, newY) && !isAlly(newX, newY)) {
+                   
+                        const isSquareAttacked = enemyAttacks.some(sq => 
+                            sq.row === newX && sq.col === newY
+                        );
+                        
+                     
+                        const isInLineOfAttack = isInCheck && restrictedSquares.some(sq =>
+                            sq.row === newX && sq.col === newY
+                        );
+                        
+                        if (!isSquareAttacked && !(isInCheck && isInLineOfAttack)) {
+                            legal_moves.push({row: newX, col: newY});
+                        }
+                    }
+                }
+                
   
     if (checkForChecks && !hasMoved && !enemyAttacks.some(sq => sq.row === x && sq.col === y)) {
         const castleOptions = {
