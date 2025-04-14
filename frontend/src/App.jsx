@@ -21,6 +21,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword.jsx";
 import ChangeProfilePic from "./pages/ChangeProfilePic.jsx";
 import DeactivateAccount from "./pages/DeactivateAccount.jsx";
+import ChangeUsername1 from "./pages/ChangeUsername1.jsx";
+import ChangeUsername2 from "./pages/ChangeUsername2.jsx";
 function App() {
   const {token,user,showNavbar , setShowNavbar} = useContext(commoncontext);
   return (
@@ -29,8 +31,8 @@ function App() {
         <ToastContainer/>
        {showNavbar ? <Navbar /> : ""}
         <div className="flex flex-1 overflow-hidden mt-1 bg-slate-900">
-          {token ? <Sidebar /> : ""};
-          <div className="flex-1 overflow-auto">
+          {token ? <Sidebar />: ""}
+          <div className="flex-1 ml-[1px] overflow-auto">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
@@ -45,6 +47,8 @@ function App() {
               <Route path="/analysis" element = {<Analysis/>}/>
               <Route path="/forgotpassword" element = {<ForgotPassword/>}/>
               <Route path="/resetpassword" element = {<ResetPassword/>}/>
+              <Route path="/Usernamechange" element = {<ChangeUsername1/>}/>
+              <Route path="/changeusername" element = {<ChangeUsername2/>}/>
               <Route path="/changeprofilepic" element = {<ChangeProfilePic/>}/>
               <Route path="/deactivateAccount" element = {<DeactivateAccount/>}/>
             </Routes>

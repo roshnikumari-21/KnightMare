@@ -33,19 +33,17 @@ export function ShowLegalMoves(
     const dir = piece_color === "white" ? -1 : 1;
     const enemyColor = piece_color === "white" ? "black" : "white";
 
-    // Helper functions
     const isOnBoard = (row, col) => row >= 0 && row < 8 && col >= 0 && col < 8;
     const isEmpty = (row, col) => isOnBoard(row, col) && !board[row][col].piece;
     const isEnemy = (row, col) => isOnBoard(row, col) && board[row][col].piece?.color === enemyColor;
     const isAlly = (row, col) => isOnBoard(row, col) && board[row][col].piece?.color === piece_color;
 
-    // Get enemy attacked squares if checking for checks
     const enemyAttackedSquares = checkForChecks ? GetAttackedSquares(board, enemyColor) : [];
 
-    // Check if square is safe (not attacked by enemy)
+
     const isSquareSafe = (row, col) => !enemyAttackedSquares.some(s => s.row === row && s.col === col);
 
-    // Check if path is clear between two squares (excluding start/end)
+
     const isPathClear = (startRow, startCol, endRow, endCol) => {
         const dx = Math.sign(endRow - startRow);
         const dy = Math.sign(endCol - startCol);
@@ -60,55 +58,52 @@ export function ShowLegalMoves(
         return true;
     };
 
-    // Check if piece is pinned
+
     const isPinned = () => {
         if (!checkForChecks) return false;
         
         const kingPos = FindKing(board, piece_color);
         if (!kingPos) return false;
         
-        // Temporarily remove the piece
+   
         const tempPiece = board[x][y].piece;
         board[x][y].piece = null;
         
-        // Check if king is in check without this piece
+       
         const tempAttacked = GetAttackedSquares(board, enemyColor);
         const isKingAttacked = tempAttacked.some(
             s => s.row === kingPos.row && s.col === kingPos.col
         );
-        
-        // Restore the piece
+   
         board[x][y].piece = tempPiece;
         
         return isKingAttacked;
     };
 
-    // Generate moves for each piece type
     switch(piece_name) {
         case "pawn":
-            // Single move forward
+       
             if (isEmpty(x + dir, y)) {
                 addMoveIfLegal(x + dir, y);
                 
-                // Double move from starting position
+             
                 const startRow = piece_color === "white" ? 6 : 1;
                 if (x === startRow && isEmpty(x + 2*dir, y) && isEmpty(x + dir, y)) {
                     addMoveIfLegal(x + 2*dir, y);
                 }
             }
-            
-            // Capture moves
+       
             const captureDirections = [[dir, -1], [dir, 1]];
             for (const [dx, dy] of captureDirections) {
                 const newX = x + dx;
                 const newY = y + dy;
                 
-                // Normal capture
+           
                 if (isEnemy(newX, newY)) {
                     addMoveIfLegal(newX, newY);
                 }
                 
-                // En passant
+              
                 if (enPassantTarget && newX === enPassantTarget.row && newY === enPassantTarget.col) {
                     if ((piece_color === "white" && x === 3) || (piece_color === "black" && x === 4)) {
                         addMoveIfLegal(newX, newY, {isEnPassant: true});
@@ -152,56 +147,74 @@ export function ShowLegalMoves(
             break;
 
             case "king":
-    // Normal king moves
+ 
     const kingMoves = [
         [1, 0], [-1, 0], [0, 1], [0, -1],
         [1, 1], [1, -1], [-1, 1], [-1, -1]
     ];
     
-    // Get all squares attacked by enemy
     const enemyAttacks = GetAttackedSquares(board, enemyColor);
     
     for (const [dx, dy] of kingMoves) {
         const newX = x + dx;
         const newY = y + dy;
         
-        if (isOnBoard(newX, newY)) {
-            // Check if square is under attack
+        if (isOnBoard(newX, newY) && !isAlly(newX, newY)) {
             const isSquareAttacked = enemyAttacks.some(sq => 
                 sq.row === newX && sq.col === newY
             );
             
-            // Only allow move if square is not under attack and not occupied by ally
-            if (!isAlly(newX, newY) && !isSquareAttacked) {
+            if (!isSquareAttacked) {
                 legal_moves.push({row: newX, col: newY});
             }
         }
     }
     
-    // Castling - only if not in check
+  
     if (checkForChecks && !hasMoved && !enemyAttacks.some(sq => sq.row === x && sq.col === y)) {
-        const castleSide = {
-            'K': {rookCol: 7, newKingCol: 6, squaresBetween: [5, 6]},
-            'Q': {rookCol: 0, newKingCol: 2, squaresBetween: [1, 2, 3]}
+        const castleOptions = {
+            'K': { 
+                rookCol: 7, 
+                newKingCol: 6, 
+                betweenSquares: [[x,5],[x,6]],
+                rookToCol: 5
+            },
+            'Q': { 
+                rookCol: 0, 
+                newKingCol: 2, 
+                betweenSquares: [[x,1],[x,2],[x,3]],
+                rookToCol: 3
+            }
         };
 
-        for (const [side, data] of Object.entries(castleSide)) {
-            if (castlingRights[piece_color][side]) {
+      
+        const colorRights = castlingRights[piece_color.toLowerCase()];
+        
+        for (const [side, data] of Object.entries(castleOptions)) {
+            if (colorRights && colorRights[side]) {
                 const rookSquare = board[x][data.rookCol];
                 
-                if (rookSquare.piece?.type === 'rook' && !rookSquare.piece.hasMoved) {
-                    // Check path is clear and safe
-                    const pathClear = isPathClear(y, data.rookCol);
-                    const pathSafe = data.squaresBetween.every(col => 
-                        isEmpty(x, col) && 
-                        !enemyAttacks.some(sq => sq.row === x && sq.col === col)
+            
+                if (rookSquare.piece?.type === 'rook' && 
+                    rookSquare.piece?.color === piece_color && 
+                    !rookSquare.piece.hasMoved) {
+                    
+                   
+                    const pathClear = data.betweenSquares.every(
+                        ([r, c]) => isEmpty(r, c)
+                    );
+                    const pathSafe = data.betweenSquares.every(
+                        ([r, c]) => !enemyAttacks.some(sq => sq.row === r && sq.col === c)
                     );
                     
                     if (pathClear && pathSafe) {
-                        addMoveIfLegal(x, data.newKingCol, {
+                        legal_moves.push({
+                            row: x,
+                            col: data.newKingCol,
                             isCastle: true,
-                            rookFrom: {row: x, col: data.rookCol},
-                            rookTo: {row: x, col: side === 'K' ? 5 : 3}
+                            castleSide: side,
+                            rookFromCol: data.rookCol,
+                            rookToCol: data.rookToCol
                         });
                     }
                 }
@@ -213,7 +226,7 @@ export function ShowLegalMoves(
 
     return legal_moves;
 
-    // Helper function for sliding pieces
+    
     function slideMoves(directions) {
         for (const [dx, dy] of directions) {
             let newX = x + dx;
@@ -233,14 +246,14 @@ export function ShowLegalMoves(
         }
     }
 
-    // Add move if it doesn't leave king in check
+ 
     function addMoveIfLegal(row, col, specialMove = null) {
         if (!checkForChecks || !isPinned()) {
             legal_moves.push({row, col, ...specialMove});
             return;
         }
 
-        // For pinned pieces, only allow moves that maintain the pin
+      
         const tempBoard = JSON.parse(JSON.stringify(board));
         tempBoard[row][col].piece = tempBoard[x][y].piece;
         tempBoard[x][y].piece = null;
@@ -261,14 +274,14 @@ export function ShowLegalMoves(
 export function checkGameState(board, color, castlingRights, enPassantTarget) {
     const enemyColor = color === 'white' ? 'black' : 'white';
     const kingPos = FindKing(board, color);
-    if (!kingPos) return 'checkmate'; // Shouldn't happen
+    if (!kingPos) return 'checkmate'; 
     
     const attackedSquares = GetAttackedSquares(board, enemyColor);
     const isInCheck = attackedSquares.some(s => 
         s.row === kingPos.row && s.col === kingPos.col
     );
     
-    // Check if any legal moves exist
+   
     let hasLegalMoves = false;
     outerLoop:
     for (let x = 0; x < 8; x++) {

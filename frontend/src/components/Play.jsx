@@ -26,12 +26,12 @@ const Play = () => {
   }, [isMobile, setShowNavbar]);
 
   return (
-    <div
-      className="heii2 bg-cover bg-center overflow-hidden"
-      style={{ backgroundImage: "url('/chessfloor2.jpg')" }}
-    >
+    <div className="bg-gray-950 min-h-screen text-white font-sans">
+    <div className="absolute inset-0 opacity-5 pointer-events-none">
+     <div className="absolute inset-0 bg-[length:80px_80px] bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)]"></div>
+   </div>
       {!showBoard && (
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center relative z-10 h-full  items-center">
           <GameSetup />
         </div>
       )}

@@ -10,7 +10,7 @@ function MoveHistory({ moves }){
   }, [moves]);
 
   return (
-    <div ref={historyRef} className="bg-gray-800 p-4 rounded-lg w-64 h-80 overflow-y-auto">
+    <div ref={historyRef} className="bg-gray-800 relative z-10 p-4 rounded-lg w-64 h-80 overflow-y-auto">
       <h3 className="text-lg font-bold mb-2 text-white">Move History</h3>
       <div className="space-y-2 text-white">
         {moves.map((move, index) => (

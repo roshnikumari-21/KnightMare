@@ -100,7 +100,7 @@ const ChangeProfilePic = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="mt-2 w-full py-2 font-bold bg-red-600 hover:bg-red-500 rounded-md text-white font-semibold shadow-md"
+            className="mt-2 w-full py-2 bg-red-600 hover:bg-red-500 rounded-md text-white font-semibold shadow-md"
           >
             Upload
           </button>

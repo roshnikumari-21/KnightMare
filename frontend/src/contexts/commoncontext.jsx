@@ -4,6 +4,7 @@ export const commoncontext = createContext();
 const ContextProvider = (props) => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
     const [showNavbar,setShowNavbar] = useState(true);
+    const [diffuseremail , setDiffuseremail] = useState(null);
     const [token, setToken] = useState(() => localStorage.getItem("token") || null);
     const [user, setUser] = useState(() => {
         try {
@@ -44,7 +45,9 @@ const ContextProvider = (props) => {
         setUser,
         showNavbar,
         setShowNavbar,
-        logout
+        logout,
+        diffuseremail,
+        setDiffuseremail
     };
 
     return (

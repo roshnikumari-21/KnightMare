@@ -40,6 +40,10 @@ const Analysis = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+
+
+
+
   return (
     <div className="mt-[6%] bg-gray-900 text-white flex flex-col items-center justify-center p-6 relative overflow-hidden min-h-[70vh]">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -80,7 +84,7 @@ const Analysis = () => {
         transition={{ duration: 0.8 }}
         className="relative z-10 text-center max-w-2xl"
       >
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent h-20 md:h-16 bg-gradient-to-r from-blue-400 to-purple-500">
           Game Analysis Dashboard
         </h1>
         

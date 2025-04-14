@@ -3,23 +3,35 @@ import SelectTimeFormat from "./SelectTimeFormat";
 import SelectLevel from "./SelectLevel";
 import PlayWith from "./PlayWith";
 import { gamecontext } from "../contexts/gamecontext";
+import start from "../assets/gamestart.mp3";
+
 
 //no backend interaction needed here.
 
 function GameSetup() {
+
+
+  const playstart = () => {
+    const audio = new Audio(start);
+    audio
+      .play()
+      .catch((error) => console.error("Failed to play sound:", error));
+  };
+
   const {
-  setSide,setTimeFormat,setLevel,setShowBoard
+  setSide,timeFormat,setTimeFormat,setLevel,setShowBoard
    } = useContext(gamecontext);
   const handleSubmit = (e) => {
     e.preventDefault();
     setShowBoard(true);
+    playstart();
   };
 
   return (
     <div> 
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col mt-10 space-y-4 p-6 rounded-lg shadow-lg"
+      className="flex flex-col bg-gray-800  mt-15 space-y-4  p-6 rounded-lg shadow-lg shadow-black"
     >
       <h2 className="text-3xl  font-bold  text-white mb-4">Game Setup</h2>
       <div className="flex flex-col space-y-2">

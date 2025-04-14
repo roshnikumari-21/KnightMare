@@ -3,12 +3,13 @@
 import React, { useContext, useState } from "react";
 import { motion } from "framer-motion";
 import { commoncontext } from "../contexts/commoncontext";
+import { useNavigate } from "react-router";
 
 const RulesPage = () => {
   const { token, user, showNavbar, setShowNavbar } = useContext(commoncontext);
   setShowNavbar(true);
   const [activeTab, setActiveTab] = useState("basic");
-  
+  const navigate = useNavigate();
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
@@ -34,7 +35,10 @@ const RulesPage = () => {
   ];
 
   return (
-    <div className="bg-black min-h-screen text-white font-sans">
+    <div className="bg-gray-950 min-h-screen text-white font-sans">
+       <div className="absolute inset-0 opacity-5 pointer-events-none">
+        <div className="absolute inset-0 bg-[length:80px_80px] bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)]"></div>
+      </div>
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 py-8 md:py-16 relative z-10">
         {/* Animated Title */}
@@ -247,7 +251,7 @@ const RulesPage = () => {
                 <p className="text-gray-400 mb-3 md:mb-4 text-sm md:text-base">
                   Interested in contributing to Knightmare Chess?
                 </p>
-                <button className="px-4 py-2 md:px-6 md:py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium transition-colors text-sm md:text-base">
+                <button onClick={()=>{navigate('/contact')}} className="px-4 py-2 md:px-6 md:py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium transition-colors text-sm md:text-base">
                   Contact Us
                 </button>
               </motion.div>

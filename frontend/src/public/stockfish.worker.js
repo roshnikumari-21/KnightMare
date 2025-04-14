@@ -6,6 +6,5 @@ engine.onmessage = (event) => {
 };
 
 self.onmessage = (e) => {
-    console.log(e.data);
   engine.postMessage(e.data);
 };

@@ -31,7 +31,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="flex items-center justify-between px-4 md:px-8 py-[10px] bg-black shadow-xl relative z-50">
+      <nav className="flex items-center justify-between px-4 md:px-6 py-[12px] md:py-[8px] sm:py-[10px] bg-black shadow-xl relative z-50">
         {/* Logo */}
         <Link
           to="/"
@@ -39,10 +39,10 @@ const Navbar = () => {
         >
           <img
             src={assets.logo}
-            className="w-[40px] h-[40px] md:w-[50px] md:h-[50px] transition-transform duration-300 hover:scale-110"
+            className="w-[40px] h-[40px] md:w-[40px] md:h-[40px] transition-transform duration-300 hover:scale-110"
             alt="Website Logo"
           />
-          <span className="text-xl md:text-2xl font-bold text-gray-100 font-poppins tracking-tight">
+          <span className="text-xl md:text-xl font-bold text-gray-100 font-poppins tracking-tight">
             KnightMare
           </span>
         </Link>
@@ -105,7 +105,7 @@ const Navbar = () => {
                             }`
             }
           >
-            About Us
+            About
           </NavLink>
 
           <NavLink
@@ -124,7 +124,7 @@ const Navbar = () => {
 
           {token ? (
             <div
-              className="cursor-pointer bg-slate-800 font-bold rounded-full px-3 py-1 lg:px-4 lg:py-2 border shadow-sm shadow-white border-white text-white text-sm lg:text-base"
+              className="cursor-pointer bg-slate-900 font-bold rounded-full px-3 py-1 lg:px-3 lg:py-2 border shadow-sm shadow-white border-gray-400 text-white text-sm lg:text-base"
               onClick={Logout}
             >
               Logout
@@ -176,8 +176,8 @@ const Navbar = () => {
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 bg-black bg-opacity-90 z-40 pt-20 px-6 overflow-y-auto">
-          <div className="flex flex-col items-center space-y-6 text-white text-xl">
+        <div className="md:hidden fixed inset-0  backdrop-blur-2xl mx-auto   z-40 pt-18 px-6 overflow-y-auto">
+          <div className="flex flex-col items-center space-y-2 text-white text-xl">
             {/* User Profile */}
             <div
               onClick={() => {

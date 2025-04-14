@@ -33,7 +33,6 @@ const Login = () => {
           toast.error(response.data.message || "Login failed");
         }
       } else {
-        console.log(authResult);
         throw new Error(authResult);
       }
     } catch (e) {

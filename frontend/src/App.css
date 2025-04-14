@@ -146,3 +146,15 @@
   opacity: 0.8; /* Slightly reduce intensity for a smoother look */
   backdrop-filter: blur(4px); /* Optional: Adds a subtle blur for a modern touch */
 }
+
+@media (max-width: 768px) {
+  .heatmap-wrapper {
+    transform: scale(0.7) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .heatmap-wrapper {
+    transform: scale(0.5) !important;
+  }
+}
