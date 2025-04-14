@@ -59,6 +59,7 @@ const ProfileProvider = (props) => {
 
       let MaxScore = -1000000000000;
       let MinScore = 10000000000000;
+      
       let TotalDuration = 0;
       const HoursPlayed = Math.round(TotalDuration / 3600);
 
