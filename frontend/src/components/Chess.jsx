@@ -24,6 +24,10 @@ import { updateCutPieces, calculateAdvantage } from "../chess-logic/CutPieces";
 import CutPieces from "./chess-components/CutPieces";
 import { gamecontext } from "../contexts/gamecontext";
 import { commoncontext } from "../contexts/commoncontext";
+import winner from "../assets/win.mp3";
+import loser from "../assets/lose.mp3";
+import start from "../assets/gamestart.mp3";
+import woosh from "../assets/woosh.mp3";
 
 function Chess() {
   const { user } = useContext(commoncontext);
@@ -84,32 +88,75 @@ function Chess() {
       black: blackState.includes("check"),
     });
     if (whiteState === "checkmate") {
-      endGame(side === "black" ? "win" : "lose");
+      const result = side === "black" ? "win" : "lose";
+    endGame(result);
+    result === "win" ? playwin() : playlose(); 
     } else if (blackState === "checkmate") {
-      endGame(side === "white" ? "win" : "lose");
+      const result = side === "white" ? "win" : "lose";
+    endGame(result);
+    result === "win" ? playwin() : playlose(); // Add this line
     } else if (whiteState === "stalemate" || blackState === "stalemate") {
       endGame("stalemate");
     } else if (checkThreefoldRepetition(moves)) {
       endGame("threefold");
     }
   }, [board, castlingRights, enPassantTarget]);
+
   const playCaptureSound = () => {
     const audio = new Audio(captureSound);
     audio
       .play()
       .catch((error) => console.error("Failed to play sound:", error));
   };
+
+  const playwin = () => {
+    const audio = new Audio(winner);
+    audio
+      .play()
+      .catch((error) => console.error("Failed to play sound:", error));
+  };
+
+  const playlose = () => {
+    const audio = new Audio(loser);
+    audio
+      .play()
+      .catch((error) => console.error("Failed to play sound:", error));
+  };
+
+
+  const playstart = () => {
+    const audio = new Audio(start);
+    audio
+      .play()
+      .catch((error) => console.error("Failed to play sound:", error));
+  };
+
+
+  const playwoosh = () => {
+    const audio = new Audio(woosh);
+    audio
+      .play()
+      .catch((error) => console.error("Failed to play sound:", error));
+  };
+
+
+
   useEffect(() => {
     setGameStarted(moves.length >= 1);
   }, [moves]);
   useEffect(() => {
     if (gameOver || !gameStarted) return;
+    
+
+    
+    
 
     const interval = setInterval(() => {
       if (currentPlayer === "white") {
         setWhiteTime((prev) => {
           if (prev <= 1) {
             setGameOver(true);
+            playlose();   //________________________________
             return 0;
           }
           return prev - 1;
@@ -118,6 +165,7 @@ function Chess() {
         setBlackTime((prev) => {
           if (prev <= 1) {
             setGameOver(true);
+            playlose(); //__________________________________
             return 0;
           }
           return prev - 1;
@@ -183,7 +231,8 @@ function Chess() {
                 setCutPieces((prev) =>
                   updateCutPieces(prev, capturedPiece, currentPlayer)
                 );
-               // playCaptureSound();
+                // playCaptureSound();
+                playwoosh();
               }
             }
           );
@@ -264,6 +313,7 @@ function Chess() {
                 updateCutPieces(prev, capturedPiece, player)
               );
               //playCaptureSound();
+              playwoosh();
             }
           }
         );
@@ -420,7 +470,6 @@ function Chess() {
 
 
 
-
   return (
     <div className="chess-container p-2  bg-gray-900 text-white">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
@@ -428,6 +477,7 @@ function Chess() {
           <div className="flex justify-between items-center relative z-10 bg-gray-800 rounded-lg p-1">
             <div className="flex items-center space-x-1  bg-gray-700/50 px-3 rounded-md">
               <div className="text-md font-bold text-white">Magnus Carlsen</div>
+             
               <CutPieces
                 pieces={cutPieces[side === "white" ? "black" : "white"]}
                 advantage={calculateAdvantage(
@@ -464,7 +514,7 @@ function Chess() {
                 advantage={calculateAdvantage(cutPieces, side)}
               />
             </div>
-            <Timer
+            {/* <Timer
               time={side === "white" ? whiteTime : blackTime}
               isActive={currentPlayer === side && gameStarted && !gameOver}
               onTimeEnd={() => {
@@ -476,7 +526,25 @@ function Chess() {
                   ? endGame("ai_timeout")
                   : endGame("player_timeout");
               }}
-            />
+            /> */}
+
+
+
+<Timer
+  time={side === "white" ? whiteTime : blackTime}
+  isActive={currentPlayer === side && gameStarted && !gameOver}
+  onTimeEnd={() => {
+    if (!whiteTime || !blackTime) {
+      const result = side === "white" 
+        ? "player_timeout" 
+        : "ai_timeout";
+      endGame(result);
+      result.includes("player") ? playlose() : playwin(); // Add this
+    }
+  }}
+/>
+
+
           </div>
         </div>
 
@@ -497,6 +565,7 @@ function Chess() {
               <ResignButton
                 onResign={() => {
                   setGameOver(true);
+                  playlose();
                   endGame("player_resign");
                 }}
               />

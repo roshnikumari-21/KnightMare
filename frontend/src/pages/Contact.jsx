@@ -7,7 +7,9 @@ import {
   FaChessBoard, 
 } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
+
 import { commoncontext } from "../contexts/commoncontext";
+
 
 export default function ContactUs() {
   const [formData, setFormData] = useState({ name: "", email: "", Feedback: "" });
@@ -245,11 +247,12 @@ export default function ContactUs() {
                 </motion.div>
               </div>
        {/* Footer */}
-<div className="w-full py-4 bg-gradient-to-t from-blue-900/70 to-transparent mt-8 md:mt-16 flex items-center justify-center">
+     
+ <div className="w-full py-4 bg-gradient-to-t from-blue-900/70 to-transparent mt-8 md:mt-16 flex items-center justify-center">
         <p className="text-gray-400 text-xs md:text-sm">
           © {new Date().getFullYear()} Knightmare Chess - All rights reserved
         </p>
-      </div>
+      </div> 
     </div>
       </>
     

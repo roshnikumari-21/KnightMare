@@ -3,18 +3,28 @@ import SelectTimeFormat from "./SelectTimeFormat";
 import SelectLevel from "./SelectLevel";
 import PlayWith from "./PlayWith";
 import { gamecontext } from "../contexts/gamecontext";
-
+import start from "../assets/gamestart.mp3";
 
 
 //no backend interaction needed here.
 
 function GameSetup() {
+
+
+  const playstart = () => {
+    const audio = new Audio(start);
+    audio
+      .play()
+      .catch((error) => console.error("Failed to play sound:", error));
+  };
+
   const {
   setSide,setTimeFormat,setLevel,setShowBoard
    } = useContext(gamecontext);
   const handleSubmit = (e) => {
     e.preventDefault();
     setShowBoard(true);
+    playstart();
   };
 
   return (

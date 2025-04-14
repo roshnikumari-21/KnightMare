@@ -36,6 +36,7 @@ const Play = () => {
         </div>
       )}
       {showBoard && <Chess />}
+      
     </div>
   );
 };

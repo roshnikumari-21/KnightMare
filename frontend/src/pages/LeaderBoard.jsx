@@ -340,6 +340,11 @@ const Leaderboard = () => {
         </div>
       </motion.div>
     </div>
+    <div className="w-full py-4 bg-gradient-to-t from-blue-900/70 to-transparent mt-8 md:mt-16 flex items-center justify-center">
+        <p className="text-gray-400 text-xs md:text-sm">
+          © {new Date().getFullYear()} Knightmare Chess - All rights reserved
+        </p>
+      </div>
     </div>
   );
 };

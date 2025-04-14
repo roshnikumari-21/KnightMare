@@ -1,21 +1,31 @@
 import mongoose from "mongoose";
 import Game from "../models/Game.js";
 import User from "../models/User.js";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 export const endGame = async (req, res) => {
   try {
-    const userId = req.headers['userid'] || req.headers['userId'];
+    const userId = req.headers["userid"] || req.headers["userId"];
     if (!userId) {
-      return res.status(400).json({ 
-        success: false, 
-        message: "User ID missing in headers" 
+      return res.status(400).json({
+        success: false,
+        message: "User ID missing in headers",
       });
     }
-    const { gameId, difficulty, moves, endedAt, createdAt, result, playerRating, capturedPieces, duration } = req.body;
+    const {
+      gameId,
+      difficulty,
+      moves,
+      endedAt,
+      createdAt,
+      result,
+      playerRating,
+      capturedPieces,
+      duration,
+    } = req.body;
     if (!gameId || !difficulty || !moves || !result) {
       return res.status(400).json({
         success: false,
-        message: "Missing required game fields"
+        message: "Missing required game fields",
       });
     }
     let game = await Game.findOne({ gameId });
@@ -28,7 +38,7 @@ export const endGame = async (req, res) => {
         playerRating: playerRating || 0,
         capturedPieces: capturedPieces || [],
         startTime: createdAt ? new Date(createdAt) : new Date(),
-        endTime: endedAt ? new Date(endedAt) : new Date()
+        endTime: endedAt ? new Date(endedAt) : new Date(),
       });
     } else {
       game.endTime = endedAt ? new Date(endedAt) : new Date();
@@ -36,27 +46,32 @@ export const endGame = async (req, res) => {
 
     game.result = result;
     await game.endGame(result);
-    
+
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
     const ratingChange = game.ratingChange || 0;
     user.score = (user.score || 0) + ratingChange;
     if (isNaN(user.score)) {
       user.score = 0;
     }
-    user.ratingHistory.push({ 
-      date: new Date(), 
-      score: user.score 
+    user.ratingHistory.push({
+      date: new Date(),
+      score: user.score,
     });
 
-    if (result === 'win'|| result === 'ai_timeout') {user.gamesWon += 1;}
-    else if (result === 'lose' || result === 'player_timeout') {user.gamesLost += 1;}
-    else if (['draw', 'stalemate', 'threefold_repetition'].includes(result)){
+    if (result === "win" || result === "ai_timeout") {
+      user.gamesWon += 1;
+    } else if (result === "lose" || result === "player_timeout") {
+      user.gamesLost += 1;
+    } else if (["draw", "stalemate", "threefold_repetition"].includes(result)) {
       user.gamesDrawn += 1;
+    } else if (result === "player_resign") {
+      user.gamesResigned += 1;
     }
-    else if (result === 'player_resign'){ user.gamesResigned += 1;}
     if (game._id) {
       user.gameHistory.push(game._id);
     }
@@ -103,27 +118,26 @@ if (isFirstActivityToday){
     await user.validate();
     const savedUser = await user.save();
     const responseUser = savedUser.toObject();
-    responseUser.ratingHistory = responseUser.ratingHistory.map(item => ({
+    responseUser.ratingHistory = responseUser.ratingHistory.map((item) => ({
       ...item,
-      date: item.date.toISOString()
+      date: item.date.toISOString(),
     }));
-    responseUser.dailyActivity = responseUser.dailyActivity.map(item => ({
-      date: item.date.toISOString()
+    responseUser.dailyActivity = responseUser.dailyActivity.map((item) => ({
+      date: item.date.toISOString(),
     }));
 
     res.status(200).json({
       success: true,
       message: "Game result saved successfully",
       game,
-      user: responseUser
+      user: responseUser,
     });
-
   } catch (error) {
     console.error("Error ending game:", error);
     res.status(500).json({
       success: false,
       message: "Failed to save game result",
-      error: error.message
+      error: error.message,
     });
   }
 };
@@ -134,7 +148,7 @@ export const getGameHistory = async (req, res) => {
     if (!userId) {
       return res.status(400).json({
         success: false,
-        message: "User ID is required"
+        message: "User ID is required",
       });
     }
 
@@ -144,14 +158,14 @@ export const getGameHistory = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      games: games || []
+      games: games || [],
     });
   } catch (error) {
     console.error("Error fetching game history:", error);
     res.status(500).json({
       success: false,
       message: "Failed to fetch game history",
-      error: error.message
+      error: error.message,
     });
   }
 };
@@ -164,7 +178,7 @@ export const getGameDetails = async (req, res) => {
     if (!gameId || !userId) {
       return res.status(400).json({
         success: false,
-        message: "Game ID and User ID are required"
+        message: "Game ID and User ID are required",
       });
     }
 
@@ -172,20 +186,20 @@ export const getGameDetails = async (req, res) => {
     if (!game) {
       return res.status(404).json({
         success: false,
-        message: "Game not found"
+        message: "Game not found",
       });
     }
 
     res.status(200).json({
       success: true,
-      game
+      game,
     });
   } catch (error) {
     console.error("Error fetching game details:", error);
     res.status(500).json({
       success: false,
       message: "Failed to fetch game details",
-      error: error.message
+      error: error.message,
     });
   }
 };
