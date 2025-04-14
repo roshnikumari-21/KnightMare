@@ -31,8 +31,8 @@ function App() {
         <ToastContainer/>
        {showNavbar ? <Navbar /> : ""}
         <div className="flex flex-1 overflow-hidden mt-1 bg-slate-900">
-          {token ? <Sidebar /> : ""};
-          <div className="flex-1 overflow-auto">
+          {token ? <Sidebar />: ""}
+          <div className="flex-1 ml-[1px] overflow-auto">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />

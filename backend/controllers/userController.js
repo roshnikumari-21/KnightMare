@@ -1,23 +1,23 @@
-import User from "../models/User.js";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import { v2 as cloudinary } from "cloudinary";
-import { OAuth2Client } from "google-auth-library";
+import User from "../models/User.js"
+import bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken"
+import { v2 as cloudinary } from "cloudinary"
+import { OAuth2Client } from "google-auth-library"
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-import crypto from "crypto";
-import nodemailer from "nodemailer";
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
+import crypto from "crypto"
+import nodemailer from "nodemailer"
 
 export const registerUser = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password } = req.body
   try {
-    const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+    const existingUser = await User.findOne({ $or: [{ username }, { email }] })
     if (existingUser) {
       return res
         .status(400)
-        .json({ success: false, message: "Username or email already exists" });
+        .json({ success: false, message: "Username or email already exists" })
     }
-    const passwordHash = password;
+    const passwordHash = password
     const newUser = new User({
       username,
       email,
