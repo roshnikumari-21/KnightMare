@@ -159,7 +159,7 @@ const ProfileCompA = () => {
           ].map(({ icon, label, value }, i) => (
             <div
               key={i}
-              className="flex items-center bg-black/80 text-sm  p-1 md:p-3 border border-gray-600 rounded-lg shadow-md hover:shadow-[0_6px_8px_rgba(255,255,255,0.2)] transition-shadow duration-300"
+              className="flex relative z-10 items-center bg-gray-900 text-sm  p-1 md:p-3 border border-gray-600 rounded-lg shadow-md hover:shadow-[0_6px_8px_rgba(255,255,255,0.2)] transition-shadow duration-300"
             >
               <i className={`${icon} text-gray-400  mr-3`} />
               <span className="text-gray-400 font-semibold mr-2">{label}:</span>

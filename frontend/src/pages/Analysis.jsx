@@ -84,7 +84,7 @@ const Analysis = () => {
         transition={{ duration: 0.8 }}
         className="relative z-10 text-center max-w-2xl"
       >
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent h-16 bg-gradient-to-r from-blue-400 to-purple-500">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent h-20 md:h-16 bg-gradient-to-r from-blue-400 to-purple-500">
           Game Analysis Dashboard
         </h1>
         

@@ -85,7 +85,7 @@ import { useNavigate } from "react-router";
 const ProfileSettings = () => {
   const Navigate = useNavigate();
   return (
-    <div className="mx-4 sm:mx-8 md:mx-14 mt-6 pt-4 rounded-xl bg-black bg-opacity-60 p-4 sm:p-6 md:p-8 shadow-lg">
+    <div className="mx-4 relative z-10 sm:mx-8 md:mx-14 mt-6 pt-4 rounded-xl bg-gray-900 bg-opacity-60 p-4 sm:p-6 md:p-8 shadow-lg">
       {/* Title */}
       <h2 className="  text-xl sm:text-3xl md:text-4xl font-extrabold text-white mb-6 sm:mb-8 border-b-2 border-white pb-2 sm:pb-4">
         Profile Settings
@@ -128,11 +128,11 @@ const ProfileSettings = () => {
       ].map((item, idx) => (
         <div
           key={idx}
-          style={{
-            backgroundImage: "url('/bgmodernblack.jpg')",
-            backgroundSize: "cover",
-          }}
-          className="flex  flex-row items-start  mb-3 md:mb-6 p-4 bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors duration-300"
+          // style={{
+          //   backgroundImage: "url('/bgmodernblack.jpg')",
+          //   backgroundSize: "cover",
+          // }}
+          className="flex border-gray-400 border bg-gray-800 flex-row items-start  mb-3 md:mb-6 p-4  rounded-lg hover:bg-gray-800 transition-colors duration-300"
         >
           <i className={`${item.icon} mr-1 text-xl md:text-2xl ${item.iconColor} mb-2  sm:mr-4`}></i>
           <div className="flex-1 mb-2 md:mb-4 sm:mb-0">

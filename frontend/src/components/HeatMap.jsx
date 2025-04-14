@@ -114,7 +114,7 @@ const HeatMap = () => {
       </div>
 
       {/* Streak Info */}
-      <div className=" text-sm font-semibold  flex flex-col md:flex-row justify-between bg-black border border-gray-400 p-2 md:p-2 rounded-lg mt-6 gap-2 md:gap-0 shadow-[0_4px_6px_rgba(255,255,255,0.1)] hover:shadow-[0_6px_8px_rgba(255,255,255,0.2)] transition-shadow duration-300">
+      <div className=" text-sm font-semibold  flex flex-col md:flex-row justify-between bg-gray-900 border border-gray-400 p-2 md:p-2 rounded-lg mt-6 gap-2 md:gap-0 shadow-[0_4px_6px_rgba(255,255,255,0.1)] hover:shadow-[0_6px_8px_rgba(255,255,255,0.2)] transition-shadow duration-300">
         {/* Longest Streak */}
         <div className="flex items-center justify-start md:mr-6">
           <i className="fas fa-fire text-gray-400 mr-2 mt-1"></i>

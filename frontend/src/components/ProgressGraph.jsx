@@ -104,7 +104,7 @@ const ProgressGraph = () => {
       </div>
 
       {/* Stats Container */}
-      <div className=" w-3/4 mx-auto   flex flex-col md:flex-row justify-center md:justify-between items-center text-center bg-black border border-gray-400 p-2 md:p-3 sm:pl-6 rounded-lg mt-4 sm:mt-6 shadow-[0_4px_6px_rgba(255,255,255,0.1)] hover:shadow-[0_6px_8px_rgba(255,255,255,0.2)] transition-shadow duration-300">
+      <div className=" w-3/4 mx-auto   flex flex-col md:flex-row justify-center md:justify-between items-center text-center bg-gray-900 border border-gray-400 p-2 md:p-3 sm:pl-6 rounded-lg mt-4 sm:mt-6 shadow-[0_4px_6px_rgba(255,255,255,0.1)] hover:shadow-[0_6px_8px_rgba(255,255,255,0.2)] transition-shadow duration-300">
         <div className="flex  md:items-center mb-2 sm:mb-0 sm:mr-8">
           <i className="fas fa-trophy text-gray-400 mr-2 text-sm sm:text-base"></i>
           <span className="text-gray-400 mr-2 font-bold  text-sm sm:text-base">
