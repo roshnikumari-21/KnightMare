@@ -422,11 +422,11 @@ function Chess() {
 
 
   return (
-    <div className="chess-container p-2 bg-gray-900 text-white">
+    <div className="chess-container p-2  bg-gray-900 text-white">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
         <div className="md:col-span-2">
-          <div className="flex justify-between items-center bg-gray-800 rounded-lg p-1">
-            <div className="flex items-center space-x-1 bg-gray-700/50 px-3 rounded-md">
+          <div className="flex justify-between items-center relative z-10 bg-gray-800 rounded-lg p-1">
+            <div className="flex items-center space-x-1  bg-gray-700/50 px-3 rounded-md">
               <div className="text-md font-bold text-white">Magnus Carlsen</div>
               <CutPieces
                 pieces={cutPieces[side === "white" ? "black" : "white"]}
@@ -454,7 +454,7 @@ function Chess() {
             side={side}
             kingInCheck={kingInCheck}
           />
-          <div className="flex justify-between items-center bg-gray-800 rounded-lg p-1">
+          <div className="flex justify-between items-center relative z-10 bg-gray-800 rounded-lg p-1">
             <div className="flex items-center space-x-2 bg-gray-700/50 px-3  rounded-md">
               <div className="text-md font-bold text-white">
                 {user?.username}
