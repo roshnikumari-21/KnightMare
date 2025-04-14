@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router';
 
 const Leaderboard = () => {
   const { setShowNavbar, backendUrl, token ,user } = useContext(commoncontext);
+  const realuser = user;
   const { userRank } = useContext(profileContext);
   setShowNavbar(true);
   const navigate = useNavigate();
@@ -215,7 +216,7 @@ const Leaderboard = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="bg-gray-800 relative z-10 p-2 md:p-3 rounded-lg mb-4 md:mb-8 text-center text-xs md:text-base"
         >
-          You have <span className="font-bold">{user.score}</span> points and are ranked 
+          You have <span className="font-bold">{realuser.score}</span> points and are ranked 
           <span className="font-bold"> {userRank}</span> out of {pagination.totalUsers} users
         </motion.div>
       )}
@@ -250,7 +251,7 @@ const Leaderboard = () => {
                       return (
                         <tr 
                           key={user._id} 
-                          className={`border-b border-gray-800 ${(user.username === user.username) ? 'bg-cyan-900/50' : 'bg-slate-900/50 hover:bg-gray-800'}`}
+                          className={`border-b border-gray-800 ${(user.username === realuser.username) ? 'bg-cyan-900/50' : 'bg-slate-900/50 hover:bg-gray-800'}`}
                         >
                           <td className="px-2 py-1 md:px-4 md:py-3 whitespace-nowrap">
                             <FontAwesomeIcon icon={faTrophy} className="text-blue-900 mr-1 text-xs md:text-base" /> {rank}
