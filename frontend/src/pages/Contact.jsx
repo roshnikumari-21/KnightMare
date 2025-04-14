@@ -70,8 +70,7 @@ export default function ContactUs() {
 
   return (
     <>
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-white py-16 pb-0 overflow-hidden relative">
-      {/* Chess board pattern overlay */}
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-950 to-gray-950 text-white py-16 px-4 sm:px-0 pb-0 overflow-hidden relative">
       <div className="absolute inset-0 opacity-5 pointer-events-none">
         <div className="absolute inset-0 bg-[length:80px_80px] bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)]"></div>
       </div>
@@ -214,6 +213,37 @@ export default function ContactUs() {
 >
 </motion.div>
       </div>
+      <div className="hidden md:block">
+                <motion.div 
+                  animate={{ 
+                    x: [0, 100, 0],
+                    rotate: [0, 10, -10, 0]
+                  }}
+                  transition={{ 
+                    repeat: Infinity, 
+                    duration: 8,
+                    ease: "easeInOut"
+                  }}
+                  className="absolute top-1/4 left-10 text-4xl opacity-20 text-blue-300"
+                >
+                  ♜
+                </motion.div>
+                <motion.div 
+                  animate={{ 
+                    y: [0, 50, 0],
+                    rotate: [0, -15, 15, 0]
+                  }}
+                  transition={{ 
+                    repeat: Infinity, 
+                    duration: 7,
+                    ease: "easeInOut",
+                    delay: 0.5
+                  }}
+                  className="absolute bottom-1/3 right-20 text-4xl opacity-20 text-blue-300"
+                >
+                  ♛
+                </motion.div>
+              </div>
        {/* Footer */}
 <div className="w-full py-4 bg-gradient-to-t from-blue-900/70 to-transparent mt-8 md:mt-16 flex items-center justify-center">
         <p className="text-gray-400 text-xs md:text-sm">

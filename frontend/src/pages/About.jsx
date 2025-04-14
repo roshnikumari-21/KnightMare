@@ -35,6 +35,9 @@ const RulesPage = () => {
 
   return (
     <div className="bg-gray-950 min-h-screen text-white font-sans">
+       <div className="absolute inset-0 opacity-5 pointer-events-none">
+        <div className="absolute inset-0 bg-[length:80px_80px] bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)]"></div>
+      </div>
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 py-8 md:py-16 relative z-10">
         {/* Animated Title */}
