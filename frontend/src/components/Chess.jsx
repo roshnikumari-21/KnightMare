@@ -1,182 +1,255 @@
-import React, { useState, useCallback, useEffect, useMemo, useContext } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useMemo,
+  useContext,
+} from "react";
 import ChessBoard from "./ChessBoard";
-import Timer from './Timer';
-import ResignButton from './ResignButton';
-import MoveHistory from './MoveHistory';
-import StartNewGame from './StartNewGame';
-import { 
-    validateMove,
-    ShowLegalMoves,
-    boardToFEN,
-    checkGameState
-} from '../chess-logic/functions';
-import { makeMove } from '../chess-logic/MoveExecution';
+import Timer from "./Timer";
+import ResignButton from "./ResignButton";
+import MoveHistory from "./MoveHistory";
+import StartNewGame from "./StartNewGame";
+import {
+  validateMove,
+  ShowLegalMoves,
+  boardToFEN,
+  checkGameState,
+} from "../chess-logic/functions";
+import { makeMove } from "../chess-logic/MoveExecution";
 import captureSound from "../assets/captureSound.mp3";
-import { checkThreefoldRepetition } from '../chess-logic/creepyfunctions/ThreeFoldRepetition';
-import Result from './chess-components/Result';
-import {updateCutPieces, calculateAdvantage } from '../chess-logic/CutPieces';
-import CutPieces from './chess-components/CutPieces';
-import { gamecontext } from '../contexts/gamecontext';
-import { commoncontext } from '../contexts/commoncontext';
-
+import { checkThreefoldRepetition } from "../chess-logic/creepyfunctions/ThreeFoldRepetition";
+import Result from "./chess-components/Result";
+import { updateCutPieces, calculateAdvantage } from "../chess-logic/CutPieces";
+import CutPieces from "./chess-components/CutPieces";
+import { gamecontext } from "../contexts/gamecontext";
+import { commoncontext } from "../contexts/commoncontext";
 
 function Chess() {
-  const {user} = useContext(commoncontext);
+  const { user } = useContext(commoncontext);
   const {
-    board ,setBoard,currentPlayer, setCurrentPlayer,gameOver, setGameOver,selectedSquare, setSelectedSquare,
-    moves, setMoves,enPassantTarget, setEnPassantTarget,legalMoves, setLegalMoves,kingInCheck, setKingInCheck,
-    castlingRights, setCastlingRights,gameStarted, setGameStarted,whiteTime, setWhiteTime,
-    blackTime, setBlackTime,gameResult, getBestMove,endGame,cutPieces, setCutPieces,
-    flippedBoard ,side,timeFormat,level ,resetGame ,setGameResult
- } = useContext(gamecontext);
+    board,
+    setBoard,
+    currentPlayer,
+    setCurrentPlayer,
+    gameOver,
+    setGameOver,
+    selectedSquare,
+    setSelectedSquare,
+    moves,
+    setMoves,
+    enPassantTarget,
+    setEnPassantTarget,
+    legalMoves,
+    setLegalMoves,
+    kingInCheck,
+    setKingInCheck,
+    castlingRights,
+    setCastlingRights,
+    gameStarted,
+    setGameStarted,
+    whiteTime,
+    setWhiteTime,
+    blackTime,
+    setBlackTime,
+    gameResult,
+    getBestMove,
+    endGame,
+    cutPieces,
+    setCutPieces,
+    flippedBoard,
+    side,
+    timeFormat,
+    level,
+    resetGame,
+    setGameResult,
+  } = useContext(gamecontext);
 
   useEffect(() => {
-    const whiteState = checkGameState(board, 'white', castlingRights, enPassantTarget);
-    const blackState = checkGameState(board, 'black', castlingRights, enPassantTarget);
-  
-    setKingInCheck({
-      white: whiteState.includes('check'),
-      black: blackState.includes('check')
-    });
-    if (whiteState === 'checkmate') {
-      endGame(side === 'black' ? 'win' : 'lose');
-    } 
-    else if (blackState === 'checkmate') {
-      endGame(side === 'white' ? 'win' : 'lose');
-    }
-    else if (whiteState === 'stalemate' || blackState === 'stalemate') {
-      endGame('stalemate');
-    }
-    else if (checkThreefoldRepetition(moves)) {
-      endGame('threefold');
-    }
-  }, [board, castlingRights, enPassantTarget]);
-  const playCaptureSound = () => {
-    const audio = new Audio(captureSound);
-    audio.play().catch((error) => console.error("Failed to play sound:", error));
-  };
-  useEffect(() => {
-    setGameStarted(moves.length >= 1);
-  }, [moves]);
-useEffect(() => {
-  if (gameOver || !gameStarted) return;
-
-  const interval = setInterval(() => {
-    if (currentPlayer === 'white') {
-      setWhiteTime(prev => {
-        if (prev <= 1) {
-          setGameOver(true);
-          return 0;
-        }
-        return prev - 1;
-      });
-    } else {
-      setBlackTime(prev => {
-        if (prev <= 1) {
-          setGameOver(true);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }
-  }, 1000);
-
-  return () => clearInterval(interval);
-}, [gameOver, gameStarted, currentPlayer]);
-  useEffect(() => {
-    if (side === 'black') {
-      setTimeout(() => {
-        makeAIMove(board, 'white');
-      }, 0);
-    }
-  }, [side]);
- const handleSquareClick = useCallback((clickedSquare) => {
-  if (currentPlayer !== side || gameOver || !clickedSquare) return;
-  const newBoard = board.map(row => 
-    row.map(sq => ({ ...sq, isSelected: false }))
-  );
-
-  if (!selectedSquare){
-    if (clickedSquare.piece?.color === currentPlayer) {
-      const moves = ShowLegalMoves(
-        board,
-        clickedSquare.piece,
-        clickedSquare,
-        castlingRights,
-        enPassantTarget,
-        currentPlayer
-      );
-
-      newBoard[clickedSquare.row][clickedSquare.col].isSelected = true;
-      setBoard(newBoard);
-      setSelectedSquare(clickedSquare);
-      setLegalMoves(moves);
-    }
-  } 
-  else {
-    const isValidMove = validateMove(
+    const whiteState = checkGameState(
       board,
-      selectedSquare,
-      clickedSquare,
-      currentPlayer,
+      "white",
+      castlingRights,
+      enPassantTarget
+    );
+    const blackState = checkGameState(
+      board,
+      "black",
       castlingRights,
       enPassantTarget
     );
 
-    if (isValidMove) {
-      const updatedCastlingRights = JSON.parse(JSON.stringify(castlingRights));
-      const updatedBoard = makeMove(
-        newBoard,
-        selectedSquare,
-        clickedSquare,
-        updatedCastlingRights,
-        (newRights) => setCastlingRights(newRights),
-        setEnPassantTarget,
-        (capturedPiece) => {
-          if (capturedPiece) {
-            setCutPieces(prev => updateCutPieces(prev, capturedPiece, currentPlayer));
-            playCaptureSound();
+    setKingInCheck({
+      white: whiteState.includes("check"),
+      black: blackState.includes("check"),
+    });
+    if (whiteState === "checkmate") {
+      endGame(side === "black" ? "win" : "lose");
+    } else if (blackState === "checkmate") {
+      endGame(side === "white" ? "win" : "lose");
+    } else if (whiteState === "stalemate" || blackState === "stalemate") {
+      endGame("stalemate");
+    } else if (checkThreefoldRepetition(moves)) {
+      endGame("threefold");
+    }
+  }, [board, castlingRights, enPassantTarget]);
+  const playCaptureSound = () => {
+    const audio = new Audio(captureSound);
+    audio
+      .play()
+      .catch((error) => console.error("Failed to play sound:", error));
+  };
+  useEffect(() => {
+    setGameStarted(moves.length >= 1);
+  }, [moves]);
+  useEffect(() => {
+    if (gameOver || !gameStarted) return;
+
+    const interval = setInterval(() => {
+      if (currentPlayer === "white") {
+        setWhiteTime((prev) => {
+          if (prev <= 1) {
+            setGameOver(true);
+            return 0;
           }
-        }
+          return prev - 1;
+        });
+      } else {
+        setBlackTime((prev) => {
+          if (prev <= 1) {
+            setGameOver(true);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [gameOver, gameStarted, currentPlayer]);
+  useEffect(() => {
+    if (side === "black") {
+      setTimeout(() => {
+        makeAIMove(board, "white");
+      }, 0);
+    }
+  }, [side]);
+  const handleSquareClick = useCallback(
+    (clickedSquare) => {
+      if (currentPlayer !== side || gameOver || !clickedSquare) return;
+      const newBoard = board.map((row) =>
+        row.map((sq) => ({ ...sq, isSelected: false }))
       );
 
-      setBoard(updatedBoard);
-      updateMoveHistory(selectedSquare, clickedSquare, currentPlayer);
-      const whiteCheck = checkGameState(updatedBoard, 'white', updatedCastlingRights, enPassantTarget).includes('check');
-      const blackCheck = checkGameState(updatedBoard, 'black', updatedCastlingRights, enPassantTarget).includes('check');
-      
-      setKingInCheck({
-        white: whiteCheck,
-        black: blackCheck
-      });
+      if (!selectedSquare) {
+        if (clickedSquare.piece?.color === currentPlayer) {
+          const moves = ShowLegalMoves(
+            board,
+            clickedSquare.piece,
+            clickedSquare,
+            castlingRights,
+            enPassantTarget,
+            currentPlayer
+          );
 
-      const newPlayer = currentPlayer === 'white' ? 'black' : 'white';
-      setCurrentPlayer(newPlayer);
-      setSelectedSquare(null);
-      setLegalMoves([]);
+          newBoard[clickedSquare.row][clickedSquare.col].isSelected = true;
+          setBoard(newBoard);
+          setSelectedSquare(clickedSquare);
+          setLegalMoves(moves);
+        }
+      } else {
+        const isValidMove = validateMove(
+          board,
+          selectedSquare,
+          clickedSquare,
+          currentPlayer,
+          castlingRights,
+          enPassantTarget
+        );
 
-      if ((side === 'white' && newPlayer === 'black') || 
-          (side === 'black' && newPlayer === 'white')) {
-        setTimeout(() => makeAIMove(updatedBoard, newPlayer), 100);
+        if (isValidMove) {
+          const updatedCastlingRights = JSON.parse(
+            JSON.stringify(castlingRights)
+          );
+          const updatedBoard = makeMove(
+            newBoard,
+            selectedSquare,
+            clickedSquare,
+            updatedCastlingRights,
+            (newRights) => setCastlingRights(newRights),
+            setEnPassantTarget,
+            (capturedPiece) => {
+              if (capturedPiece) {
+                setCutPieces((prev) =>
+                  updateCutPieces(prev, capturedPiece, currentPlayer)
+                );
+                playCaptureSound();
+              }
+            }
+          );
+
+          setBoard(updatedBoard);
+          updateMoveHistory(selectedSquare, clickedSquare, currentPlayer);
+          const whiteCheck = checkGameState(
+            updatedBoard,
+            "white",
+            updatedCastlingRights,
+            enPassantTarget
+          ).includes("check");
+          const blackCheck = checkGameState(
+            updatedBoard,
+            "black",
+            updatedCastlingRights,
+            enPassantTarget
+          ).includes("check");
+
+          setKingInCheck({
+            white: whiteCheck,
+            black: blackCheck,
+          });
+
+          const newPlayer = currentPlayer === "white" ? "black" : "white";
+          setCurrentPlayer(newPlayer);
+          setSelectedSquare(null);
+          setLegalMoves([]);
+
+          if (
+            (side === "white" && newPlayer === "black") ||
+            (side === "black" && newPlayer === "white")
+          ) {
+            setTimeout(() => makeAIMove(updatedBoard, newPlayer), 100);
+          }
+        } else {
+          setBoard(newBoard);
+          setSelectedSquare(null);
+          setLegalMoves([]);
+        }
       }
-    } else {
-      setBoard(newBoard);
-      setSelectedSquare(null);
-      setLegalMoves([]);
-    }
-  }
-}, [board, selectedSquare, currentPlayer, side, gameOver, castlingRights, enPassantTarget]);
-  const makeAIMove = useCallback((currentBoard, player) => {
-    getBestMove(boardToFEN(currentBoard, player), (move) => {
+    },
+    [
+      board,
+      selectedSquare,
+      currentPlayer,
+      side,
+      gameOver,
+      castlingRights,
+      enPassantTarget,
+    ]
+  );
+  const makeAIMove = useCallback(
+    (currentBoard, player) => {
+      getBestMove(boardToFEN(currentBoard, player), (move) => {
         const from = parseUCIToCoordinates(move.slice(0, 2), currentBoard);
         const to = parseUCIToCoordinates(move.slice(2, 4), currentBoard);
 
         if (!from.piece || from.piece.color !== player) {
-            console.error('Invalid AI move:', move);
-            return;
+          console.error("Invalid AI move:", move);
+          return;
         }
-        const updatedCastlingRights = JSON.parse(JSON.stringify(castlingRights));
-        
+        const updatedCastlingRights = JSON.parse(
+          JSON.stringify(castlingRights)
+        );
+
         const newBoard = makeMove(
           currentBoard,
           from,
@@ -186,138 +259,155 @@ useEffect(() => {
           setEnPassantTarget,
           (capturedPiece) => {
             if (capturedPiece) {
-              setCutPieces(prev => updateCutPieces(prev, capturedPiece, player));
+              setCutPieces((prev) =>
+                updateCutPieces(prev, capturedPiece, player)
+              );
               playCaptureSound();
             }
           }
         );
-        
+
         setBoard(newBoard);
         updateMoveHistory(from, to, player);
-        setCurrentPlayer(player === 'white' ? 'black' : 'white');
-        setCurrentPlayer(player === 'white' ? 'black' : 'white');
-    });
-}, [boardToFEN, castlingRights]);
-const [promotingPawn , setPromotingPawn] = useState(null);
-const handlePromotion = (board, position, color) => {
-  setPromotingPawn({ position, color });
-  return board;
-};
-const PromotionModal = () => {
-  if (!promotingPawn) return null;
-  const pieces = ['queen', 'rook', 'bishop', 'knight'];
-  const row = promotingPawn.position.row;
-  const col = promotingPawn.position.col;
-  return (
-    <div className="promotion-modal absolute bg-gray-800 p-4 rounded-lg shadow-lg">
-      {pieces.map(piece => (
-        <button
-          key={piece}
-          onClick={() => {
-            const newBoard = [...board];
-            newBoard[row][col].piece = { type: piece, color: promotingPawn.color };
-            setBoard(newBoard);
-            setPromotingPawn(null);
-          }}
-          className="w-full p-2 hover:bg-gray-700 text-white"
-        >
-          {piece.charAt(0).toUpperCase() + piece.slice(1)}
-        </button>
-      ))}
-    </div>
+        setCurrentPlayer(player === "white" ? "black" : "white");
+        setCurrentPlayer(player === "white" ? "black" : "white");
+      });
+    },
+    [boardToFEN, castlingRights]
   );
-};
-const updateMoveHistory = (from, to, movingPlayer) => {
-  const notation = getMoveNotation(from, to);
-  setMoves(prev => {
-    if (movingPlayer === 'white') {
-      const moveNumber = Math.floor(prev.length) + 1;
-      return [...prev, { 
-        moveNumber, 
-        white: notation, 
-        black: null 
-      }];
-    }
-    else {
-      if (prev.length === 0) {
-        return [{ 
-          moveNumber: 1, 
-          white: null, 
-          black: notation 
-        }];
-      }
-      
-      const lastMove = prev[prev.length - 1];
-      if (lastMove.white && !lastMove.black) {
+  const [promotingPawn, setPromotingPawn] = useState(null);
+  const handlePromotion = (board, position, color) => {
+    setPromotingPawn({ position, color });
+    return board;
+  };
+  const PromotionModal = () => {
+    if (!promotingPawn) return null;
+    const pieces = ["queen", "rook", "bishop", "knight"];
+    const row = promotingPawn.position.row;
+    const col = promotingPawn.position.col;
+    return (
+      <div className="promotion-modal absolute bg-gray-800 p-4 rounded-lg shadow-lg">
+        {pieces.map((piece) => (
+          <button
+            key={piece}
+            onClick={() => {
+              const newBoard = [...board];
+              newBoard[row][col].piece = {
+                type: piece,
+                color: promotingPawn.color,
+              };
+              setBoard(newBoard);
+              setPromotingPawn(null);
+            }}
+            className="w-full p-2 hover:bg-gray-700 text-white"
+          >
+            {piece.charAt(0).toUpperCase() + piece.slice(1)}
+          </button>
+        ))}
+      </div>
+    );
+  };
+  const updateMoveHistory = (from, to, movingPlayer) => {
+    const notation = getMoveNotation(from, to);
+    setMoves((prev) => {
+      if (movingPlayer === "white") {
+        const moveNumber = Math.floor(prev.length) + 1;
         return [
-          ...prev.slice(0, -1),
-          { 
-            ...lastMove, 
-            black: notation 
-          }
+          ...prev,
+          {
+            moveNumber,
+            white: notation,
+            black: null,
+          },
         ];
-      }
-      else {
-        const moveNumber = prev.length + 1;
-        return [...prev, { 
-          moveNumber, 
-          white: null, 
-          black: notation 
-        }];
-      }
-    }
-  });
-};
-const getMoveNotation = (from, to, board) => {
-  if (!from.piece) return '';
-  const pieceType = from.piece.type;
-  const isCapture = to.piece !== null;
-  const file = String.fromCharCode(97 + to.col);
-  const rank = 8 - to.row;
-  if (pieceType === 'king' && Math.abs(from.col - to.col) === 2) {
-    return to.col > from.col ? 'O-O' : 'O-O-O';
-  }
-  if (pieceType === 'pawn') {
-    if (isCapture) {
-      const fromFile = String.fromCharCode(97 + from.col);
-      return `${fromFile}x${file}${rank}`;
-    }
-    return `${file}${rank}`;
-  }
+      } else {
+        if (prev.length === 0) {
+          return [
+            {
+              moveNumber: 1,
+              white: null,
+              black: notation,
+            },
+          ];
+        }
 
-  // Handle other pieces
-  const pieceLetter = {
-    knight: 'N',
-    bishop: 'B',
-    rook: 'R',
-    queen: 'Q',
-    king: 'K'
-  }[pieceType];
+        const lastMove = prev[prev.length - 1];
+        if (lastMove.white && !lastMove.black) {
+          return [
+            ...prev.slice(0, -1),
+            {
+              ...lastMove,
+              black: notation,
+            },
+          ];
+        } else {
+          const moveNumber = prev.length + 1;
+          return [
+            ...prev,
+            {
+              moveNumber,
+              white: null,
+              black: notation,
+            },
+          ];
+        }
+      }
+    });
+  };
+  const getMoveNotation = (from, to, board) => {
+    if (!from.piece) return "";
+    const pieceType = from.piece.type;
+    const isCapture = to.piece !== null;
+    const file = String.fromCharCode(97 + to.col);
+    const rank = 8 - to.row;
+    if (pieceType === "king" && Math.abs(from.col - to.col) === 2) {
+      return to.col > from.col ? "O-O" : "O-O-O";
+    }
+    if (pieceType === "pawn") {
+      if (isCapture) {
+        const fromFile = String.fromCharCode(97 + from.col);
+        return `${fromFile}x${file}${rank}`;
+      }
+      return `${file}${rank}`;
+    }
 
-  return `${pieceLetter}${isCapture ? 'x' : ''}${file}${rank}`;
-};
+    // Handle other pieces
+    const pieceLetter = {
+      knight: "N",
+      bishop: "B",
+      rook: "R",
+      queen: "Q",
+      king: "K",
+    }[pieceType];
+
+    return `${pieceLetter}${isCapture ? "x" : ""}${file}${rank}`;
+  };
   const parseUCIToCoordinates = (uci, currentBoard) => {
     const col = uci.charCodeAt(0) - 97;
     const row = 8 - parseInt(uci[1]);
     return {
       col,
       row,
-      piece: currentBoard[row][col].piece
+      piece: currentBoard[row][col].piece,
     };
   };
   const isInCheck = (board, color) => {
     const kingPos = findKing(board, color);
-    return board.some((row, y) => row.some((sq, x) => 
-      sq.piece?.color !== color && validateMove(
-        { row: y, col: x, piece: sq.piece },
-        kingPos
+    return board.some((row, y) =>
+      row.some(
+        (sq, x) =>
+          sq.piece?.color !== color &&
+          validateMove({ row: y, col: x, piece: sq.piece }, kingPos)
       )
-    ));
+    );
   };
   const findKing = (board, color) => {
     for (let y = 0; y < 8; y++) {
       for (let x = 0; x < 8; x++) {
-        if (board[y][x].piece?.type === 'king' && board[y][x].piece?.color === color) {
+        if (
+          board[y][x].piece?.type === "king" &&
+          board[y][x].piece?.color === color
+        ) {
           return { row: y, col: x };
         }
       }
@@ -330,25 +420,28 @@ const getMoveNotation = (from, to, board) => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
         <div className="md:col-span-2">
           <div className="flex justify-between items-center bg-gray-800 rounded-lg p-2">
-          <div className="flex items-center space-x-2 bg-gray-700/50 px-3 py-1 rounded-md">
-          <div className="text-md font-bold text-white">Magnus Carlsen</div>
-          <CutPieces 
-          pieces={cutPieces[side === 'white' ? 'black' : 'white']} 
-          advantage={calculateAdvantage(cutPieces, side === 'white' ? 'black' : 'white')}
-          />
-          </div>
-            <Timer 
-              time={side === 'white' ? blackTime : whiteTime}
+            <div className="flex items-center space-x-2 bg-gray-700/50 px-3 py-1 rounded-md">
+              <div className="text-md font-bold text-white">Magnus Carlsen</div>
+              <CutPieces
+                pieces={cutPieces[side === "white" ? "black" : "white"]}
+                advantage={calculateAdvantage(
+                  cutPieces,
+                  side === "white" ? "black" : "white"
+                )}
+              />
+            </div>
+            <Timer
+              time={side === "white" ? blackTime : whiteTime}
               isActive={
-                currentPlayer === (side === 'white' ? 'black' : 'white') && 
-                gameStarted && 
+                currentPlayer === (side === "white" ? "black" : "white") &&
+                gameStarted &&
                 !gameOver
               }
               onTimeEnd={() => setGameOver(true)}
             />
           </div>
-    
-          <ChessBoard 
+
+          <ChessBoard
             board={flippedBoard}
             handleSquareClick={handleSquareClick}
             legalMoves={legalMoves}
@@ -356,41 +449,61 @@ const getMoveNotation = (from, to, board) => {
             kingInCheck={kingInCheck}
           />
           <div className="flex justify-between items-center bg-gray-800 rounded-lg p-2">
-          <div className="flex items-center space-x-2 bg-gray-700/50 px-3 py-1 rounded-md">
-          <div className="text-md font-bold text-white">{user?.username}</div>
-          <CutPieces
-            pieces={cutPieces[side]}
-            advantage={calculateAdvantage(cutPieces, side)}
-          />
-          </div>
-            <Timer 
-              time={side === 'white' ? whiteTime : blackTime}
-              isActive={
-                currentPlayer === side && 
-                gameStarted && 
-                !gameOver
-              }
-              onTimeEnd={() => {console.log("hi");(!whiteTime)?((side==='white'?(endGame("player_timeout")):(endGame("ai_timeout")))):((side==='white'?(endGame("ai_timeout")):(endGame("player_timeout"))))}}
+            <div className="flex items-center space-x-2 bg-gray-700/50 px-3 py-1 rounded-md">
+              <div className="text-md font-bold text-white">
+                {user?.username}
+              </div>
+              <CutPieces
+                pieces={cutPieces[side]}
+                advantage={calculateAdvantage(cutPieces, side)}
+              />
+            </div>
+            <Timer
+              time={side === "white" ? whiteTime : blackTime}
+              isActive={currentPlayer === side && gameStarted && !gameOver}
+              onTimeEnd={() => {
+                console.log("hi");
+                !whiteTime
+                  ? side === "white"
+                    ? endGame("player_timeout")
+                    : endGame("ai_timeout")
+                  : side === "white"
+                  ? endGame("ai_timeout")
+                  : endGame("player_timeout");
+              }}
             />
           </div>
         </div>
-    
+
         <div className="space-y-4">
           <div className="text-center text-xl font-bold">
-            {`${['Easy', 'Intermediate', 'Hard'][level / 10]} | ${timeFormat / 60}+0`}
+            {`${["Easy", "Intermediate", "Hard"][level / 10]} | ${
+              timeFormat / 60
+            }+0`}
           </div>
           <MoveHistory moves={moves} />
           {gameOver && (
             <div className="mt-4">
-              <Result 
-                result={gameResult} 
-                playerColor={side}
-              />
+              <Result result={gameResult} playerColor={side} />
             </div>
           )}
           <div className="flex space-x-4">
-            {!gameOver && <ResignButton onResign={() => {setGameOver(true);endGame("player_resign");}} />}
-            {gameOver && <StartNewGame onNewGame={() => {window.location.reload();resetGame();}} />}
+            {!gameOver && (
+              <ResignButton
+                onResign={() => {
+                  setGameOver(true);
+                  endGame("player_resign");
+                }}
+              />
+            )}
+            {gameOver && (
+              <StartNewGame
+                onNewGame={() => {
+                  window.location.reload();
+                  resetGame();
+                }}
+              />
+            )}
           </div>
         </div>
       </div>

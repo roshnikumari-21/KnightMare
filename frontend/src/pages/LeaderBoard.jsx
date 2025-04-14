@@ -84,25 +84,27 @@ const Leaderboard = () => {
   if (error) return <div className="text-red-500 text-center py-8">{error}</div>;
 
   return (
-    <div className="bg-black text-white min-h-screen p-4 md:p-8">
+    <div className="bg-gray-950 text-white min-h-screen p-4 md:p-8">
       <motion.h1 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
-        className="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-12"
+        className="text-2xl md:text-4xl font-bold text-center mb-6 md:mb-12"
       >
         Leaderboard
       </motion.h1>
 
       {/* Top 3 Users - Compact Mobile Version */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-6 mb-6 md:mb-8">
+      <div className="grid grid-cols-3 sm:grid-cols-3 gap-3 md:gap-6 mb-6 md:mb-8">
         {/* 2nd Place */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.0 }}
           whileHover={{ scale: 1.03 }}
-          className="bg-gray-800 rounded-lg p-2 md:p-4 flex flex-col items-center"
+          className="bg-gray-800 rounded-lg p-2 md:p-4 flex flex-col items-center
+          shadow-lg shadow-blue-500/30 hover:shadow-blue-400/50
+          transition-shadow duration-300"
         >
           {topUsers[1] && (
             <>
@@ -114,7 +116,7 @@ const Leaderboard = () => {
                 }}
                 className="w-12 h-12 md:w-24 md:h-24 rounded-lg shadow hover:shadow-white/20 transition-shadow"
               ></div>
-              <h2 className="text-sm md:text-xl mt-1 md:mt-2 font-medium md:font-semibold text-center truncate max-w-full">
+              <h2 className="text-sm md:text-xl mt-1 md:mt-2 font-medium  md:font-semibold text-center truncate max-w-full">
                 {topUsers[1].username}
               </h2>
               <div className='bg-gray-400 mt-1 md:mt-2 p-1 md:p-2 rounded-lg'>
@@ -132,7 +134,9 @@ const Leaderboard = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.0 }}
           whileHover={{ scale: 1.03 }}
-          className="bg-slate-900 rounded-lg p-2 md:p-6 flex flex-col items-center order-first sm:order-none"
+          className="bg-gray-800 rounded-lg p-2 md:p-4 flex flex-col items-center
+          shadow-lg shadow-blue-500/30 hover:shadow-blue-400/50
+          transition-shadow duration-300"
         >
           {topUsers[0] && (
             <>
@@ -162,7 +166,9 @@ const Leaderboard = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.0 }}
           whileHover={{ scale: 1.03 }}
-          className="bg-gray-800 rounded-lg p-2 md:p-4 flex flex-col items-center"
+          className="bg-gray-800 rounded-lg p-2 md:p-4 flex flex-col items-center
+          shadow-lg shadow-blue-500/30 hover:shadow-blue-400/50
+          transition-shadow duration-300"
         >
           {topUsers[2] && (
             <>
@@ -172,7 +178,9 @@ const Leaderboard = () => {
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
-                className="w-12 h-12 md:w-24 md:h-24 rounded-lg shadow hover:shadow-white/20 transition-shadow"
+                className="w-12 h-12 md:w-24 md:h-24 rounded-lg 
+              
+             transition-all duration-300"
               ></div>
               <h2 className="text-sm md:text-xl mt-1 md:mt-2 font-medium md:font-semibold text-center truncate max-w-full">
                 {topUsers[2].username}
