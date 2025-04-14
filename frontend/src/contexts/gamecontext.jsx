@@ -9,10 +9,10 @@ import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
 
 const GameProvider = (props) => {
-  const { backendUrl, token,user, setUser } = useContext(commoncontext);
+  const { backendUrl, token, user, setUser } = useContext(commoncontext);
   const { setUserProfile } = useContext(profileContext);
   const [startTime, setStartTime] = useState(new Date());
-  
+
   const loadGameState = () => {
     try {
       const savedGame = localStorage.getItem('currentGame');
@@ -54,7 +54,7 @@ const GameProvider = (props) => {
   const [gameResult, setGameResult] = useState(savedGame?.gameResult || null);
   const [cutPieces, setCutPieces] = useState(savedGame?.cutPieces || initCutPieces());
   const [gameId, setGameId] = useState(savedGame?.gameId || uuidv4());
-  
+
   const { getBestMove } = useStockfish(level);
 
   // Save game state to localStorage
@@ -109,7 +109,7 @@ const GameProvider = (props) => {
 
   useEffect(() => {
     setGameStarted(moves.length >= 1);
-    if (moves.length >= 1){
+    if (moves.length >= 1) {
       setShowBoard(true);
       if (moves.length === 1) {
         setStartTime(new Date());
@@ -126,7 +126,7 @@ const GameProvider = (props) => {
         console.log("Invalid game result, not saving");
         return;
       }
-  
+
       const difficulty = ["easy", "medium", "hard"][level];
       const now = new Date();
       const gameDuration = Math.floor((now - startTime) / 1000);
@@ -144,16 +144,16 @@ const GameProvider = (props) => {
         createdAt: startTime.toISOString(),
         endedAt: now.toISOString()
       };
-  
+
       console.log("Saving game data:", gameData);
-  
+
       if (token && user) {
         const response = await axios.post(`${backendUrl}/api/games/end`, gameData, {
           headers: {
             'userId': user._id,
           }
         });
-  
+
         if (response.data.success) {
           const updatedUser = response.data.user;
           const processedUser = {
@@ -166,7 +166,7 @@ const GameProvider = (props) => {
               date: new Date(item.date)
             }))
           };
-  
+
           setUser(processedUser);
           setUserProfile(prev => ({
             ...prev,

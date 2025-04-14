@@ -459,6 +459,65 @@ export const deactivateAccount = async (req, res) => {
       });
   }
 };
+// export const getLeaderboard = async (req, res) => {
+//   try {
+//     if (!req.body.user) {
+//       return res.status(401).json({
+//         success: false,
+//         message: "Not authenticated",
+//       });
+//     }
+
+//     const page = parseInt(req.query.page) || 1;
+//     const limit = parseInt(req.query.limit) || 20;
+//     const skip = (page - 1) * limit;
+
+//     const leaderboard = await User.aggregate([
+//       {
+//         $sort: {
+//           score: -1,
+//           _id: 1,
+//         },
+//       },
+//       { $skip: skip },
+//       { $limit: limit },
+//       {
+//         $project: {
+//           email:1,
+//           username: 1,
+//           score: 1,
+//           gamesPlayed: 1,
+//           gamesWon: 1,
+//           currentStreak: 1,
+//           longestStreak: 1,
+//           profilePicture: 1,
+//         },
+//       },
+//     ]);
+//     const totalUsers = await User.countDocuments();
+//     const totalPages = Math.ceil(totalUsers / limit);
+
+//     res.status(200).json({
+//       success: true,
+//       data: leaderboard,
+//       pagination: {
+//         page,
+//         limit,
+//         totalUsers,
+//         totalPages,
+//         hasNextPage: page < totalPages,
+//         hasPreviousPage: page > 1,
+//       },
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: "Failed to fetch leaderboard",
+//       error: error.message,
+//     });
+//   }
+// };
+
 export const getLeaderboard = async (req, res) => {
   try {
     if (!req.body.user) {
@@ -472,28 +531,45 @@ export const getLeaderboard = async (req, res) => {
     const limit = parseInt(req.query.limit) || 20;
     const skip = (page - 1) * limit;
 
-    const leaderboard = await User.aggregate([
-      {
-        $sort: {
-          score: -1,
-          _id: 1,
-        },
-      },
-      { $skip: skip },
-      { $limit: limit },
-      {
-        $project: {
-          email:1,
-          username: 1,
-          score: 1,
-          gamesPlayed: 1,
-          gamesWon: 1,
-          currentStreak: 1,
-          longestStreak: 1,
-          profilePicture: 1,
-        },
-      },
-    ]);
+    // First perform a query to get all users sorted by score
+    // This will be used to calculate the global rank
+    const allUsers = await User.find({})
+      .select('_id score')
+      .sort({ score: -1 }) // Sort by score desc, then _id for consistent ordering
+      .lean();
+    let currentRank = 1;
+    let currentScore = null;
+    let userRanks = {};
+
+    allUsers.forEach((user, index) => {
+      const userScore = parseInt(user.score, 10); // Parse score into int
+      if (index === 0 || userScore !== currentScore) {
+        currentRank = index + 1;
+        currentScore = userScore;
+        console.log(currentScore, currentRank);
+      }
+      
+      userRanks[user._id.toString()] = currentRank;
+    });
+
+    console.log(userRanks);
+
+    // Now get the paginated users with all required fields
+    const paginatedUsers = await User.find({})
+      .sort({ score: -1, _id: 1 })
+      .skip(skip)
+      .limit(limit)
+      .select('email username score gamesPlayed gamesWon currentStreak longestStreak profilePicture')
+      .lean();
+
+    // Add the rank to each user in the paginated results
+    const leaderboard = paginatedUsers.map(user => {
+      return {
+        ...user,
+        rank: userRanks[user._id.toString()]
+      };
+    });
+
     const totalUsers = await User.countDocuments();
     const totalPages = Math.ceil(totalUsers / limit);
 
@@ -510,6 +586,7 @@ export const getLeaderboard = async (req, res) => {
       },
     });
   } catch (error) {
+    console.error("Leaderboard error:", error);
     res.status(500).json({
       success: false,
       message: "Failed to fetch leaderboard",
