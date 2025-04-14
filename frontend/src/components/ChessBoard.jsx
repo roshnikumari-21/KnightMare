@@ -13,8 +13,12 @@ const ChessBoard = ({ board, handleSquareClick, legalMoves, side,kingInCheck }) 
     audio.play().catch(console.error);
   };
   const getPieceIcon = (piece) => {
-    const color = piece.color === 'white' ? 'white' : 'black';
-    const props = { size: "80%", color };
+    const color= piece.color === 'white' ? 'white' : 'black';
+    const props = { 
+      size: "80%", 
+      color: color, 
+      className: `chess-piece-${color}` 
+    };
     switch(piece.type) {
       case 'king': return <FaChessKing {...props} />;
       case 'queen': return <FaChessQueen {...props} />;
@@ -85,11 +89,11 @@ const ChessBoard = ({ board, handleSquareClick, legalMoves, side,kingInCheck }) 
                     ${isKingInCheck ? 'king-in-check' : ''}
                   `}
                 >
-                  {square.piece && (
-                    <div className="chess-piece">
-                      {getPieceIcon(square.piece)}
-                    </div>
-                  )}
+                 {square.piece && (
+                  <div className={`chess-piece chess-piece-${square.piece.color}`}>
+                    {getPieceIcon(square.piece)}
+                  </div>
+                )}
                   
                   {isLegal && (
                     <div className={`legal-move-indicator ${
