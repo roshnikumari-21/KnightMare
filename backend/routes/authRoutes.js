@@ -13,6 +13,9 @@ import {
   getLeaderboard,
 } from '../controllers/userController.js';
 import authenticateUser from '../middleware/authMiddleware.js';
+
+
+
 const userRouter = express.Router();
 userRouter.post('/uploadProfilePic',upload.single('image1'),uploadProfilePic)
 userRouter.post('/register', registerUser);

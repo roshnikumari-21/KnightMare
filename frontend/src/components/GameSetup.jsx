@@ -5,7 +5,6 @@ import PlayWith from "./PlayWith";
 import { gamecontext } from "../contexts/gamecontext";
 
 
-
 //no backend interaction needed here.
 
 function GameSetup() {

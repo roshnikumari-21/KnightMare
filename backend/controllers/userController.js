@@ -1,7 +1,7 @@
-import User from '../models/User.js';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { v2 as cloudinary } from "cloudinary"
+import User from "../models/User.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { v2 as cloudinary } from "cloudinary";
 import { OAuth2Client } from "google-auth-library";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -13,7 +13,9 @@ export const registerUser = async (req, res) => {
   try {
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
-      return res.status(400).json({ success: false, message: "Username or email already exists" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Username or email already exists" });
     }
     const passwordHash = password;
     const newUser = new User({
@@ -33,9 +35,15 @@ export const registerUser = async (req, res) => {
     });
   } catch (error) {
     console.error("Error during registration:", error);
-    res.status(500).json({ success: false, message: "An error occurred during registration" });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "An error occurred during registration",
+      });
   }
 };
+
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -45,7 +53,9 @@ export const loginUser = async (req, res) => {
     }
     const isPasswordValid = await user.comparePassword(password);
     if (!isPasswordValid) {
-      return res.status(400).json({ success: false, message: "Invalid password" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid password" });
     }
     const token = user.generateAuthToken();
     res.status(200).json({
@@ -54,16 +64,20 @@ export const loginUser = async (req, res) => {
       user: user,
       token,
     });
-
   } catch (error) {
     console.error("Error during login:", error);
-    res.status(500).json({ success: false, message: "An error occurred during login" });
+    res
+      .status(500)
+      .json({ success: false, message: "An error occurred during login" });
   }
 };
+
+
+
 export const googleLogin = async (req, res) => {
   const { token } = req.body;
   if (!token) {
-    return res.status(400).json({ message: 'Token is required' });
+    return res.status(400).json({ message: "Token is required" });
   }
   try {
     const ticket = await client.verifyIdToken({
@@ -74,29 +88,44 @@ export const googleLogin = async (req, res) => {
     const { email, name, picture, sub } = payload;
     let user = await User.findOne({ email });
     if (!user) {
-      user = new User({ username: email.split('@')[0], email, authProvider: "google", profilePicture:"https://res.cloudinary.com/dzqazpfsq/image/upload/v1742382970/zgp1qxjtz2yca3qkbhb3.png", googleId: sub, isVerified: true });
+      user = new User({
+        username: email.split("@")[0],
+        email,
+        authProvider: "google",
+        profilePicture:
+          "https://res.cloudinary.com/dzqazpfsq/image/upload/v1742382970/zgp1qxjtz2yca3qkbhb3.png",
+        googleId: sub,
+        isVerified: true,
+      });
       await user.save();
     } else {
       // Only update fields if they are different to avoid redundant writes
       if (user.googleID != sub) {
-        user.googleId = sub }
+        user.googleId = sub;
+      }
       await user.save();
     }
     const jwtToken = user.generateAuthToken();
 
-    res.status(200).json({ message: 'Login successful', token: jwtToken, user });
+    res
+      .status(200)
+      .json({ message: "Login successful", token: jwtToken, user });
   } catch (error) {
-    console.error('Error verifying Google token:', error.message || error);
-    res.status(401).json({ message: 'Invalid token' });
+    console.error("Error verifying Google token:", error.message || error);
+    res.status(401).json({ message: "Invalid token" });
   }
 };
+
+
 
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
     const resetToken = crypto.randomBytes(32).toString("hex");
     user.resetToken = resetToken;
@@ -114,13 +143,18 @@ export const forgotPassword = async (req, res) => {
       from: process.env.EMAIL_USER,
       to: user.email,
       subject: "Password Reset Request",
-      html: `<p>You requested a password reset. Click <a href="${resetLink}">here</a> to reset your password.</p><p>If you didn't request this, please ignore this email.</p>`
+      html: `<p>You requested a password reset. Click <a href="${resetLink}">here</a> to reset your password.</p><p>If you didn't request this, please ignore this email.</p>`,
     };
     await transporter.sendMail(mailOptions);
     res.json({ success: true, message: "Reset link sent to your email" });
   } catch (error) {
     console.error("Error in forgotPassword:", error);
-    res.status(500).json({ success: false, message: "Server error. Please try again later." });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Server error. Please try again later.",
+      });
   }
 };
 
@@ -132,7 +166,9 @@ export const resetPassword = async (req, res) => {
       resetTokenExpires: { $gt: Date.now() },
     });
     if (!user) {
-      return res.status(400).json({ success: false, message: "Invalid or expired token." });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid or expired token." });
     }
 
     user.passwordHash = password;
@@ -142,19 +178,30 @@ export const resetPassword = async (req, res) => {
     res.json({ success: true, message: "Password reset successfully!" });
   } catch (error) {
     console.error("Error resetting password:", error);
-    res.status(500).json({ success: false, message: "Server error. Please try again later." });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Server error. Please try again later.",
+      });
   }
 };
+
+
 
 export const sendFeedback = async (req, res) => {
   const { name, email, Feedback } = req.body;
   if (!name || !email || !Feedback) {
-    return res.status(400).json({ success: false, message: "Enter all the fields." })
+    return res
+      .status(400)
+      .json({ success: false, message: "Enter all the fields." });
   }
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
 
     const transporter = nodemailer.createTransport({
@@ -237,11 +284,18 @@ export const sendFeedback = async (req, res) => {
       </html>`,
     };
     await transporter.sendMail(mailOptions);
-    res.json({ success: true, message: "Feedback successfully sent to the KnightMare team!" });
-
+    res.json({
+      success: true,
+      message: "Feedback successfully sent to the KnightMare team!",
+    });
   } catch (error) {
     console.error("Error in sendFeedback:", error);
-    res.status(500).json({ success: false, message: "Server error. Please try again later." });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Server error. Please try again later.",
+      });
   }
 };
 
@@ -250,10 +304,14 @@ export const uploadProfilePic = async (req, res) => {
   const image = req.file;
 
   if (!image) {
-    return res.status(400).json({ success: false, message: "No image file provided." });
+    return res
+      .status(400)
+      .json({ success: false, message: "No image file provided." });
   }
   try {
-    const result = await cloudinary.uploader.upload(image.path, { resource_type: 'image' });
+    const result = await cloudinary.uploader.upload(image.path, {
+      resource_type: "image",
+    });
     const imageUrl = result.secure_url;
     const user = await User.findOneAndUpdate(
       { email },
@@ -262,70 +320,102 @@ export const uploadProfilePic = async (req, res) => {
     );
 
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found." });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found." });
     }
 
-    res.json({ success: true, message: "Profile picture updated successfully!", user });
+    res.json({
+      success: true,
+      message: "Profile picture updated successfully!",
+      user,
+    });
   } catch (error) {
     console.error("Error updating profile picture:", error);
-    res.status(500).json({ success: false, message: "Server error. Please try again later." });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Server error. Please try again later.",
+      });
   }
-}
+};
+
+
 
 export const getUser = async (req, res) => {
   const token = req.headers.token;
   const email = req.headers.email;
   if (!token) {
-    return res.status(401).json({ success: false, message: "No token provided." });
+    return res
+      .status(401)
+      .json({ success: false, message: "No token provided." });
   }
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.userId;
-    const user = await User.findOne({email}).select("-passwordHash");
+    const user = await User.findOne({ email }).select("-passwordHash");
 
     if (!user) {
-      return res.status(400).json({ success: false, message: "User not found." });
+      return res
+        .status(400)
+        .json({ success: false, message: "User not found." });
     }
     const higherScoreCount = await User.countDocuments({
-      score: { $gt: user.score }
+      score: { $gt: user.score },
     });
     const rank = higherScoreCount + 1;
-    res.json({ success: true, user ,rank });
+    res.json({ success: true, user, rank });
   } catch (error) {
     console.error("Error fetching user:", error);
-    res.status(500).json({ success: false, message: "Server error. Please try again." });
+    res
+      .status(500)
+      .json({ success: false, message: "Server error. Please try again." });
   }
 };
 
 export const deactivateAccount = async (req, res) => {
   const { email, password } = req.body;
-  console.log(email, password)
+  console.log(email, password);
   if (!email || !password) {
-    return res.status(400).json({ success: false, message: "Email and password are required." });
+    return res
+      .status(400)
+      .json({ success: false, message: "Email and password are required." });
   }
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found." });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found." });
     }
     const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
     if (!isPasswordValid) {
-      return res.status(401).json({ success: false, message: "Invalid password." });
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid password." });
     }
     await User.deleteOne({ email });
     res.json({ success: true, message: "Account deactivated successfully." });
   } catch (error) {
     console.error("Error deactivating account:", error);
-    res.status(500).json({ success: false, message: "Server error. Please try again later." });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Server error. Please try again later.",
+      });
   }
 };
+
+
 
 export const getLeaderboard = async (req, res) => {
   try {
     if (!req.body.user) {
       return res.status(401).json({
         success: false,
-        message: 'Not authenticated'
+        message: "Not authenticated",
       });
     }
 
@@ -334,11 +424,11 @@ export const getLeaderboard = async (req, res) => {
     const skip = (page - 1) * limit;
 
     const leaderboard = await User.aggregate([
-      { 
-        $sort: { 
-          score: -1,  
-          _id: 1  
-        } 
+      {
+        $sort: {
+          score: -1,
+          _id: 1,
+        },
       },
       { $skip: skip },
       { $limit: limit },
@@ -351,8 +441,8 @@ export const getLeaderboard = async (req, res) => {
           currentStreak: 1,
           longestStreak: 1,
           profilePicture: 1,
-        }
-      }
+        },
+      },
     ]);
     const totalUsers = await User.countDocuments();
     const totalPages = Math.ceil(totalUsers / limit);
@@ -366,14 +456,14 @@ export const getLeaderboard = async (req, res) => {
         totalUsers,
         totalPages,
         hasNextPage: page < totalPages,
-        hasPreviousPage: page > 1
-      }
+        hasPreviousPage: page > 1,
+      },
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Failed to fetch leaderboard',
-      error: error.message
+      message: "Failed to fetch leaderboard",
+      error: error.message,
     });
   }
 };
