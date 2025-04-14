@@ -183,7 +183,7 @@ function Chess() {
                 setCutPieces((prev) =>
                   updateCutPieces(prev, capturedPiece, currentPlayer)
                 );
-                playCaptureSound();
+               // playCaptureSound();
               }
             }
           );
@@ -258,16 +258,18 @@ function Chess() {
           (newRights) => setCastlingRights(newRights),
           setEnPassantTarget,
           (capturedPiece) => {
+            // playCaptureSound();
             if (capturedPiece) {
               setCutPieces((prev) =>
                 updateCutPieces(prev, capturedPiece, player)
               );
-              playCaptureSound();
+              //playCaptureSound();
             }
           }
         );
 
         setBoard(newBoard);
+        playCaptureSound();
         updateMoveHistory(from, to, player);
         setCurrentPlayer(player === "white" ? "black" : "white");
         setCurrentPlayer(player === "white" ? "black" : "white");
@@ -415,12 +417,16 @@ function Chess() {
     return null;
   };
 
+
+
+
+
   return (
-    <div className="chess-container p-3 bg-gray-900 text-white">
+    <div className="chess-container p-2  bg-gray-900 text-white">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
         <div className="md:col-span-2">
-          <div className="flex justify-between items-center bg-gray-800 rounded-lg p-2">
-            <div className="flex items-center space-x-2 bg-gray-700/50 px-3 py-1 rounded-md">
+          <div className="flex justify-between items-center relative z-10 bg-gray-800 rounded-lg p-1">
+            <div className="flex items-center space-x-1  bg-gray-700/50 px-3 rounded-md">
               <div className="text-md font-bold text-white">Magnus Carlsen</div>
               <CutPieces
                 pieces={cutPieces[side === "white" ? "black" : "white"]}
@@ -448,8 +454,8 @@ function Chess() {
             side={side}
             kingInCheck={kingInCheck}
           />
-          <div className="flex justify-between items-center bg-gray-800 rounded-lg p-2">
-            <div className="flex items-center space-x-2 bg-gray-700/50 px-3 py-1 rounded-md">
+          <div className="flex justify-between items-center relative z-10 bg-gray-800 rounded-lg p-1">
+            <div className="flex items-center space-x-2 bg-gray-700/50 px-3  rounded-md">
               <div className="text-md font-bold text-white">
                 {user?.username}
               </div>

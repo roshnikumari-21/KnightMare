@@ -114,21 +114,21 @@ const HeatMap = () => {
       </div>
 
       {/* Streak Info */}
-      <div className="flex flex-col md:flex-row justify-between bg-black border border-white p-4 md:p-3 rounded-lg mt-6 gap-4 md:gap-0 shadow-[0_4px_6px_rgba(255,255,255,0.1)] hover:shadow-[0_6px_8px_rgba(255,255,255,0.2)] transition-shadow duration-300">
+      <div className=" text-sm font-semibold  flex flex-col md:flex-row justify-between bg-gray-900 border border-gray-400 p-2 md:p-2 rounded-lg mt-6 gap-2 md:gap-0 shadow-[0_4px_6px_rgba(255,255,255,0.1)] hover:shadow-[0_6px_8px_rgba(255,255,255,0.2)] transition-shadow duration-300">
         {/* Longest Streak */}
-        <div className="flex items-center justify-start md:mr-8">
-          <i className="fas fa-fire text-yellow-500 mr-2 mt-1"></i>
-          <span className="text-white mr-2 font-extrabold">Longest Streak:</span>
-          <span className="text-yellow-500 font-extrabold">
+        <div className="flex items-center justify-start md:mr-6">
+          <i className="fas fa-fire text-gray-400 mr-2 mt-1"></i>
+          <span className="text-gray-400 mr-2 font-bold md:font-extrabold">Longest Streak:</span>
+          <span className="text-white font-bold md:font-extrabold">
             {profile?.longestStreak ?? 0} Days
           </span>
         </div>
 
         {/* Current Streak */}
         <div className="flex items-center justify-start">
-          <i className="fas fa-fire text-green-500 mr-2 mt-1"></i>
-          <span className="text-white mr-2 font-extrabold">Current Streak:</span>
-          <span className="text-green-500 font-extrabold">
+          <i className="fas fa-fire text-gray-400 mr-2 mt-1"></i>
+          <span className="text-gray-400 mr-2 font-bold  md:font-extrabold">Current Streak:</span>
+          <span className="text-white font-bold  md:font-extrabold">
             {profile?.currentStreak ?? 0} Days
           </span>
         </div>

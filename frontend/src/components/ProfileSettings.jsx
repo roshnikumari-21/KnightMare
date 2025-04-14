@@ -85,9 +85,9 @@ import { useNavigate } from "react-router";
 const ProfileSettings = () => {
   const Navigate = useNavigate();
   return (
-    <div className="mx-4 sm:mx-8 md:mx-14 mt-6 pt-4 rounded-xl bg-black bg-opacity-60 p-4 sm:p-6 md:p-8 shadow-lg">
+    <div className="mx-4 relative z-10 sm:mx-8 md:mx-14 mt-6 pt-4 rounded-xl bg-gray-900 bg-opacity-60 p-4 sm:p-6 md:p-8 shadow-lg">
       {/* Title */}
-      <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-6 sm:mb-8 border-b-2 border-white pb-2 sm:pb-4">
+      <h2 className="  text-xl sm:text-3xl md:text-4xl font-extrabold text-white mb-6 sm:mb-8 border-b-2 border-white pb-2 sm:pb-4">
         Profile Settings
       </h2>
 
@@ -107,7 +107,7 @@ const ProfileSettings = () => {
           title: "Change Username",
           desc: "Update your display name.",
           btnText: "Change",
-          route: "/changeusername", // Add this route in your app if needed
+          route: "/Usernamechange", // Add this route in your app if needed
         },
         {
           icon: "fas fa-lock",
@@ -128,20 +128,20 @@ const ProfileSettings = () => {
       ].map((item, idx) => (
         <div
           key={idx}
-          style={{
-            backgroundImage: "url('/bgmodernblack.jpg')",
-            backgroundSize: "cover",
-          }}
-          className="flex flex-col sm:flex-row items-start sm:items-center mb-6 p-4 bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors duration-300"
+          // style={{
+          //   backgroundImage: "url('/bgmodernblack.jpg')",
+          //   backgroundSize: "cover",
+          // }}
+          className="flex border-gray-400 border bg-gray-800 flex-row items-start  mb-3 md:mb-6 p-4  rounded-lg hover:bg-gray-800 transition-colors duration-300"
         >
-          <i className={`${item.icon} text-2xl ${item.iconColor} mb-2 sm:mb-0 sm:mr-4`}></i>
-          <div className="flex-1 mb-4 sm:mb-0">
-            <h3 className="text-lg sm:text-xl font-bold text-white">{item.title}</h3>
+          <i className={`${item.icon} mr-1 text-xl md:text-2xl ${item.iconColor} mb-2  sm:mr-4`}></i>
+          <div className="flex-1 mb-2 md:mb-4 sm:mb-0">
+            <h3 className="text-semibold md:font-bold text-white">{item.title}</h3>
             <p className="text-sm sm:text-base text-gray-400">{item.desc}</p>
           </div>
           <button
             onClick={() => Navigate(item.route)}
-            className="bg-slate-900 text-white px-4 sm:px-6 py-2 rounded-full hover:bg-slate-800 transition-colors duration-300 border border-white"
+            className="bg-slate-900 text-white px-4 sm:px-6 py-2 rounded-full hover:bg-slate-800 transition-colors duration-300 border border-gray-400"
           >
             {item.btnText}
           </button>

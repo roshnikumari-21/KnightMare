@@ -119,7 +119,7 @@ const ProfileCompA = () => {
 
           {/* Username + Email */}
           <div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight">
+            <h1 className="text-2xl md:text-5xl font-bold md:font-extrabold text-white leading-tight">
               {profile?.username || "Username"}
             </h1>
             <p className="text-gray-400 text-sm mt-1">
@@ -129,7 +129,7 @@ const ProfileCompA = () => {
         </div>
 
         {/* Stats */}
-        <div className="w-full space-y-3">
+        <div className="w-full space-y-2  md:space-y-3">
           {[
             {
               icon: "fas fa-trophy",
@@ -159,9 +159,9 @@ const ProfileCompA = () => {
           ].map(({ icon, label, value }, i) => (
             <div
               key={i}
-              className="flex items-center bg-black/80 p-3 border border-gray-600 rounded-lg shadow-md hover:shadow-[0_6px_8px_rgba(255,255,255,0.2)] transition-shadow duration-300"
+              className="flex relative z-10 items-center bg-gray-900 text-sm  p-1 md:p-3 border border-gray-600 rounded-lg shadow-md hover:shadow-[0_6px_8px_rgba(255,255,255,0.2)] transition-shadow duration-300"
             >
-              <i className={`${icon} text-gray-400 mr-3`} />
+              <i className={`${icon} text-gray-400  mr-3`} />
               <span className="text-gray-400 font-semibold mr-2">{label}:</span>
               <span className="text-white font-bold">{value}</span>
             </div>

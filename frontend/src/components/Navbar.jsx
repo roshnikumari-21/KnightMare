@@ -31,7 +31,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="flex items-center justify-between px-4 md:px-6 py-[8px] bg-black shadow-xl relative z-50">
+      <nav className="flex items-center justify-between px-4 md:px-6 py-[7px] bg-black shadow-xl relative z-50">
         {/* Logo */}
         <Link
           to="/"
@@ -124,7 +124,7 @@ const Navbar = () => {
 
           {token ? (
             <div
-              className="cursor-pointer bg-slate-800 font-bold rounded-full px-3 py-1 lg:px-4 lg:py-2 border shadow-sm shadow-white border-white text-white text-sm lg:text-base"
+              className="cursor-pointer bg-slate-900 font-bold rounded-full px-3 py-1 lg:px-3 lg:py-2 border shadow-sm shadow-white border-gray-400 text-white text-sm lg:text-base"
               onClick={Logout}
             >
               Logout

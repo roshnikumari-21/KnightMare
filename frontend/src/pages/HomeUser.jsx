@@ -91,11 +91,16 @@ const HomeUser = () => {
   };
 
   return (
+    <>
+     <div className="bg-gray-950 min-h-screen text-white font-sans">
+       <div className="absolute inset-0 opacity-5 pointer-events-none">
+        <div className="absolute inset-0 bg-[length:80px_80px] bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)]"></div>
+      </div>
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 relative overflow-hidden"
+      className="min-h-screen  relative overflow-hidden"
     >
       {/* Chess piece decorative elements */}
       <motion.div
@@ -113,14 +118,7 @@ const HomeUser = () => {
       >
         <GiChessKing />
       </motion.div>
-      {/* <motion.div
-        variants={chessPieceVariants}
-        animate="float"
-        style={{ y: [0, -10, 0] }}
-        className="absolute top-1/3 right-1/4 text-green-400 opacity-20 text-5xl md:text-7xl"
-      >
-        <GiChessBishop />
-      </motion.div> */}
+    
 
       <div className="absolute inset-0 bg-[url('/chess-pattern.svg')] opacity-5" />
 
@@ -204,6 +202,8 @@ const HomeUser = () => {
         </motion.div>
       </div>
     </motion.div>
+    </div>
+    </>
   );
 };
 
