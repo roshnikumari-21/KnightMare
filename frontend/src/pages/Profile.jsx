@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import ProfileCompA from "../components/ProfileCompA";
 import HeatMap from "../components/HeatMap";
 import ProgressGraph from "../components/ProgressGraph";
 import ProfileSettings from "../components/ProfileSettings";
+import { useSearchParams } from 'react-router';
+import { commoncontext } from "../contexts/commoncontext";
 
 const Profile = () => {
-  return (
+  const [searchParams , setSearchParams] = useSearchParams();
+  const {user , diffuseremail , setDiffuseremail} = useContext(commoncontext);
+  const emailofdiffuser = searchParams.get('email');
+  setDiffuseremail(emailofdiffuser);
+  useEffect(() => {
+    return () => {
+    setDiffuseremail(null);
+    };
+  }, []);
+  return(
     <>
   <div className="bg-gray-950 min-h-screen text-white font-sans">
        <div className="absolute inset-0 opacity-5 pointer-events-none">
@@ -18,7 +29,7 @@ const Profile = () => {
       </h2>
     {/* <h2 className=" text-xl ml-8 mr-14 p-4 font-extrabold text-white  border-b-2 border-white"></h2> */}
     <ProgressGraph/>
-    <ProfileSettings/>
+    {(!emailofdiffuser) ?(<ProfileSettings/>):''}
     </div>
     </>
   );

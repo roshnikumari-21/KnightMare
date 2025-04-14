@@ -90,7 +90,6 @@ export const googleLogin = async (req, res) => {
     res.status(401).json({ message: 'Invalid token' });
   }
 };
-
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;
   try {
@@ -123,7 +122,6 @@ export const forgotPassword = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error. Please try again later." });
   }
 };
-
 export const resetPassword = async (req, res) => {
   const { token, password } = req.body;
   try {
@@ -145,8 +143,6 @@ export const resetPassword = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error. Please try again later." });
   }
 };
-
-//change username
 export const changeUsername1 = async (req, res) => {
   const { email } = req.body;
   try {
@@ -179,7 +175,6 @@ export const changeUsername1 = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error. Please try again later." });
   }
 };
-
 export const changeUsername2 = async (req, res) => {
   const { token, username } = req.body;
   try {
@@ -222,7 +217,6 @@ export const changeUsername2 = async (req, res) => {
     });
   }
 };
-
 export const sendFeedback = async (req, res) => {
   const { name, email, Feedback } = req.body;
   if (!name || !email || !Feedback) {
@@ -321,7 +315,6 @@ export const sendFeedback = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error. Please try again later." });
   }
 };
-
 export const uploadProfilePic = async (req, res) => {
   const { email } = req.body;
   const image = req.file;
@@ -348,18 +341,10 @@ export const uploadProfilePic = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error. Please try again later." });
   }
 }
-
 export const getUser = async (req, res) => {
-  const token = req.headers.token;
   const email = req.headers.email;
-  if (!token) {
-    return res.status(401).json({ success: false, message: "No token provided." });
-  }
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.userId;
+  try{
     const user = await User.findOne({email}).select("-passwordHash");
-
     if (!user) {
       return res.status(400).json({ success: false, message: "User not found." });
     }
@@ -373,7 +358,6 @@ export const getUser = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error. Please try again." });
   }
 };
-
 export const deactivateAccount = async (req, res) => {
   const { email, password } = req.body;
   console.log(email, password)
@@ -396,7 +380,6 @@ export const deactivateAccount = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error. Please try again later." });
   }
 };
-
 export const getLeaderboard = async (req, res) => {
   try {
     if (!req.body.user) {
@@ -421,6 +404,7 @@ export const getLeaderboard = async (req, res) => {
       { $limit: limit },
       {
         $project: {
+          email:1,
           username: 1,
           score: 1,
           gamesPlayed: 1,

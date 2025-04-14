@@ -6,11 +6,13 @@ import { commoncontext } from '../contexts/commoncontext';
 import axios from 'axios';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { profileContext } from '../contexts/profileContext';
+import { useNavigate } from 'react-router';
 
 const Leaderboard = () => {
-  const { setShowNavbar, backendUrl, token } = useContext(commoncontext);
-  const { userProfile, userRank } = useContext(profileContext);
+  const { setShowNavbar, backendUrl, token ,user } = useContext(commoncontext);
+  const { userRank } = useContext(profileContext);
   setShowNavbar(true);
+  const navigate = useNavigate();
   const [topUsers, setTopUsers] = useState([]);
   const [leaderboard, setLeaderboard] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -116,12 +118,13 @@ const Leaderboard = () => {
           {topUsers[1] && (
             <>
               <div
+              onClick={()=>navigate(`/profile?email=${topUsers[1].email}`)}
                 style={{
                   backgroundImage: `url(${topUsers[1].profilePicture})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
-                className="w-12 h-12 md:w-24 md:h-24 rounded-lg shadow hover:shadow-white/20 transition-shadow"
+                className=" cursor-pointer w-12 h-12 md:w-24 md:h-24 rounded-lg shadow hover:shadow-white/20 transition-shadow"
               ></div>
               <h2 className="text-sm md:text-xl mt-1 md:mt-2 font-medium  md:font-semibold text-center truncate max-w-full">
                 {topUsers[1].username}
@@ -148,12 +151,13 @@ const Leaderboard = () => {
           {topUsers[0] && (
             <>
               <div
+              onClick={()=>navigate(`/profile?email=${topUsers[0].email}`)}
                 style={{
                   backgroundImage: `url(${topUsers[0].profilePicture})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
-                className="w-14 h-14 md:w-28 md:h-28 rounded-lg shadow hover:shadow-yellow-300/30 transition-shadow"
+                className="cursor-pointer w-14 h-14 md:w-28 md:h-28 rounded-lg shadow hover:shadow-yellow-300/30 transition-shadow"
               ></div>
               <h2 className="text-base md:text-2xl mt-1 md:mt-3 font-medium md:font-semibold text-center truncate max-w-full">
                 {topUsers[0].username}
@@ -180,12 +184,13 @@ const Leaderboard = () => {
           {topUsers[2] && (
             <>
               <div
+                onClick={()=>navigate(`/profile?email=${topUsers[2].email}`)}
                 style={{
                   backgroundImage: `url(${topUsers[2].profilePicture})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
-                className="w-12 h-12 md:w-24 md:h-24 rounded-lg 
+                className="cursor-pointer w-12 h-12 md:w-24 md:h-24 rounded-lg 
               
              transition-all duration-300"
               ></div>
@@ -210,7 +215,7 @@ const Leaderboard = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="bg-gray-800 relative z-10 p-2 md:p-3 rounded-lg mb-4 md:mb-8 text-center text-xs md:text-base"
         >
-          You have <span className="font-bold">{userProfile.score}</span> points and are ranked 
+          You have <span className="font-bold">{user.score}</span> points and are ranked 
           <span className="font-bold"> {userRank}</span> out of {pagination.totalUsers} users
         </motion.div>
       )}
@@ -245,12 +250,12 @@ const Leaderboard = () => {
                       return (
                         <tr 
                           key={user._id} 
-                          className={`border-b border-gray-800 ${(userProfile.username === user.username) ? 'bg-cyan-900/50' : 'bg-slate-900/50 hover:bg-gray-800'}`}
+                          className={`border-b border-gray-800 ${(user.username === user.username) ? 'bg-cyan-900/50' : 'bg-slate-900/50 hover:bg-gray-800'}`}
                         >
                           <td className="px-2 py-1 md:px-4 md:py-3 whitespace-nowrap">
                             <FontAwesomeIcon icon={faTrophy} className="text-blue-900 mr-1 text-xs md:text-base" /> {rank}
                           </td>
-                          <td className="px-2 py-1 md:px-4 md:py-3 whitespace-nowrap">
+                          <td onClick={()=>navigate(`/profile?email=${user.email}`)} className="px-2 cursor-pointer py-1 md:px-4 md:py-3 whitespace-nowrap">
                             <div className="flex items-center space-x-1 md:space-x-2">
                               <img 
                                 src={user.profilePicture} 
