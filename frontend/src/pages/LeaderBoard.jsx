@@ -238,7 +238,7 @@ const Leaderboard = () => {
                   <th className="px-2 py-1 md:px-4 md:py-3 text-left text-xs md:text-sm font-semibold">Username</th>
                   <th className="px-2 py-1 md:px-4 md:py-3 text-left text-xs md:text-sm font-semibold">Score</th>
                   <th className="px-2 py-1 md:px-4 md:py-3 text-left text-xs md:text-sm font-semibold hidden sm:table-cell">Games Won</th>
-                  <th className="px-2 py-1 md:px-4 md:py-3 text-left text-xs md:text-sm font-semibold hidden sm:table-cell">Streak</th>
+                  <th className="px-2 py-1 md:px-4 md:py-3 text-left text-xs md:text-sm font-semibold hidden sm:table-cell">Longest Streak</th>
                 </tr>
               </thead>
               <tbody>
