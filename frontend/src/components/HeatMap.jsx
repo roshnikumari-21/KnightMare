@@ -90,28 +90,30 @@ const HeatMap = () => {
   const endDate = lastGameDate;
 
   return (
-    <div className="px-10  mb-8 shadow-xl shadow-black">
+    <div className=" mx-4 sm:mx-8 md:mx-14 mb-8 shadow-xl shadow-black">
       <h2 className="text-lg md:text-xl font-extrabold text-white mb-4 border-b-2 border-white">
         Daily Activity
       </h2>
 
-      <div className="overflow-x-auto">
-        <CalendarHeatmap
-          startDate={startDate}
-          endDate={endDate}
-          values={dailyActivityMap}
-          classForValue={(value) => {
-            if (!value) return "color-empty";
-            return `color-scale-${Math.min(value.count, 4)}`;
-          }}
-          tooltipDataAttrs={(value) => {
-            if (!value || !value.date) return {};
-            return {
-              "data-tooltip": `${value.date}: ${value.count} game${value.count === 1 ? "" : "s"}`,
-            };
-          }}
-        />
-      </div>
+      <div className="w-full overflow-x-auto scrollbar-hide">
+  <div className="min-w-[1000px]">
+    <CalendarHeatmap
+      startDate={startDate}
+      endDate={endDate}
+      values={dailyActivityMap}
+      classForValue={(value) => {
+        if (!value) return "color-empty";
+        return `color-scale-${Math.min(value.count, 4)}`;
+      }}
+      tooltipDataAttrs={(value) => {
+        if (!value?.date) return {};
+        return {
+          "data-tooltip": `${value.date}: ${value.count} game${value.count === 1 ? "" : "s"}`,
+        };
+      }}
+    />
+  </div>
+</div>
 
       {/* Streak Info */}
       <div className=" text-sm font-semibold  flex flex-col md:flex-row justify-between bg-gray-900 border border-gray-400 p-2 md:p-2 rounded-lg mt-6 gap-2 md:gap-0 shadow-[0_4px_6px_rgba(255,255,255,0.1)] hover:shadow-[0_6px_8px_rgba(255,255,255,0.2)] transition-shadow duration-300">

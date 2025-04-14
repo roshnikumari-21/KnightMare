@@ -13,7 +13,7 @@ const Profile = () => {
       </div>
     <ProfileCompA />
     <HeatMap/>
-    <h2 className="text-lg mx-10 md:text-xl  font-extrabold text-white mb-6 border-b-2 border-white">
+    <h2 className="text-lg mx-4 sm:mx-8 md:mx-14 md:text-xl  font-extrabold text-white mb-6 border-b-2 border-white">
     Rating Progress
       </h2>
     {/* <h2 className=" text-xl ml-8 mr-14 p-4 font-extrabold text-white  border-b-2 border-white"></h2> */}

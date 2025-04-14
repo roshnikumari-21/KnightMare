@@ -187,7 +187,82 @@ export const resetPassword = async (req, res) => {
   }
 };
 
+//change username
+export const changeUsername1 = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    user.resetToken = resetToken;
+    user.resetTokenExpires = Date.now() + 3600000;
+    await user.save();
+    const resetLink = `${process.env.FRONTEND_URL}/changeusername?token=${resetToken}`;
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: user.email,
+      subject: "Username Change Request",
+      html: `<p>You requested a username change. Click <a href="${resetLink}">here</a> to change your username.</p><p>If you didn't request this, please ignore this email.</p>`
+    };
+    await transporter.sendMail(mailOptions);
+    res.json({ success: true, message: "Reset link sent to your email" });
+  } catch (error) {
+    console.error("Error in changeusername:", error);
+    res.status(500).json({ success: false, message: "Server error. Please try again later." });
+  }
+};
 
+export const changeUsername2 = async (req, res) => {
+  const { token, username } = req.body;
+  try {
+    // First check if a user with this username already exists
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Username already taken. Please choose a different one." 
+      });
+    }
+
+    // Then verify the token and update if valid
+    const user = await User.findOne({
+      resetToken: token,
+      resetTokenExpires: { $gt: Date.now() },
+    });
+    
+    if (!user) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Invalid or expired token." 
+      });
+    }
+
+    user.username = username;
+    user.resetToken = null;
+    user.resetTokenExpires = null;
+    await user.save();
+    
+    res.json({ 
+      success: true, 
+      message: "Username changed successfully!" 
+    });
+  } catch (error) {
+    console.error("Error changing username:", error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Server error. Please try again later." 
+    });
+  }
+};
 
 export const sendFeedback = async (req, res) => {
   const { name, email, Feedback } = req.body;

@@ -31,7 +31,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="flex items-center justify-between px-4 md:px-6 py-[7px] bg-black shadow-xl relative z-50">
+      <nav className="flex items-center justify-between px-4 md:px-6 py-[12px] md:py-[8px] sm:py-[10px] bg-black shadow-xl relative z-50">
         {/* Logo */}
         <Link
           to="/"
@@ -105,7 +105,7 @@ const Navbar = () => {
                             }`
             }
           >
-            About Us
+            About
           </NavLink>
 
           <NavLink
