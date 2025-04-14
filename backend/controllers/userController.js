@@ -360,7 +360,6 @@ export const getUser = async (req, res) => {
 };
 export const deactivateAccount = async (req, res) => {
   const { email, password } = req.body;
-  console.log(email, password)
   if (!email || !password) {
     return res.status(400).json({ success: false, message: "Email and password are required." });
   }

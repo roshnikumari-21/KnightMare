@@ -24,7 +24,6 @@ export function useStockfish(difficulty) {
     stockfishRef.current.onmessage = (e) => {
       if (e.data.startsWith('bestmove')) {
         const move = e.data.split(' ')[1];
-        console.log('Stockfish Response:', move); // Log the response
         callback(move);
       }
     };

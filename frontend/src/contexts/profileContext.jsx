@@ -16,40 +16,53 @@ const transformData = (activity) => {
     count: activityMap[date],
   }));
 };
+
 const ProfileProvider = (props) => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
-  const {setUser, user , diffuseremail} = useContext(commoncontext);
+  const {setUser, user, diffuseremail} = useContext(commoncontext);
   const [res, setres] = useState(null);
   const [loading, setLoading] = useState(true);
   const [userProfile, setUserProfile] = useState(null);
   const [userRank, setUserRank] = useState(null);
+  const [gameDuration, setGameDuration] = useState({ totalDuration: 0, hoursPlayed: 0 });
   const useremail = diffuseremail ? diffuseremail : user.email;
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-        try {
-          const response = await axios.get(`${backendUrl}/api/auth/user`, {
-            headers: {
-              email: useremail,
-            },
-          });
-          if (response.data.success) {
-            setres(response.data.user)
-            setUserRank(response.data.rank);
-          } else {
-            console.error("Failed to fetch user profile:", response.data.message);
+      try {
+        const response = await axios.get(`${backendUrl}/api/auth/user`, {
+          headers: {
+            email: useremail,
+          },
+        });
+        
+        if (response.data.success) {
+          setres(response.data.user);
+          setUserRank(response.data.rank);
+          const durationResponse = await axios.get(
+            `${backendUrl}/api/games/user/${response.data.user._id}/game-duration`
+          );
+          if (durationResponse.data.success) {
+            setGameDuration({
+              totalDuration: durationResponse.data.totalDuration,
+              hoursPlayed: durationResponse.data.hoursPlayed
+            });
           }
-        } catch (error) {
-          console.error("Error fetching user profile:", error);
-        } finally {
-          setLoading(false);
+        } else {
+          console.error("Failed to fetch user profile:", response.data.message);
         }
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      } finally {
+        setLoading(false);
+      }
     };
+    
     fetchUserProfile();
-  }, [backendUrl,setUser,useremail]);
+  }, [backendUrl, setUser, useremail]);
 
   useEffect(() => {
-    if (res){
+    if (res) {
       const DailyActivityMap = transformData(res.dailyActivity);
       DailyActivityMap.sort((a, b) => {
         const dateA = new Date(a.date);
@@ -60,9 +73,6 @@ const ProfileProvider = (props) => {
       let MaxScore = -1000000000000;
       let MinScore = 10000000000000;
       
-      let TotalDuration = 0;
-      const HoursPlayed = Math.round(TotalDuration / 3600);
-
       res.ratingHistory.forEach(({ score }) => {
         MaxScore = Math.max(MaxScore, score);
         MinScore = Math.min(MinScore, score);
@@ -93,14 +103,14 @@ const ProfileProvider = (props) => {
         ratingHistory: res.ratingHistory,
         MaxScore: MaxScore,
         MinScore: MinScore,
-        HoursPlayed: HoursPlayed,
+        HoursPlayed: gameDuration.hoursPlayed,
+        TotalDuration: gameDuration.totalDuration,
         FirstGamePlayDate: FirstGameDate,
         LastGamePlayDate: LastGameDate,
       };
       setUserProfile(newProfile);
     }
-  }, [res]);
-
+  }, [res, gameDuration]);
   const value = {
     backendUrl,
     userProfile,

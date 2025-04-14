@@ -180,4 +180,3 @@ const board = [
     ["P", "P", "P", "P", "P", "P", "P", "P"],
     ["R", "N", "B", "Q", "K", "B", "N", "R"]
   ];
-  console.log(nextPossibleMoves(board, [0, 1]));

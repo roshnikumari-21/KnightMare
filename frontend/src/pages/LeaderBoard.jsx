@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router';
 const Leaderboard = () => {
   const { setShowNavbar, backendUrl, token ,user } = useContext(commoncontext);
   const realuser = user;
-  const { userRank } = useContext(profileContext);
+  const { userRank,userProfile } = useContext(profileContext);
   setShowNavbar(true);
   const navigate = useNavigate();
   const [topUsers, setTopUsers] = useState([]);
@@ -237,7 +237,7 @@ const Leaderboard = () => {
                   <th className="px-2 py-1 md:px-4 md:py-3 text-left text-xs md:text-sm font-semibold">Rank</th>
                   <th className="px-2 py-1 md:px-4 md:py-3 text-left text-xs md:text-sm font-semibold">Username</th>
                   <th className="px-2 py-1 md:px-4 md:py-3 text-left text-xs md:text-sm font-semibold">Score</th>
-                  <th className="px-2 py-1 md:px-4 md:py-3 text-left text-xs md:text-sm font-semibold hidden sm:table-cell">Hours</th>
+                  <th className="px-2 py-1 md:px-4 md:py-3 text-left text-xs md:text-sm font-semibold hidden sm:table-cell">Games Won</th>
                   <th className="px-2 py-1 md:px-4 md:py-3 text-left text-xs md:text-sm font-semibold hidden sm:table-cell">Streak</th>
                 </tr>
               </thead>
@@ -268,10 +268,10 @@ const Leaderboard = () => {
                           </td>
                           <td className="px-2 py-1 md:px-4 md:py-3 whitespace-nowrap text-xs md:text-base">{user.score}</td>
                           <td className="px-2 py-1 md:px-4 md:py-3 whitespace-nowrap text-xs md:text-base hidden sm:table-cell">
-                            {(user.gamesPlayed * 0.5).toFixed(1)}
+                            {(user.gamesWon)}
                           </td>
                           <td className="px-2 py-1 md:px-4 md:py-3 whitespace-nowrap text-xs md:text-base hidden sm:table-cell">
-                            {user.currentStreak}
+                            {user.longestStreak}
                           </td>
                         </tr>
                       );

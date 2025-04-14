@@ -8,7 +8,6 @@ function Timer({ time, onTimeEnd, isActive }) {
   };
   useEffect(() => {
         if (time == 0){
-          console.log("timer called");
           onTimeEnd();}
   }, [time]);
 

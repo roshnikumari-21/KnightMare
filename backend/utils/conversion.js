@@ -76,5 +76,3 @@ export const fromFen = (fen) => {
     }
     return board;
 }
-
-// console.log(fromFen(fenvalue));

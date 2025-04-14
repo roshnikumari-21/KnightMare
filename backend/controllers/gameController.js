@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Game from "../models/Game.js";
 import User from "../models/User.js";
 import { v4 as uuidv4 } from 'uuid';
@@ -185,6 +186,40 @@ export const getGameDetails = async (req, res) => {
       success: false,
       message: "Failed to fetch game details",
       error: error.message
+    });
+  }
+};
+
+export const getUserGameDuration = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const result = await Game.aggregate([
+      {
+        $match: {
+          player: new mongoose.Types.ObjectId(userId),
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          totalDuration: { $sum: "$duration" }
+        }
+      }
+    ]);
+
+    const totalDuration = result.length > 0 ? result[0].totalDuration : 0;
+    const hoursPlayed = Math.round(totalDuration / 3600);
+
+    res.status(200).json({
+      success: true,
+      totalDuration,
+      hoursPlayed
+    });
+  } catch (error) {
+    console.error("Error calculating game duration:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error calculating game duration"
     });
   }
 };
