@@ -1,10 +1,10 @@
-
-
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
 import { commoncontext } from "../contexts/commoncontext";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import ChessModelBackground from "../components/ChessModelBackground";
+import { Canvas } from "@react-three/fiber";
 
 const HomeUser = () => {
   const navigate = useNavigate();
@@ -74,42 +74,34 @@ const HomeUser = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      style={{
-        backgroundImage: "url('/bg2.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        position: "relative",
-        overflow: "hidden"
-      }}
+      className="relative min-h-screen overflow-hidden bg-gradient-to-b from-gray-900 to-black"
     >
+      <Suspense fallback={null}>
+        <Canvas
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            zIndex: 0,
+          }}
+          camera={{ position: [0, 0, 5], fov: 45 }}
+        >
+          <ChessModelBackground />
+        </Canvas>
+      </Suspense>
+
       <div
         ref={ref}
-        style={{
-          flex: 1,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "flex-start", // Changed from 'center' to 'flex-start'
-          position: "relative",
-          zIndex: 3,
-          padding: "2rem",
-          paddingTop: "5rem", // Added padding top to push content down from absolute top
-          marginTop: "-2rem" // Negative margin to pull content upwards
-        }}
+        className="relative z-10 flex flex-col justify-center items-center min-h-screen px-4 py-12"
       >
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          className="relative z-10 p-8 rounded-lg shadow-2xl text-white max-w-4xl w-full mx-4"
-          style={{
-            marginTop: "1rem" // Additional adjustment to fine-tune position
-          }}
+          className="relative z-10 p-8 rounded-lg backdrop-blur-md bg-black/30 border border-white/10 text-white max-w-4xl w-full mx-4"
         >
-          {/* Header */}
           <motion.h1 
             variants={itemVariants}
             className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent"
@@ -130,10 +122,9 @@ const HomeUser = () => {
             to face the shadows?
           </motion.p>
 
-          {/* Action Buttons */}
           <motion.div 
             variants={itemVariants}
-            className="flex flex-wrap gap-4 mt-8" // Reduced margin-top from 12 to 8
+            className="flex flex-wrap gap-4 mt-8"
           >
             <motion.button
               onClick={handlePlay}
