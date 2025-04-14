@@ -33,25 +33,24 @@ const Sidebar = () => {
       onMouseLeave={() => setIsExpanded(false)}
     >
       {/* User Profile Section */}
-      //{" "}
       <div
         onClick={() => Navigate("/profile")}
-        className="pr-2 pb-2 cursor-pointer border-b border-gray-700"
+        className="pb-2 cursor-pointer border-b border-gray-700"
       >
         //{" "}
-        <div className="flex items-center gap-3 pb-2 overflow-hidden">
+        <div className="flex items-center pb-2 overflow-hidden">
           //{" "}
-          <div
+          {!isExpanded && (<div
             style={{
               backgroundImage: `url(${user?.profilePicture})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
             }}
-            className="w-10 h-10 rounded-full bg-white flex items-center justify-center"
+            className="w-9 h-9 rounded-full bg-white flex items-center justify-center"
           >
             {user ? "" : "P"}
-          </div>
+          </div>)}
           {isExpanded && (
             <div className="text-white">
               <p className="font-medium">
