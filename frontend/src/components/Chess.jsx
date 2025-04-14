@@ -183,7 +183,7 @@ function Chess() {
                 setCutPieces((prev) =>
                   updateCutPieces(prev, capturedPiece, currentPlayer)
                 );
-                playCaptureSound();
+               // playCaptureSound();
               }
             }
           );
@@ -258,16 +258,18 @@ function Chess() {
           (newRights) => setCastlingRights(newRights),
           setEnPassantTarget,
           (capturedPiece) => {
+            // playCaptureSound();
             if (capturedPiece) {
               setCutPieces((prev) =>
                 updateCutPieces(prev, capturedPiece, player)
               );
-              playCaptureSound();
+              //playCaptureSound();
             }
           }
         );
 
         setBoard(newBoard);
+        playCaptureSound();
         updateMoveHistory(from, to, player);
         setCurrentPlayer(player === "white" ? "black" : "white");
         setCurrentPlayer(player === "white" ? "black" : "white");
