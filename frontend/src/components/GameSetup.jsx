@@ -19,7 +19,7 @@ function GameSetup() {
   };
 
   const {
-  setSide,setTimeFormat,setLevel,setShowBoard
+  setSide,timeFormat,setTimeFormat,setLevel,setShowBoard
    } = useContext(gamecontext);
   const handleSubmit = (e) => {
     e.preventDefault();

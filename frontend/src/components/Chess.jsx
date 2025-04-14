@@ -29,7 +29,7 @@ import loser from "../assets/lose.mp3";
 import start from "../assets/gamestart.mp3";
 import woosh from "../assets/woosh.mp3";
 
-function Chess() {
+function Chess(){
   const { user } = useContext(commoncontext);
   const {
     board,
@@ -82,7 +82,6 @@ function Chess() {
       castlingRights,
       enPassantTarget
     );
-
     setKingInCheck({
       white: whiteState.includes("check"),
       black: blackState.includes("check"),
@@ -317,7 +316,6 @@ function Chess() {
             }
           }
         );
-
         setBoard(newBoard);
         playCaptureSound();
         updateMoveHistory(from, to, player);

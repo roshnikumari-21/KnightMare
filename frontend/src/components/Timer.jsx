@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { gamecontext } from '../contexts/gamecontext';
 
-function Timer({ time, onTimeEnd, isActive }) {
+function Timer({ time, onTimeEnd, isActive }){
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
