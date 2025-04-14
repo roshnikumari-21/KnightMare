@@ -107,7 +107,7 @@ const ProfileSettings = () => {
           title: "Change Username",
           desc: "Update your display name.",
           btnText: "Change",
-          route: "/changeusername", // Add this route in your app if needed
+          route: "/Usernamechange", // Add this route in your app if needed
         },
         {
           icon: "fas fa-lock",
