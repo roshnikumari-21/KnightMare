@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Game from "../models/Game.js";
 import User from "../models/User.js";
 import { v4 as uuidv4 } from "uuid";
@@ -74,26 +75,46 @@ export const endGame = async (req, res) => {
     if (game._id) {
       user.gameHistory.push(game._id);
     }
-    const now = new Date();
-    user.dailyActivity.push({ date: now });
-    const today = now.toISOString().split("T")[0];
-    const yesterday = new Date(now.getTime() - 86400000)
-      .toISOString()
-      .split("T")[0];
-    const lastActivity =
-      user.dailyActivity.length > 0
-        ? new Date(user.dailyActivity[user.dailyActivity.length - 1].date)
-            .toISOString()
-            .split("T")[0]
-        : null;
 
-    if (lastActivity === yesterday) {
-      user.currentStreak += 1;
+const now = new Date();
+const today = now.toISOString().split('T')[0];
+user.dailyActivity.push({ date: now });
+
+const isFirstActivityToday = user.dailyActivity.filter(activity => {
+  const activityDate = new Date(activity.date).toISOString().split('T')[0];
+  return activityDate === today;
+}).length === 1;
+
+if (isFirstActivityToday){
+  if (user.dailyActivity.length > 1) {
+    const uniqueActivityDates = [...new Set(
+      user.dailyActivity.map(activity => 
+        new Date(activity.date).toISOString().split('T')[0]
+      )
+    )].sort();
+    
+    const todayIndex = uniqueActivityDates.indexOf(today);
+    
+    if (todayIndex > 0) {
+      const yesterday = new Date(now);
+      yesterday.setDate(yesterday.getDate() - 1);
+      const yesterdayStr = yesterday.toISOString().split('T')[0];
+      
+      if (uniqueActivityDates[todayIndex - 1] === yesterdayStr) {
+        user.currentStreak += 1;
+      } else {
+        user.currentStreak = 1;
+      }
       user.longestStreak = Math.max(user.currentStreak, user.longestStreak);
     } else {
       user.currentStreak = 1;
-      user.longestStreak = Math.max(user.currentStreak, user.longestStreak);
+      user.longestStreak = 1;
     }
+  } else {
+    user.currentStreak = 1;
+    user.longestStreak = 1;
+  }
+}
     await user.validate();
     const savedUser = await user.save();
     const responseUser = savedUser.toObject();
@@ -179,6 +200,40 @@ export const getGameDetails = async (req, res) => {
       success: false,
       message: "Failed to fetch game details",
       error: error.message,
+    });
+  }
+};
+
+export const getUserGameDuration = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const result = await Game.aggregate([
+      {
+        $match: {
+          player: new mongoose.Types.ObjectId(userId),
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          totalDuration: { $sum: "$duration" }
+        }
+      }
+    ]);
+
+    const totalDuration = result.length > 0 ? result[0].totalDuration : 0;
+    const hoursPlayed = Math.round(totalDuration / 3600);
+
+    res.status(200).json({
+      success: true,
+      totalDuration,
+      hoursPlayed
+    });
+  } catch (error) {
+    console.error("Error calculating game duration:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error calculating game duration"
     });
   }
 };

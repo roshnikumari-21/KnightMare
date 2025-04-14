@@ -518,7 +518,6 @@ function Chess() {
               time={side === "white" ? whiteTime : blackTime}
               isActive={currentPlayer === side && gameStarted && !gameOver}
               onTimeEnd={() => {
-                console.log("hi");
                 !whiteTime
                   ? side === "white"
                     ? endGame("player_timeout")
