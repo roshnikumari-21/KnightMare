@@ -34,7 +34,7 @@ const RulesPage = () => {
   ];
 
   return (
-    <div className="bg-black min-h-screen text-white font-sans">
+    <div className="bg-gray-950 min-h-screen text-white font-sans">
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 py-8 md:py-16 relative z-10">
         {/* Animated Title */}

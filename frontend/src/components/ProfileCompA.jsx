@@ -100,7 +100,7 @@ const ProfileCompA = () => {
   }, [userProfile]);
 
   return (
-    <div className="flex flex-wrap justify-between items-start p-6 md:p-12 gap-8 bg-black text-white ">
+    <div className="flex flex-wrap justify-between items-start p-6 md:p-12 gap-8 bg-gray-950 text-white ">
       
       {/* Left Section - Name, Email, Stats */}
       <div className="flex-1 min-w-[250px]">
