@@ -160,7 +160,7 @@ const Play = () => {
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.3, duration: 0.5 }}
-                  className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-blue-400 to-purple-400"
+                  className="text-4xl h-15 md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-blue-400 to-purple-400"
                 >
                   Configure Your Match
                 </motion.h1>
@@ -187,13 +187,11 @@ const Play = () => {
         )}
       </AnimatePresence>
 
-      {/* Footer */}
-      <div className="absolute bottom-0 left-0 w-full py-4 bg-gradient-to-t from-blue-900/50 to-transparent flex items-center justify-center">
-        <p className="text-gray-400 text-xs md:text-sm">
-          © {new Date().getFullYear()} Knightmare Chess - All rights reserved
-        </p>
-      </div>
+      
+
+     
     </motion.div>
+    
   );
 };
 
