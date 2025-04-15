@@ -537,22 +537,23 @@ export const getLeaderboard = async (req, res) => {
       .select('_id score')
       .sort({ score: -1 }) // Sort by score desc, then _id for consistent ordering
       .lean();
+    // console.log(allUsers)
     let currentRank = 1;
     let currentScore = null;
     let userRanks = {};
 
     allUsers.forEach((user, index) => {
       const userScore = parseInt(user.score, 10); // Parse score into int
-      if (index === 0 || userScore !== currentScore) {
-        currentRank = index + 1;
+      if (userScore !== currentScore) {
+        currentRank = currentRank + 1;
         currentScore = userScore;
-        console.log(currentScore, currentRank);
+        // console.log(currentScore, currentRank);
       }
       
       userRanks[user._id.toString()] = currentRank;
     });
 
-    console.log(userRanks);
+    // console.log(userRanks);
 
     // Now get the paginated users with all required fields
     const paginatedUsers = await User.find({})

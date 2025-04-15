@@ -1,16 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { commoncontext } from "../contexts/commoncontext";
 import { GoogleLogin } from "@react-oauth/google";
-import { googleAuth } from "../utils/api";
-
 
 const Login = () => {
-  const { setToken, setUser, showNavbar, setShowNavbar } = useContext(commoncontext);
-  setShowNavbar(true);
+  const { setToken, setUser, setShowNavbar } = useContext(commoncontext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -18,27 +15,9 @@ const Login = () => {
   });
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-  const responseGoogle = async (authResult) => {
-    try {
-      if (authResult["code"]) {
-        const result = await googleAuth(authResult.code);
-        if (result.data.success) {
-          localStorage.setItem("token", response.data.token);
-          localStorage.setItem("user", JSON.stringify(response.data.user));
-          setToken(response.data.token);
-          setUser(response.data.user);
-          toast.success("Login successful!");
-          navigate("/home-user");
-        } else {
-          toast.error(response.data.message || "Login failed");
-        }
-      } else {
-        throw new Error(authResult);
-      }
-    } catch (e) {
-      console.log('Error while Google Login...', e);
-    }
-  };
+  useEffect(() => {
+    setShowNavbar(true);
+  }, [setShowNavbar]);
 
   const handleGoogleSuccess = async (response) => {
     const googleToken = response.credential;
@@ -54,20 +33,25 @@ const Login = () => {
       const data = await res.json();
       localStorage.setItem('token', data.token);
       setToken(data.token);
-      localStorage.setItem('user',data.user);
+      localStorage.setItem('user', data.user);
       setUser(data.user);
       if (res.ok) {
+        toast.success("Login successful!");
         navigate('/');
       } else {
-        console.error('Error during Google Login:', data.message);
+        toast.error(data.message || "Google login failed");
       }
     } catch (error) {
+      toast.error("Google Login API Error");
       console.error('Google Login API Error:', error);
     }
   };
+
   const handleGoogleFailure = (error) => {
+    toast.error("Google Login Failed");
     console.error('Google Login Error:', error);
   };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -75,6 +59,7 @@ const Login = () => {
       [name]: value,
     });
   };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
@@ -97,63 +82,101 @@ const Login = () => {
       toast.error(err.response?.data?.message || "An error occurred during login");
     }
   };
+
   return (
     <div
-      style={{
-        backgroundImage: "url('chessfloor2.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-      className="flex justify-center items-center heii bg-black text-white"
+      className="min-h-screen flex justify-center items-center bg-cover bg-center"
+      style={{ backgroundImage: "url('chessfloor2.jpg')" }}
     >
-      <div className="w-80 p-5 shadow-lg rounded-lg backdrop-blur-lg relative" style={{ marginTop: '-10%' }}>
-        <h2 className="text-3xl font-semibold pb-2 text-center text-white neon-text">Welcome</h2>
-        <p className="text-sm text-center">Sign in to your account</p>
-        <form className="mt-3" onSubmit={handleLogin}>
-          <div className="mb-3">
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-white-500"
-              placeholder="Enter your email"
-            />
+      {/* Semi-transparent overlay */}
+      <div className="absolute inset-0 bg-black/50"></div>
+      
+      <div className="relative z-10 w-full max-w-md px-6">
+        <div className="bg-gray-900/80 backdrop-blur-md p-8 rounded-xl border border-gray-700 shadow-2xl">
+          {/* Chess Knight Icon */}
+          <div className="flex justify-center mb-4">
+            <div className="w-16 h-16 flex items-center justify-center bg-black rounded-full border-2 border-blue-400">
+              <svg viewBox="0 0 24 24" className="w-10 h-10 text-blue-400" fill="currentColor">
+                <path d="M19,22H5V20H19V22M13,2V2C11.75,2 10.58,2.62 9.89,3.66L7,8L9,10L11.06,8.63C11.5,8.32 12.14,8.44 12.45,8.9C12.75,9.35 12.63,9.97 12.19,10.27L9,12.5L11,14.5L14,12C14.9,11.29 15.25,10.03 14.71,8.89L19.24,4.36C19.64,3.96 19.64,3.31 19.24,2.91C18.84,2.5 18.2,2.5 17.79,2.91L16.5,4.2C15.83,2.83 14.5,2 13,2Z" />
+              </svg>
+            </div>
           </div>
-          <div className="mb-4">
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-white-500"
-              placeholder="Enter your password"
-            />
-          </div>
-          <div className="font-bold text-sm cursor-pointer text-red-500" onClick={() => navigate('/forgotpassword')}>Forgot password?</div>
-          <button
-            type="submit"
-            className="mt-2 w-full py-2 bg-black hover:bg-gray-900 rounded-md text-white font-semibold shadow-md"
-          >
-            Login
-          </button>
-        </form>
-        <div className="mt-4 border-t border-gray-700 pt-4">
-          <p className="text-center text-gray-400">OR</p>
-          <div className="mt-4 space-y-3">
-              <GoogleLogin
-                onSuccess={handleGoogleSuccess}
-                onError={handleGoogleFailure}
-                useOneTap
+          
+          <h2 className="text-3xl font-bold text-center mb-1 text-blue-400">Welcome Back</h2>
+          <p className="text-gray-400 text-center mb-6">Sign in to continue your chess journey</p>
+          
+          <form className="space-y-4" onSubmit={handleLogin}>
+            <div>
+              <label className="text-sm text-gray-300 block mb-1">Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-white"
+                placeholder="Enter your email"
               />
+            </div>
+            
+            <div>
+              <div className="flex justify-between mb-1">
+                <label className="text-sm text-gray-300">Password</label>
+                <span 
+                  className="text-sm text-blue-400 hover:text-blue-300 cursor-pointer" 
+                  onClick={() => navigate('/forgotpassword')}
+                >
+                  Forgot password?
+                </span>
+              </div>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-white"
+                placeholder="Enter your password"
+              />
+            </div>
+            
+            <button
+              type="submit"
+              className="w-full py-3 bg-black hover:bg-gray-900 rounded-lg text-white font-semibold transition duration-300 border border-gray-700"
+            >
+              Login
+            </button>
+          </form>
+          
+          <div className="mt-6 flex items-center">
+            <div className="flex-grow h-px bg-gray-700"></div>
+            <p className="mx-4 text-gray-400">OR</p>
+            <div className="flex-grow h-px bg-gray-700"></div>
           </div>
-          <p className="text-center text-gray-200 mt-4">
-            Don't have an account? <a href="/register" className="text-white hover:underline">Register here</a>
+          
+          <div className="mt-6 flex justify-center">
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleFailure}
+              useOneTap
+              theme="filled_black"
+              shape="pill"
+              size="large"
+              text="continue_with"
+              width="100%"
+            />
+          </div>
+          
+          <p className="text-center text-gray-300 mt-6">
+            Don't have an account? <span 
+              className="text-blue-400 hover:text-blue-300 cursor-pointer font-medium" 
+              onClick={() => navigate('/register')}
+            >
+              Sign up
+            </span>
           </p>
         </div>
       </div>
     </div>
   );
 };
+
 export default Login;

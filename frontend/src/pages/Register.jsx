@@ -103,66 +103,97 @@ const Register = () => {
 
   return (
     <div
-      style={{
-        backgroundImage: "url('/chessfloor2.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-      className="flex justify-center items-center heii bg-black text-white"
+      className="min-h-screen flex justify-center items-center bg-cover bg-center"
+      style={{ backgroundImage: "url('/chessfloor2.jpg')" }}
     >
-      <div className="w-80 p-5 shadow-lg rounded-lg backdrop-blur-lg relative" >
-        <h2 className="text-3xl font-semibold pb-2 text-center text-white neon-text">Create Account</h2>
-        <p className="text-sm text-center">Sign up to get started</p>
-        <form className="mt-3" onSubmit={handleRegister}>
-          <div className="mb-3">
-            <input
-              type="text"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-white-500"
-              placeholder="Enter username"
+      {/* Semi-transparent overlay */}
+      <div className="absolute inset-0 bg-black/50"></div>
+      
+      <div className="relative z-10 w-full max-w-md px-6">
+        <div className="bg-gray-900/80 backdrop-blur-md p-8 rounded-xl border border-gray-700 shadow-2xl">
+          {/* Chess Pawn Icon */}
+          <div className="flex justify-center mb-4">
+            <div className="w-16 h-16 flex items-center justify-center bg-black rounded-full border-2 border-blue-400">
+              <svg viewBox="0 0 24 24" className="w-10 h-10 text-blue-400" fill="currentColor">
+                <path d="M12,2A2,2 0 0,1 14,4A2,2 0 0,1 12,6A2,2 0 0,1 10,4A2,2 0 0,1 12,2M10.5,7H13.5A2,2 0 0,1 15.5,9V14.5H14V22H10V14.5H8.5V9A2,2 0 0,1 10.5,7Z" />
+              </svg>
+            </div>
+          </div>
+          
+          <h2 className="text-3xl font-bold text-center mb-1 text-blue-400">Create Account</h2>
+          <p className="text-gray-400 text-center mb-6">Sign up to get started with KnightMare</p>
+          
+          <form className="space-y-4" onSubmit={handleRegister}>
+            <div>
+              <label className="text-sm text-gray-300 block mb-1">Username</label>
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-white"
+                placeholder="Choose a username"
+              />
+            </div>
+            
+            <div>
+              <label className="text-sm text-gray-300 block mb-1">Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-white"
+                placeholder="Enter your email"
+              />
+            </div>
+            
+            <div>
+              <label className="text-sm text-gray-300 block mb-1">Password</label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-white"
+                placeholder="Create a password"
+              />
+            </div>
+            
+            <button
+              type="submit"
+              className="w-full py-3 bg-black hover:bg-gray-900 rounded-lg text-white font-semibold transition duration-300 border border-gray-700"
+            >
+              Create Account
+            </button>
+          </form>
+          
+          <div className="mt-6 flex items-center">
+            <div className="flex-grow h-px bg-gray-700"></div>
+            <p className="mx-4 text-gray-400">OR</p>
+            <div className="flex-grow h-px bg-gray-700"></div>
+          </div>
+          
+          <div className="mt-6 flex justify-center">
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleFailure}
+              useOneTap
+              theme="filled_black"
+              shape="pill"
+              size="large"
+              text="continue_with"
+              width="100%"
             />
           </div>
-          <div className="mb-3">
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-white-500"
-              placeholder="Enter your email"
-            />
-          </div>
-          <div className="mb-4">
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-white-500"
-              placeholder="Enter your password"
-            />
-          </div>
-          <button
-            type="submit"
-            className="mt-2 w-full py-2 bg-red-500 hover:bg-gray-900 rounded-md text-white font-semibold shadow-md"
-          >
-            Create →
-          </button>
-        </form>
-        <div className="mt-4 border-t border-gray-700 pt-4">
-          <p className="text-center text-gray-400">OR</p>
-                    <div className="mt-4 space-y-3">
-                        <GoogleLogin
-                          onSuccess={handleGoogleSuccess}
-                          onError={handleGoogleFailure}
-                          useOneTap
-                        />
-                    </div>
-          <p className="text-center text-gray-200 mt-4">
-            Already have an account? <a href="/login" className="text-white hover:underline">Login here</a>
+          
+          <p className="text-center text-gray-300 mt-6">
+            Already have an account? <span 
+              className="text-blue-400 hover:text-blue-300 cursor-pointer font-medium" 
+              onClick={() => navigate('/login')}
+            >
+              Sign in
+            </span>
           </p>
         </div>
       </div>
