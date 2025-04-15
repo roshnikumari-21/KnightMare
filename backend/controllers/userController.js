@@ -415,7 +415,7 @@ export const getUser = async (req, res) => {
       .sort({ score: -1 }) // Sort by score desc, then _id for consistent ordering
       .lean();
     // console.log(allUsers)
-    let currentRank = 1;
+    let currentRank = 0;
     let currentScore = null;
     let userRanks = {};
 
@@ -554,7 +554,7 @@ export const getLeaderboard = async (req, res) => {
       .sort({ score: -1 }) // Sort by score desc, then _id for consistent ordering
       .lean();
     // console.log(allUsers)
-    let currentRank = 1;
+    let currentRank = 0;
     let currentScore = null;
     let userRanks = {};
 
