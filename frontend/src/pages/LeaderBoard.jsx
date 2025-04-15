@@ -1,9 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from "framer-motion";
 import { faTrophy } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { commoncontext } from '../contexts/commoncontext';
 import axios from 'axios';
+import { 
+  FaChessKnight, 
+  FaChessQueen, 
+  FaChessBoard,
+  FaChessRook, 
+} from "react-icons/fa";
+import { GiChessKing, GiChessBishop } from "react-icons/gi";
 import LoadingSpinner from '../components/LoadingSpinner';
 import { profileContext } from '../contexts/profileContext';
 import { useNavigate } from 'react-router';
@@ -12,7 +19,9 @@ const Leaderboard = () => {
   const { setShowNavbar, backendUrl, token, user } = useContext(commoncontext);
   const realuser = user;
   const { userRank, userProfile } = useContext(profileContext);
-  setShowNavbar(true);
+  useEffect(() => {
+    setShowNavbar(true);
+  }, [setShowNavbar]);
   const navigate = useNavigate();
   const [topUsers, setTopUsers] = useState([]);
   const [leaderboard, setLeaderboard] = useState([]);
@@ -24,6 +33,15 @@ const Leaderboard = () => {
     totalUsers: 0,
     totalPages: 1
   });
+
+   const chessPieces = [
+      { Icon: FaChessRook, position: "top-20 left-10", color: "text-blue-400", size: "text-5xl" },
+      { Icon: GiChessKing, position: "bottom-20 right-10", color: "text-purple-400", size: "text-6xl" },
+      { Icon: GiChessKing, position: "bottom-50 right-20", color: "text-purple-400", size: "text-3xl" },
+      { Icon: GiChessBishop, position: "bottom-40 right-10", color: "text-purple-400", size: "text-2xl" },
+      { Icon: FaChessKnight, position: "top-40 right-20", color: "text-indigo-400", size: "text-4xl" },
+      { Icon: GiChessBishop, position: "bottom-40 left-20", color: "text-pink-400", size: "text-5xl" },
+    ];
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -87,10 +105,65 @@ const Leaderboard = () => {
   if (error) return <div className="text-red-500 text-center py-8">{error}</div>;
 
   return (
-    <div className="bg-gray-950 min-h-screen text-white font-sans">
+    <div className="bg-gradient-to-br from-gray-900 via-gray-950 to-blue-950 min-h-screen text-white font-sans">
       <div className="absolute inset-0 opacity-5 pointer-events-none">
         <div className="absolute inset-0 bg-[length:80px_80px] bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)]"></div>
       </div>
+      {/* Grid overlay */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
+        <div className="absolute inset-0 bg-[length:50px_50px] bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)]"></div>
+      </div>
+
+      {/* Chess pieces decoration */}
+      {chessPieces.map((piece, index) => (
+        <motion.div
+          key={index}
+          initial={{ opacity: 0 }}
+          animate={{ 
+            opacity: 0.1,
+            y: [0, -15, 0],
+            transition: {
+              y: {
+                duration: 3 + Math.random() * 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+              },
+              opacity: {
+                duration: 1,
+                delay: index * 0.2
+              }
+            }
+          }}
+          className={`absolute ${piece.position} ${piece.color} ${piece.size} hidden md:block`}
+        >
+          <piece.Icon />
+        </motion.div>
+      ))}
+
+      {/* Glowing orbs */}
+      <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-blue-600 rounded-full opacity-10 blur-3xl"></div>
+      <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-purple-600 rounded-full opacity-10 blur-3xl"></div>
+      <div className="absolute bottom-1/4 left-1/2 w-96 h-96 bg-pink-600 rounded-full opacity-10 blur-3xl"></div>
+
+      {/* Loading state */}
+      <AnimatePresence>
+        {loading && (
+          <motion.div 
+            className="absolute inset-0 flex items-center justify-center z-50 bg-gray-950"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0.5 } }}
+          >
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              className="relative"
+            >
+              <FaChessBoard className="text-6xl text-blue-500" />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="bg-gray-950 text-white min-h-screen p-4 md:p-8">
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
