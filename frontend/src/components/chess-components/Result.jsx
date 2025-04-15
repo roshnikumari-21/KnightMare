@@ -14,15 +14,20 @@ const Result = ({ result, playerColor }) => {
       message: "Your king has fallen, but you'll return stronger!",
       emoji: "💪"
     },
+    false_game:{
+      title: "Game Discarded",
+      message:"You Resigned before making much moves , so this game is discarded.",
+      emoji : "🐧"
+    },
     player_resign:{
       title: "You Resigned",
-      message: "There is a penalty for resigning and that is more than losing a game, so think before resigning next time.",
+      message: "Remember that there is a negative penalty for resigning.",
       emoji: "☠️"
     },
     player_timeout:{
       title: "TimeOut",
-      message: "Uh oh!You have no time left , think faster next time.",
-      emoji: "🤣"
+      message: "Uh oh!You have no time left.",
+      emoji: "🥺"
     },
     ai_timeout:{
       title: "TimeOut",

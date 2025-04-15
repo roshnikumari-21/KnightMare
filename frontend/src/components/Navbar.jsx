@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { assets } from "../assets/assets";
 import { AudioContext } from "../Context/AudioContext";
@@ -18,6 +18,10 @@ const Navbar = () => {
       playAudio();
     }
   };
+
+  // useEffect(() => {
+  //   toggleSound();
+  // }, []);
 
   const Logout = () => {
     localStorage.removeItem("token");
@@ -98,11 +102,10 @@ const Navbar = () => {
             to="/about"
             className={({ isActive }) =>
               `text-base lg:text-lg font-medium px-3 py-1 lg:px-4 lg:py-2 rounded-lg transition-all duration-300
-                            ${
-                              isActive
-                                ? "text-white border-b-2 border-white font-semibold"
-                                : "text-gray-300 hover:text-white hover:shadow-glow"
-                            }`
+                            ${isActive
+                ? "text-white border-b-2 border-white font-semibold"
+                : "text-gray-300 hover:text-white hover:shadow-glow"
+              }`
             }
           >
             About
@@ -112,11 +115,10 @@ const Navbar = () => {
             to="/contact"
             className={({ isActive }) =>
               `text-base lg:text-lg font-medium px-3 py-1 lg:px-4 lg:py-2 rounded-lg transition-all duration-300
-                            ${
-                              isActive
-                                ? "text-white border-b-2 border-white font-semibold"
-                                : "text-gray-300 hover:text-white hover:shadow-glow"
-                            }`
+                            ${isActive
+                ? "text-white border-b-2 border-white font-semibold"
+                : "text-gray-300 hover:text-white hover:shadow-glow"
+              }`
             }
           >
             Contact

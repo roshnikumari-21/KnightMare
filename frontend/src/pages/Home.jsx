@@ -1,12 +1,54 @@
-import {React, useRef,useEffect}from "react";
+// import {React, useRef,useEffect}from "react";
+// import { Link } from "react-router-dom";
+// import { AudioContext } from "../Context/AudioContext";
+// import { commoncontext} from "../contexts/commoncontext.jsx";
+// import { useContext } from "react";
+// import HomeUser from '../pages/HomeUser.jsx'
+
+// const Home = () => {
+//   const {token, user, showNavbar, setShowNavbar} = useContext(commoncontext);
+
+//   useEffect(() => {
+//     setShowNavbar(true);
+//   }, [setShowNavbar]);
+
+//   if (token) {
+//     return <HomeUser />;
+//   }
+//   return (
+//     <div 
+//       className="heii flex flex-col justify-center items-center bg-cover bg-center" 
+//       style={{ backgroundImage: "url('/bgchess5.jpg')" }}
+//     >
+//       <div className="bg-gray-700/10 p-6 rounded-lg shadow-lg text-white max-w-sm text-center backdrop-blur-sm">
+//         <h1 className="text-2xl font-bold mb-3">Welcome to KnightMare</h1>
+//         <p className="text-gray-200 mb-4">Enhance your chess skills by playing against AI and tracking your progress.</p>
+//         <div className="flex flex-col items-center space-y-3">
+//           <Link
+//             to="/login"
+//             className="w-1/4 px-4 py-1 bg-black text-white font-bold rounded-lg hover:bg-gray-900 transition"
+//           >
+//             Login
+//           </Link>
+//           <p className="text-black text-sm">
+//             Don't have an account? <Link to="/register" className="text-black font-bold hover:text-gray-900 transition">Sign Up</Link>
+//           </p>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Home;
+
+import { React, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { AudioContext } from "../Context/AudioContext";
-import { commoncontext} from "../contexts/commoncontext.jsx";
 import { useContext } from "react";
-import HomeUser from '../pages/HomeUser.jsx'
+import { commoncontext } from "../contexts/commoncontext.jsx";
+import HomeUser from '../pages/HomeUser.jsx';
 
 const Home = () => {
-  const {token, user, showNavbar, setShowNavbar} = useContext(commoncontext);
+  const { token, setShowNavbar } = useContext(commoncontext);
 
   useEffect(() => {
     setShowNavbar(true);
@@ -15,24 +57,62 @@ const Home = () => {
   if (token) {
     return <HomeUser />;
   }
+
   return (
     <div 
-      className="heii flex flex-col justify-center items-center bg-cover bg-center" 
+      className="min-h-screen flex flex-col justify-center items-center bg-cover bg-center relative" 
       style={{ backgroundImage: "url('/bgchess5.jpg')" }}
     >
-      <div className="bg-gray-700/10 p-6 rounded-lg shadow-lg text-white max-w-sm text-center backdrop-blur-sm">
-        <h1 className="text-2xl font-bold mb-3">Welcome to KnightMare</h1>
-        <p className="text-gray-200 mb-4">Enhance your chess skills by playing against AI and tracking your progress.</p>
-        <div className="flex flex-col items-center space-y-3">
-          <Link
-            to="/login"
-            className="w-1/4 px-4 py-1 bg-black text-white font-bold rounded-lg hover:bg-gray-900 transition"
-          >
-            Login
-          </Link>
-          <p className="text-black text-sm">
-            Don't have an account? <Link to="/register" className="text-black font-bold hover:text-gray-900 transition">Sign Up</Link>
-          </p>
+      {/* Overlay to enhance text readability if needed */}
+      <div className="absolute inset-0 bg-black/30"></div>
+      
+      {/* Main content */}
+      <div className="relative z-10 px-4 w-full max-w-md">
+        <div className="text-center mb-8">
+          <h1 className="text-5xl font-bold text-white mb-2">
+            <span className="text-white">Knight</span>
+            <span className="text-blue-400">Mare</span>
+          </h1>
+          <p className="text-lg text-gray-200 italic">Master the board. Challenge yourself.</p>
+        </div>
+
+        <div className="bg-gray-800/70 p-8 rounded-xl backdrop-blur-sm border border-gray-700 shadow-2xl">
+          <div className="mb-6 text-center">
+            <p className="text-gray-200 text-lg mb-6">
+              Enhance your chess skills by playing against AI opponents and track your progress as you improve.
+            </p>
+            
+            <div className="grid grid-cols-3 gap-4 mb-6">
+              <div className="text-center p-3 bg-gray-900/50 rounded-lg">
+                <div className="text-blue-400 text-2xl font-bold">Play</div>
+                <div className="text-gray-300 text-sm">Challenge AI</div>
+              </div>
+              <div className="text-center p-3 bg-gray-900/50 rounded-lg">
+                <div className="text-blue-400 text-2xl font-bold">Learn</div>
+                <div className="text-gray-300 text-sm">Improve Skills</div>
+              </div>
+              <div className="text-center p-3 bg-gray-900/50 rounded-lg">
+                <div className="text-blue-400 text-2xl font-bold">Track</div>
+                <div className="text-gray-300 text-sm">Your Progress</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col space-y-4">
+            <Link
+              to="/login"
+              className="w-full py-3 bg-black text-white font-bold rounded-lg hover:bg-gray-900 transition duration-300 text-center"
+            >
+              Login
+            </Link>
+            <div className="text-center text-gray-200">
+              Don't have an account? <Link to="/register" className="text-blue-400 font-bold hover:text-blue-300 transition-colors">Sign Up</Link>
+            </div>
+          </div>
+        </div>
+        
+        <div className="mt-6 text-center text-gray-300 text-sm">
+          <p>Experience the ultimate chess challenge</p>
         </div>
       </div>
     </div>
@@ -40,4 +120,3 @@ const Home = () => {
 };
 
 export default Home;
-

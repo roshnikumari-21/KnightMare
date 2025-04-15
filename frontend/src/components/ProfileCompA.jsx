@@ -40,7 +40,7 @@ const ProfileCompA = () => {
         </div>
 
         {/* Stats */}
-        <div className="w-full space-y-2  md:space-y-3">
+        <div className="w-full grid grid-cols-2 gap-4 md:gap-6">
           {[
             {
               icon: "fas fa-trophy",
