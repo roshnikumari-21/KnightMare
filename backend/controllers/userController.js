@@ -365,6 +365,8 @@ export const sendFeedback = async (req, res) => {
       });
   }
 };
+
+
 export const uploadProfilePic = async (req, res) => {
   const { email } = req.body;
   const image = req.file;
@@ -406,6 +408,9 @@ export const uploadProfilePic = async (req, res) => {
       });
   }
 }
+
+
+
 export const getUser = async (req, res) => {
   const email = req.headers.email;
   try {

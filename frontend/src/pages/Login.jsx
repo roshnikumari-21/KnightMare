@@ -90,21 +90,21 @@ const Login = () => {
       style={{ backgroundImage: "url('chessfloor2.jpg')" }}
     >
       {/* Semi-transparent overlay */}
-      <div className="absolute inset-0 bg-black/50"></div>
+      <div className="absolute inset-0 "></div>
       
-      <div className="relative z-10 w-full max-w-md px-6">
-        <div className="bg-gray-900/80 backdrop-blur-md p-8 rounded-xl border border-gray-700 shadow-2xl">
+      <div className="relative z-10 w-full max-w-md px-4">
+        <div className=" backdrop-blur-md p-6 rounded-xl shadow-2xl">
           {/* Chess Knight Icon */}
-          <div className="flex justify-center mb-4">
-            <div className="w-16 h-16 flex items-center justify-center bg-black rounded-full border-2 border-blue-400">
+          <div className="flex justify-center mb-1">
+            <div className="w-16 h-16 flex items-center justify-center bg-black rounded-full ">
               <img src={assets.logo} alt="login"/>
             </div>
           </div>
           
-          <h2 className="text-3xl font-bold text-center mb-1 text-blue-400">Welcome Back</h2>
-          <p className="text-gray-400 text-center mb-6">Sign in to continue your chess journey</p>
+          <h2 className="text-2xl font-semibold text-center  text-blue-400">Welcome Back</h2>
+          <p className="text-gray-400 text-sm  text-center mb-4">Sign in to continue your chess journey</p>
           
-          <form className="space-y-4" onSubmit={handleLogin}>
+          <form className="space-y-3" onSubmit={handleLogin}>
             <div>
               <label className="text-sm text-gray-300 block mb-1">Email</label>
               <input
@@ -112,7 +112,7 @@ const Login = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-white"
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none  text-white"
                 placeholder="Enter your email"
               />
             </div>
@@ -132,14 +132,14 @@ const Login = () => {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-white"
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none  text-white"
                 placeholder="Enter your password"
               />
             </div>
             
             <button
               type="submit"
-              className="w-full py-3 bg-black hover:bg-gray-900 rounded-lg text-white font-semibold transition duration-300 border border-gray-700"
+              className="w-full py-2 bg-black hover:bg-gray-900 rounded-lg text-white font-semibold transition duration-300 border border-gray-700"
             >
               Login
             </button>
