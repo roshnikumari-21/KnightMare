@@ -18,11 +18,7 @@ const Navbar = () => {
       playAudio();
     }
   };
-
-  // useEffect(() => {
-  //   toggleSound();
-  // }, []);
-
+  
   const Logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
