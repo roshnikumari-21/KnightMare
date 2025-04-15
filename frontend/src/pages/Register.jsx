@@ -6,62 +6,63 @@ import "react-toastify/dist/ReactToastify.css";
 import { commoncontext } from "../contexts/commoncontext";
 import { GoogleLogin } from "@react-oauth/google";
 import { googleAuth } from "../utils/api";
+import { assets } from "../assets/assets";
 
 const Register = () => {
-  const { setToken, setUser,user,token,backendUrl ,showNavbar , setShowNavbar } = useContext(commoncontext);
-    setShowNavbar(true);
-    const navigate = useNavigate();
-  
-    const responseGoogle = async (authResult) => {
-      try {
-        if (authResult["code"]) {
-          const result = await googleAuth(authResult.code);
-          if (result.data.success) {
-            localStorage.setItem("token", response.data.token);
-            localStorage.setItem("user", JSON.stringify(response.data.user));
-            setToken(response.data.token);
-            setUser(response.data.user);
-            toast.success("Login successful!");
-            navigate("/home-user");
-          } else {
-            toast.error(response.data.message || "Login failed");
-          }
+  const { setToken, setUser, user, token, backendUrl, showNavbar, setShowNavbar } = useContext(commoncontext);
+  setShowNavbar(true);
+  const navigate = useNavigate();
+
+  const responseGoogle = async (authResult) => {
+    try {
+      if (authResult["code"]) {
+        const result = await googleAuth(authResult.code);
+        if (result.data.success) {
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+          setToken(response.data.token);
+          setUser(response.data.user);
+          toast.success("Login successful!");
+          navigate("/home-user");
         } else {
-          throw new Error(authResult);
+          toast.error(response.data.message || "Login failed");
         }
-      } catch (e) {
-        console.log('Error while Google Login...', e);
+      } else {
+        throw new Error(authResult);
       }
-    };
-  
-    const handleGoogleSuccess = async (response) => {
-      const googleToken = response.credential;
-      try {
-        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/googlelogin`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ token: googleToken }),
-        });
-  
-        const data = await res.json();
-        localStorage.setItem('token', data.token);
-        setToken(data.token);
-        localStorage.setItem('user',data.user);
-        setUser(data.user);
-        if (res.ok) {
-          navigate('/');
-        } else {
-          console.error('Error during Google Login:', data.message);
-        }
-      } catch (error) {
-        console.error('Google Login API Error:', error);
+    } catch (e) {
+      console.log('Error while Google Login...', e);
+    }
+  };
+
+  const handleGoogleSuccess = async (response) => {
+    const googleToken = response.credential;
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/googlelogin`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token: googleToken }),
+      });
+
+      const data = await res.json();
+      localStorage.setItem('token', data.token);
+      setToken(data.token);
+      localStorage.setItem('user', data.user);
+      setUser(data.user);
+      if (res.ok) {
+        navigate('/');
+      } else {
+        console.error('Error during Google Login:', data.message);
       }
-    };
-    const handleGoogleFailure = (error) => {
-      console.error('Google Login Error:', error);
-    };
+    } catch (error) {
+      console.error('Google Login API Error:', error);
+    }
+  };
+  const handleGoogleFailure = (error) => {
+    console.error('Google Login Error:', error);
+  };
 
   const [formData, setFormData] = useState({
     username: "",
@@ -90,7 +91,7 @@ const Register = () => {
         setToken(response.data.token)
         setUser(response.data.user);
         localStorage.setItem("token", response.data.token);
-        localStorage.setItem("user",JSON.stringify(response.data.user));
+        localStorage.setItem("user", JSON.stringify(response.data.user));
         toast.success("Registration successful!");
         navigate("/home-user");
       } else {
@@ -108,21 +109,19 @@ const Register = () => {
     >
       {/* Semi-transparent overlay */}
       <div className="absolute inset-0 bg-black/50"></div>
-      
+
       <div className="relative z-10 w-full max-w-md px-6">
         <div className="bg-gray-900/80 backdrop-blur-md p-8 rounded-xl border border-gray-700 shadow-2xl">
           {/* Chess Pawn Icon */}
           <div className="flex justify-center mb-4">
             <div className="w-16 h-16 flex items-center justify-center bg-black rounded-full border-2 border-blue-400">
-              <svg viewBox="0 0 24 24" className="w-10 h-10 text-blue-400" fill="currentColor">
-                <path d="M12,2A2,2 0 0,1 14,4A2,2 0 0,1 12,6A2,2 0 0,1 10,4A2,2 0 0,1 12,2M10.5,7H13.5A2,2 0 0,1 15.5,9V14.5H14V22H10V14.5H8.5V9A2,2 0 0,1 10.5,7Z" />
-              </svg>
+              <img src={assets.logo} alt="login" />
             </div>
           </div>
-          
+
           <h2 className="text-3xl font-bold text-center mb-1 text-blue-400">Create Account</h2>
           <p className="text-gray-400 text-center mb-6">Sign up to get started with KnightMare</p>
-          
+
           <form className="space-y-4" onSubmit={handleRegister}>
             <div>
               <label className="text-sm text-gray-300 block mb-1">Username</label>
@@ -135,7 +134,7 @@ const Register = () => {
                 placeholder="Choose a username"
               />
             </div>
-            
+
             <div>
               <label className="text-sm text-gray-300 block mb-1">Email</label>
               <input
@@ -147,7 +146,7 @@ const Register = () => {
                 placeholder="Enter your email"
               />
             </div>
-            
+
             <div>
               <label className="text-sm text-gray-300 block mb-1">Password</label>
               <input
@@ -159,7 +158,7 @@ const Register = () => {
                 placeholder="Create a password"
               />
             </div>
-            
+
             <button
               type="submit"
               className="w-full py-3 bg-black hover:bg-gray-900 rounded-lg text-white font-semibold transition duration-300 border border-gray-700"
@@ -167,13 +166,13 @@ const Register = () => {
               Create Account
             </button>
           </form>
-          
+
           <div className="mt-6 flex items-center">
             <div className="flex-grow h-px bg-gray-700"></div>
             <p className="mx-4 text-gray-400">OR</p>
             <div className="flex-grow h-px bg-gray-700"></div>
           </div>
-          
+
           <div className="mt-6 flex justify-center">
             <GoogleLogin
               onSuccess={handleGoogleSuccess}
@@ -186,10 +185,10 @@ const Register = () => {
               width="100%"
             />
           </div>
-          
+
           <p className="text-center text-gray-300 mt-6">
-            Already have an account? <span 
-              className="text-blue-400 hover:text-blue-300 cursor-pointer font-medium" 
+            Already have an account? <span
+              className="text-blue-400 hover:text-blue-300 cursor-pointer font-medium"
               onClick={() => navigate('/login')}
             >
               Sign in

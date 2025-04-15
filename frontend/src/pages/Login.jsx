@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { commoncontext } from "../contexts/commoncontext";
 import { GoogleLogin } from "@react-oauth/google";
+import { assets } from "../assets/assets";
 
 const Login = () => {
   const { setToken, setUser, setShowNavbar } = useContext(commoncontext);
@@ -96,9 +97,7 @@ const Login = () => {
           {/* Chess Knight Icon */}
           <div className="flex justify-center mb-4">
             <div className="w-16 h-16 flex items-center justify-center bg-black rounded-full border-2 border-blue-400">
-              <svg viewBox="0 0 24 24" className="w-10 h-10 text-blue-400" fill="currentColor">
-                <path d="M19,22H5V20H19V22M13,2V2C11.75,2 10.58,2.62 9.89,3.66L7,8L9,10L11.06,8.63C11.5,8.32 12.14,8.44 12.45,8.9C12.75,9.35 12.63,9.97 12.19,10.27L9,12.5L11,14.5L14,12C14.9,11.29 15.25,10.03 14.71,8.89L19.24,4.36C19.64,3.96 19.64,3.31 19.24,2.91C18.84,2.5 18.2,2.5 17.79,2.91L16.5,4.2C15.83,2.83 14.5,2 13,2Z" />
-              </svg>
+              <img src={assets.logo} alt="login"/>
             </div>
           </div>
           

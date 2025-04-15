@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { assets } from "../assets/assets";
 import { AudioContext } from "../Context/AudioContext";
@@ -18,6 +18,10 @@ const Navbar = () => {
       playAudio();
     }
   };
+
+  // useEffect(() => {
+  //   toggleSound();
+  // }, []);
 
   const Logout = () => {
     localStorage.removeItem("token");
@@ -98,11 +102,10 @@ const Navbar = () => {
             to="/about"
             className={({ isActive }) =>
               `text-base lg:text-lg font-medium px-3 py-1 lg:px-4 lg:py-2 rounded-lg transition-all duration-300
-                            ${
-                              isActive
-                                ? "text-white border-b-2 border-white font-semibold"
-                                : "text-gray-300 hover:text-white hover:shadow-glow"
-                            }`
+                            ${isActive
+                ? "text-white border-b-2 border-white font-semibold"
+                : "text-gray-300 hover:text-white hover:shadow-glow"
+              }`
             }
           >
             About
@@ -112,11 +115,10 @@ const Navbar = () => {
             to="/contact"
             className={({ isActive }) =>
               `text-base lg:text-lg font-medium px-3 py-1 lg:px-4 lg:py-2 rounded-lg transition-all duration-300
-                            ${
-                              isActive
-                                ? "text-white border-b-2 border-white font-semibold"
-                                : "text-gray-300 hover:text-white hover:shadow-glow"
-                            }`
+                            ${isActive
+                ? "text-white border-b-2 border-white font-semibold"
+                : "text-gray-300 hover:text-white hover:shadow-glow"
+              }`
             }
           >
             Contact
@@ -212,12 +214,11 @@ const Navbar = () => {
               to="/"
               onClick={() => setMobileMenuOpen(false)}
               className={({ isActive }) =>
-                `w-full text-center py-3 rounded-l  transition-colors duration-200 ${
-                  isActive
-                    ? "bg-blue-600 text-white"
-                    : "text-gray-300 "
+                `w-full text-center py-3 rounded-l  transition-colors duration-200 ${isActive
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-300 "
                 }`
-              }  
+              }
             >
               Home
             </NavLink>
@@ -226,10 +227,9 @@ const Navbar = () => {
               to="/playWithAI"
               onClick={() => setMobileMenuOpen(false)}
               className={({ isActive }) =>
-                `w-full text-center py-3 rounded-lg transition-colors duration-200 ${
-                  isActive
-                    ? "bg-blue-600 text-white"
-                    : "text-gray-300 hover:bg-gray-700"
+                `w-full text-center py-3 rounded-lg transition-colors duration-200 ${isActive
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-300 hover:bg-gray-700"
                 }`
               }
             >
@@ -240,10 +240,9 @@ const Navbar = () => {
               to="/leaderBoard"
               onClick={() => setMobileMenuOpen(false)}
               className={({ isActive }) =>
-                `w-full text-center py-3 rounded-lg transition-colors duration-200 ${
-                  isActive
-                    ? "bg-blue-600 text-white"
-                    : "text-gray-300 hover:bg-gray-700"
+                `w-full text-center py-3 rounded-lg transition-colors duration-200 ${isActive
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-300 hover:bg-gray-700"
                 }`
               }
             >
@@ -254,10 +253,9 @@ const Navbar = () => {
               to="/analysis"
               onClick={() => setMobileMenuOpen(false)}
               className={({ isActive }) =>
-                `w-full text-center py-3 rounded-lg transition-colors duration-200 ${
-                  isActive
-                    ? "bg-blue-600 text-white"
-                    : "text-gray-300 hover:bg-gray-700"
+                `w-full text-center py-3 rounded-lg transition-colors duration-200 ${isActive
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-300 hover:bg-gray-700"
                 }`
               }
             >
@@ -268,10 +266,9 @@ const Navbar = () => {
               to="/settings"
               onClick={() => setMobileMenuOpen(false)}
               className={({ isActive }) =>
-                `w-full text-center py-3 rounded-lg transition-colors duration-200 ${
-                  isActive
-                    ? "bg-blue-600 text-white"
-                    : "text-gray-300 hover:bg-gray-700"
+                `w-full text-center py-3 rounded-lg transition-colors duration-200 ${isActive
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-300 hover:bg-gray-700"
                 }`
               }
             >
@@ -284,9 +281,8 @@ const Navbar = () => {
                 toggleSound();
                 setMobileMenuOpen(false);
               }}
-              className={`w-full text-center py-3 rounded-lg transition-colors duration-200 ${
-                isPlaying ? "text-blue-400" : "text-gray-300"
-              } hover:bg-gray-700`}
+              className={`w-full text-center py-3 rounded-lg transition-colors duration-200 ${isPlaying ? "text-blue-400" : "text-gray-300"
+                } hover:bg-gray-700`}
             >
               {isPlaying ? "Sound On" : "Sound Off"}
             </button>
@@ -295,10 +291,9 @@ const Navbar = () => {
               to="/about"
               onClick={() => setMobileMenuOpen(false)}
               className={({ isActive }) =>
-                `w-full text-center py-3 rounded-lg transition-colors duration-200 ${
-                  isActive
-                    ? "bg-blue-600 text-white"
-                    : "text-gray-300 hover:bg-gray-700"
+                `w-full text-center py-3 rounded-lg transition-colors duration-200 ${isActive
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-300 hover:bg-gray-700"
                 }`
               }
             >
@@ -309,10 +304,9 @@ const Navbar = () => {
               to="/contact"
               onClick={() => setMobileMenuOpen(false)}
               className={({ isActive }) =>
-                `w-full text-center py-3 rounded-lg transition-colors duration-200 ${
-                  isActive
-                    ? "bg-blue-600 text-white"
-                    : "text-gray-300 hover:bg-gray-700"
+                `w-full text-center py-3 rounded-lg transition-colors duration-200 ${isActive
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-300 hover:bg-gray-700"
                 }`
               }
             >

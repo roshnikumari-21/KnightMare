@@ -220,9 +220,9 @@ export const changeUsername2 = async (req, res) => {
     // First check if a user with this username already exists
     const existingUser = await User.findOne({ username });
     if (existingUser) {
-      return res.status(400).json({ 
-        success: false, 
-        message: "Username already taken. Please choose a different one." 
+      return res.status(400).json({
+        success: false,
+        message: "Username already taken. Please choose a different one."
       });
     }
 
@@ -231,11 +231,11 @@ export const changeUsername2 = async (req, res) => {
       resetToken: token,
       resetTokenExpires: { $gt: Date.now() },
     });
-    
+
     if (!user) {
-      return res.status(400).json({ 
-        success: false, 
-        message: "Invalid or expired token." 
+      return res.status(400).json({
+        success: false,
+        message: "Invalid or expired token."
       });
     }
 
@@ -243,16 +243,16 @@ export const changeUsername2 = async (req, res) => {
     user.resetToken = null;
     user.resetTokenExpires = null;
     await user.save();
-    
-    res.json({ 
-      success: true, 
-      message: "Username changed successfully!" 
+
+    res.json({
+      success: true,
+      message: "Username changed successfully!"
     });
   } catch (error) {
     console.error("Error changing username:", error);
-    res.status(500).json({ 
-      success: false, 
-      message: "Server error. Please try again later." 
+    res.status(500).json({
+      success: false,
+      message: "Server error. Please try again later."
     });
   }
 };
@@ -408,17 +408,33 @@ export const uploadProfilePic = async (req, res) => {
 }
 export const getUser = async (req, res) => {
   const email = req.headers.email;
-  try{
-    const user = await User.findOne({email}).select("-passwordHash");
+  try {
+    const user = await User.findOne({ email }).select("-passwordHash");
+    const allUsers = await User.find({})
+      .select('_id score')
+      .sort({ score: -1 }) // Sort by score desc, then _id for consistent ordering
+      .lean();
+    // console.log(allUsers)
+    let currentRank = 1;
+    let currentScore = null;
+    let userRanks = {};
+
+    allUsers.forEach((user, index) => {
+      const userScore = parseInt(user.score, 10); // Parse score into int
+      if (userScore !== currentScore) {
+        currentRank = currentRank + 1;
+        currentScore = userScore;
+      }
+
+      userRanks[user._id.toString()] = currentRank;
+    });
     if (!user) {
       return res
         .status(400)
         .json({ success: false, message: "User not found." });
     }
-    const higherScoreCount = await User.countDocuments({
-      score: { $gt: user.score },
-    });
-    const rank = higherScoreCount + 1;
+    // console.log(user)
+    const rank = userRanks[user?._id];
     res.json({ success: true, user, rank });
   } catch (error) {
     console.error("Error fetching user:", error);
@@ -547,9 +563,8 @@ export const getLeaderboard = async (req, res) => {
       if (userScore !== currentScore) {
         currentRank = currentRank + 1;
         currentScore = userScore;
-        // console.log(currentScore, currentRank);
       }
-      
+
       userRanks[user._id.toString()] = currentRank;
     });
 
