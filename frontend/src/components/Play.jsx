@@ -17,15 +17,11 @@ const Play = () => {
     const checkScreenSize = () => {
       setIsMobile(window.innerWidth < 768);
     };
-
     checkScreenSize();
     window.addEventListener("resize", checkScreenSize);
-
-    // Simulate loading
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 800);
-
     return () => {
       window.removeEventListener("resize", checkScreenSize);
       clearTimeout(timer);
@@ -60,6 +56,8 @@ const Play = () => {
       }
     }
   };
+
+ 
 
   // Chess pieces for decorative background
   const chessPieces = [
