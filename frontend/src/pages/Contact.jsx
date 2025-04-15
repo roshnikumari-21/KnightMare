@@ -4,10 +4,11 @@ import { toast } from "react-toastify";
 import { 
   FaChessKnight, 
   FaChessQueen, 
-  FaChessBoard, 
+  FaChessBoard,
+  FaChessRook, 
 } from "react-icons/fa";
+import { GiChessKing, GiChessBishop } from "react-icons/gi";
 import { motion, AnimatePresence } from "framer-motion";
-
 import { commoncontext } from "../contexts/commoncontext";
 
 
@@ -16,6 +17,8 @@ export default function ContactUs() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const [isLoading, setIsLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const { token, user, showNavbar, setShowNavbar } = useContext(commoncontext);
   
   useEffect(() => {
@@ -47,37 +50,113 @@ export default function ContactUs() {
       setIsSubmitting(false);
     }
   };
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800);
+    return () => {
+      window.removeEventListener("resize", checkScreenSize);
+      clearTimeout(timer);
+    };
+  }, []);
+
+  const chessPieces = [
+    { Icon: FaChessRook, position: "top-20 left-10", color: "text-blue-400", size: "text-5xl" },
+    { Icon: GiChessKing, position: "bottom-20 right-10", color: "text-purple-400", size: "text-6xl" },
+    { Icon: FaChessKnight, position: "top-40 right-20", color: "text-indigo-400", size: "text-4xl" },
+    { Icon: GiChessBishop, position: "bottom-40 left-20", color: "text-pink-400", size: "text-5xl" },
+  ];
 
   const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
       transition: {
-        staggerChildren: 0.1,
-        when: "beforeChildren"
+        duration: 0.5,
+        ease: "easeOut"
       }
     }
   };
-
   const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
+    initial: { opacity: 0 },
+    animate: { 
       opacity: 1,
-      transition: {
-        duration: 0.5
-      }
+      transition: { duration: 0.6 }
+    },
+    exit: { 
+      opacity: 0,
+      transition: { duration: 0.4 }
     }
   };
 
   return (
     <>
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-950 to-gray-950 text-white py-16 px-4 sm:px-0 pb-0 overflow-hidden relative">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-950 to-blue-950 text-white py-16 px-4 sm:px-0 pb-0 overflow-hidden relative">
       <div className="absolute inset-0 opacity-5 pointer-events-none">
         <div className="absolute inset-0 bg-[length:80px_80px] bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)]"></div>
       </div>
 
-           <div className="max-w-7xl mx-auto relative z-10 h-full flex flex-col">
+       {/* Grid overlay */}
+       <div className="absolute inset-0 opacity-10 pointer-events-none">
+        <div className="absolute inset-0 bg-[length:50px_50px] bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)]"></div>
+      </div>
+
+      {/* Chess pieces decoration */}
+      {chessPieces.map((piece, index) => (
+        <motion.div
+          key={index}
+          initial={{ opacity: 0 }}
+          animate={{ 
+            opacity: 0.1,
+            y: [0, -15, 0],
+            transition: {
+              y: {
+                duration: 3 + Math.random() * 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+              },
+              opacity: {
+                duration: 1,
+                delay: index * 0.2
+              }
+            }
+          }}
+          className={`absolute ${piece.position} ${piece.color} ${piece.size} hidden md:block`}
+        >
+          <piece.Icon />
+        </motion.div>
+      ))}
+
+      {/* Glowing orbs */}
+      <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-blue-600 rounded-full opacity-10 blur-3xl"></div>
+      <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-purple-600 rounded-full opacity-10 blur-3xl"></div>
+
+      {/* Loading state */}
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div 
+            className="absolute inset-0 flex items-center justify-center z-50 bg-gray-950"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0.5 } }}
+          >
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              className="relative"
+            >
+              <FaChessBoard className="text-6xl text-blue-500" />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="max-w-7xl mx-auto relative z-10 h-full flex flex-col">
         {/* Header section */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}

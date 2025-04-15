@@ -17,15 +17,11 @@ const Play = () => {
     const checkScreenSize = () => {
       setIsMobile(window.innerWidth < 768);
     };
-
     checkScreenSize();
     window.addEventListener("resize", checkScreenSize);
-
-    // Simulate loading
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 800);
-
     return () => {
       window.removeEventListener("resize", checkScreenSize);
       clearTimeout(timer);
@@ -61,6 +57,8 @@ const Play = () => {
     }
   };
 
+ 
+
   // Chess pieces for decorative background
   const chessPieces = [
     { Icon: FaChessRook, position: "top-20 left-10", color: "text-blue-400", size: "text-5xl" },
@@ -77,7 +75,6 @@ const Play = () => {
       exit="exit"
       variants={pageVariants}
     >
-      {/* Gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-950 to-blue-950"></div>
       
       {/* Grid overlay */}
