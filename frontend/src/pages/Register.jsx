@@ -1,39 +1,24 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { commoncontext } from "../contexts/commoncontext";
 import { GoogleLogin } from "@react-oauth/google";
-import { googleAuth } from "../utils/api";
 import { assets } from "../assets/assets";
 
 const Register = () => {
-  const { setToken, setUser, user, token, backendUrl, showNavbar, setShowNavbar } = useContext(commoncontext);
-  setShowNavbar(true);
+  const { setToken, setUser, setShowNavbar, backendUrl } = useContext(commoncontext);
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
 
-  const responseGoogle = async (authResult) => {
-    try {
-      if (authResult["code"]) {
-        const result = await googleAuth(authResult.code);
-        if (result.data.success) {
-          localStorage.setItem("token", response.data.token);
-          localStorage.setItem("user", JSON.stringify(response.data.user));
-          setToken(response.data.token);
-          setUser(response.data.user);
-          toast.success("Login successful!");
-          navigate("/home-user");
-        } else {
-          toast.error(response.data.message || "Login failed");
-        }
-      } else {
-        throw new Error(authResult);
-      }
-    } catch (e) {
-      console.log('Error while Google Login...', e);
-    }
-  };
+  useEffect(() => {
+    setShowNavbar(true);
+  }, [setShowNavbar]);
 
   const handleGoogleSuccess = async (response) => {
     const googleToken = response.credential;
@@ -52,23 +37,21 @@ const Register = () => {
       localStorage.setItem('user', data.user);
       setUser(data.user);
       if (res.ok) {
+        toast.success("Login successful!");
         navigate('/');
       } else {
-        console.error('Error during Google Login:', data.message);
+        toast.error(data.message || "Google login failed");
       }
     } catch (error) {
+      toast.error("Google Login API Error");
       console.error('Google Login API Error:', error);
     }
   };
+
   const handleGoogleFailure = (error) => {
+    toast.error("Google Login Failed");
     console.error('Google Login Error:', error);
   };
-
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -105,24 +88,22 @@ const Register = () => {
   return (
     <div
       className="min-h-screen flex justify-center items-center bg-cover bg-center"
-      style={{ backgroundImage: "url('/chessfloor2.jpg')" }}
+      style={{ backgroundImage: "url('chessfloor2.jpg')" }}
     >
-      {/* Semi-transparent overlay */}
-      <div className="absolute inset-0 bg-black/50"></div>
+      <div className="absolute inset-0"></div>
 
-      <div className="relative z-10 w-full max-w-md px-6">
-        <div className="bg-gray-900/80 backdrop-blur-md p-8 rounded-xl border border-gray-700 shadow-2xl">
-          {/* Chess Pawn Icon */}
-          <div className="flex justify-center mb-4">
-            <div className="w-16 h-16 flex items-center justify-center bg-black rounded-full border-2 border-blue-400">
-              <img src={assets.logo} alt="login" />
+      <div className="relative z-10 w-full max-w-md px-4">
+        <div className="backdrop-blur-md p-6 rounded-xl shadow-2xl">
+          <div className="flex justify-center mb-1">
+            <div className="w-16 h-16 flex items-center justify-center bg-black rounded-full">
+              <img src={assets.logo} alt="register"/>
             </div>
           </div>
 
-          <h2 className="text-3xl font-bold text-center mb-1 text-blue-400">Create Account</h2>
-          <p className="text-gray-400 text-center mb-6">Sign up to get started with KnightMare</p>
+          <h2 className="text-2xl font-semibold text-center text-blue-400">Create Account</h2>
+          <p className="text-gray-400 text-sm text-center mb-4">Sign up to get started with KnightMare</p>
 
-          <form className="space-y-4" onSubmit={handleRegister}>
+          <form className="space-y-3" onSubmit={handleRegister}>
             <div>
               <label className="text-sm text-gray-300 block mb-1">Username</label>
               <input
@@ -130,7 +111,7 @@ const Register = () => {
                 name="username"
                 value={formData.username}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-white"
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none text-white"
                 placeholder="Choose a username"
               />
             </div>
@@ -142,7 +123,7 @@ const Register = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-white"
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none text-white"
                 placeholder="Enter your email"
               />
             </div>
@@ -154,14 +135,14 @@ const Register = () => {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-white"
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none text-white"
                 placeholder="Create a password"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full py-3 bg-black hover:bg-gray-900 rounded-lg text-white font-semibold transition duration-300 border border-gray-700"
+              className="w-full py-2 bg-black hover:bg-gray-900 rounded-lg text-white font-semibold transition duration-300 border border-gray-700"
             >
               Create Account
             </button>
@@ -187,9 +168,10 @@ const Register = () => {
           </div>
 
           <p className="text-center text-gray-300 mt-6">
-            Already have an account? <span
+            Already have an account?{" "}
+            <span
               className="text-blue-400 hover:text-blue-300 cursor-pointer font-medium"
-              onClick={() => navigate('/login')}
+              onClick={() => navigate("/login")}
             >
               Sign in
             </span>
