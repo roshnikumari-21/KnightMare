@@ -142,6 +142,14 @@ const Navbar = () => {
           )}
         </div>
 
+
+
+
+
+
+
+
+
         {/* Mobile Hamburger Menu */}
         <button
           className="md:hidden text-white focus:outline-none"
@@ -171,166 +179,168 @@ const Navbar = () => {
           </svg>
         </button>
       </nav>
-
-      {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0  backdrop-blur-2xl mx-auto   z-40 pt-18 px-6 overflow-y-auto">
-          <div className="flex flex-col items-center space-y-2 text-white text-xl">
-            {/* User Profile */}
+  <div className="md:hidden fixed inset-0 backdrop-blur-2xl mx-auto z-40 pt-18 px-6 overflow-y-auto">
+    <div className="flex flex-col items-center space-y-2 text-white text-2xl">
+      {token && (
+        <>
+          {/* User Profile */}
+          <div
+            onClick={() => {
+              Navigate("/profile");
+              setMobileMenuOpen(false);
+            }}
+            className="flex  items-center gap-3 p-4 cursor-pointer w-full justify-center"
+          >
             <div
-              onClick={() => {
-                Navigate("/profile");
-                setMobileMenuOpen(false);
+              style={{
+                backgroundImage: `url(${user?.profilePicture})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
               }}
-              className="flex items-center gap-3 p-4 cursor-pointer w-full justify-center"
+              className="w-10 h-10 rounded-full bg-white flex items-center justify-center"
             >
-              <div
-                style={{
-                  backgroundImage: `url(${user?.profilePicture})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
-                }}
-                className="w-10 h-10 rounded-full bg-white flex items-center justify-center"
-              >
-                {user ? "" : "P"}
-              </div>
-              <div className="text-white">
-                <p className="font-medium">
-                  {user ? user.username : "Sign in to see details"}
-                </p>
-                <p className="text-sm text-gray-400">
-                  {user ? user.email : ""}
-                </p>
-              </div>
+              {user ? "" : "P"}
             </div>
-
-            {/* Main Navigation Links */}
-            <NavLink
-              to="/"
-              onClick={() => setMobileMenuOpen(false)}
-              className={({ isActive }) =>
-                `w-full text-center py-3 rounded-l  transition-colors duration-200 ${isActive
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-300 "
-                }`
-              }
-            >
-              Home
-            </NavLink>
-
-            <NavLink
-              to="/playWithAI"
-              onClick={() => setMobileMenuOpen(false)}
-              className={({ isActive }) =>
-                `w-full text-center py-3 rounded-lg transition-colors duration-200 ${isActive
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-300 hover:bg-gray-700"
-                }`
-              }
-            >
-              Play
-            </NavLink>
-
-            <NavLink
-              to="/leaderBoard"
-              onClick={() => setMobileMenuOpen(false)}
-              className={({ isActive }) =>
-                `w-full text-center py-3 rounded-lg transition-colors duration-200 ${isActive
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-300 hover:bg-gray-700"
-                }`
-              }
-            >
-              LeaderBoard
-            </NavLink>
-
-            <NavLink
-              to="/analysis"
-              onClick={() => setMobileMenuOpen(false)}
-              className={({ isActive }) =>
-                `w-full text-center py-3 rounded-lg transition-colors duration-200 ${isActive
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-300 hover:bg-gray-700"
-                }`
-              }
-            >
-              Analysis
-            </NavLink>
-
-            <NavLink
-              to="/settings"
-              onClick={() => setMobileMenuOpen(false)}
-              className={({ isActive }) =>
-                `w-full text-center py-3 rounded-lg transition-colors duration-200 ${isActive
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-300 hover:bg-gray-700"
-                }`
-              }
-            >
-              Settings
-            </NavLink>
-
-            {/* Additional Navbar Links */}
-            <button
-              onClick={() => {
-                toggleSound();
-                setMobileMenuOpen(false);
-              }}
-              className={`w-full text-center py-3 rounded-lg transition-colors duration-200 ${isPlaying ? "text-blue-400" : "text-gray-300"
-                } hover:bg-gray-700`}
-            >
-              {isPlaying ? "Sound On" : "Sound Off"}
-            </button>
-
-            <NavLink
-              to="/about"
-              onClick={() => setMobileMenuOpen(false)}
-              className={({ isActive }) =>
-                `w-full text-center py-3 rounded-lg transition-colors duration-200 ${isActive
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-300 hover:bg-gray-700"
-                }`
-              }
-            >
-              About Us
-            </NavLink>
-
-            <NavLink
-              to="/contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className={({ isActive }) =>
-                `w-full text-center py-3 rounded-lg transition-colors duration-200 ${isActive
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-300 hover:bg-gray-700"
-                }`
-              }
-            >
-              Contact
-            </NavLink>
-
-            {/* Login/Logout */}
-            {token ? (
-              <button
-                onClick={Logout}
-                className="w-full text-center py-3 rounded-lg transition-colors duration-200 text-gray-300 hover:bg-gray-700"
-              >
-                Logout
-              </button>
-            ) : (
-              <button
-                onClick={() => {
-                  Navigate("/login");
-                  setMobileMenuOpen(false);
-                }}
-                className="w-full text-center py-3 rounded-lg transition-colors duration-200 text-gray-300 hover:bg-gray-700"
-              >
-                Login
-              </button>
-            )}
+            <div className="text-white">
+              <p className="font-medium">
+                {user ? user.username : "Sign in to see details"}
+              </p>
+              <p className="text-sm text-gray-400">
+                {user ? user.email : ""}
+              </p>
+            </div>
           </div>
-        </div>
+
+          {/* Authenticated User Navigation */}
+          <NavLink
+            to="/"
+            onClick={() => setMobileMenuOpen(false)}
+            className={({ isActive }) =>
+              `w-full text-center py-3 rounded-lg transition-colors duration-200 ${
+                isActive ? "bg-blue-600 text-white" : "text-gray-300 hover:bg-gray-700"
+              }`
+            }
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/playWithAI"
+            onClick={() => setMobileMenuOpen(false)}
+            className={({ isActive }) =>
+              `w-full text-center py-3 rounded-lg transition-colors duration-200 ${
+                isActive ? "bg-blue-600 text-white" : "text-gray-300 hover:bg-gray-700"
+              }`
+            }
+          >
+            Play
+          </NavLink>
+          <NavLink
+            to="/leaderBoard"
+            onClick={() => setMobileMenuOpen(false)}
+            className={({ isActive }) =>
+              `w-full text-center py-3 rounded-lg transition-colors duration-200 ${
+                isActive ? "bg-blue-600 text-white" : "text-gray-300 hover:bg-gray-700"
+              }`
+            }
+          >
+            LeaderBoard
+          </NavLink>
+          <NavLink
+            to="/analysis"
+            onClick={() => setMobileMenuOpen(false)}
+            className={({ isActive }) =>
+              `w-full text-center py-3 rounded-lg transition-colors duration-200 ${
+                isActive ? "bg-blue-600 text-white" : "text-gray-300 hover:bg-gray-700"
+              }`
+            }
+          >
+            Analysis
+          </NavLink>
+          <NavLink
+            to="/settings"
+            onClick={() => setMobileMenuOpen(false)}
+            className={({ isActive }) =>
+              `w-full text-center py-3 rounded-lg transition-colors duration-200 ${
+                isActive ? "bg-blue-600 text-white" : "text-gray-300 hover:bg-gray-700"
+              }`
+            }
+          >
+            Settings
+          </NavLink>
+        </>
       )}
+
+      {/* Always visible */}
+      <button
+        onClick={() => {
+          toggleSound();
+          setMobileMenuOpen(false);
+        }}
+        className={`w-full text-center py-3 rounded-lg transition-colors duration-200 ${
+          isPlaying ? "text-blue-400" : "text-gray-300"
+        } hover:bg-gray-700`}
+      >
+        {isPlaying ? "Sound On" : "Sound Off"}
+      </button>
+      <NavLink
+        to="/about"
+        onClick={() => setMobileMenuOpen(false)}
+        className={({ isActive }) =>
+          `w-full text-center py-3 rounded-lg transition-colors duration-200 ${
+            isActive ? "bg-blue-600 text-white" : "text-gray-300 hover:bg-gray-700"
+          }`
+        }
+      >
+        About Us
+      </NavLink>
+      <NavLink
+        to="/contact"
+        onClick={() => setMobileMenuOpen(false)}
+        className={({ isActive }) =>
+          `w-full text-center py-3 rounded-lg transition-colors duration-200 ${
+            isActive ? "bg-blue-600 text-white" : "text-gray-300 hover:bg-gray-700"
+          }`
+        }
+      >
+        Contact
+      </NavLink>
+
+      {/* Login/Logout */}
+      {token ? (
+        <button
+          onClick={Logout}
+          className="w-full text-center py-3 rounded-lg transition-colors duration-200 text-gray-300 hover:bg-gray-700"
+        >
+          Logout
+        </button>
+      ) : (
+        <button
+          onClick={() => {
+            Navigate("/login");
+            setMobileMenuOpen(false);
+          }}
+          className="w-full text-center py-3 rounded-lg transition-colors duration-200 text-gray-300 hover:bg-gray-700"
+        >
+          Login
+        </button>
+      )}
+    </div>
+  </div>
+)}
+
+
+
+
+
+
+
+
+
+
+
+      
     </>
   );
 };

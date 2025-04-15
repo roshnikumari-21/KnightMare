@@ -117,6 +117,7 @@ function Chess(){
 
   const playlose = () => {
     const audio = new Audio(loser);
+    audio.currentTime = 0.1; 
     audio
       .play()
       .catch((error) => console.error("Failed to play sound:", error));
@@ -131,12 +132,23 @@ function Chess(){
   };
 
 
+  // const playwoosh = () => {
+  //   const audio = new Audio(woosh);
+  //   audio
+  //     .play()
+  //     .catch((error) => console.error("Failed to play sound:", error));
+  // };
+
+  
+
   const playwoosh = () => {
     const audio = new Audio(woosh);
+    audio.currentTime = 0.2; // Start from 0.2 seconds
     audio
       .play()
       .catch((error) => console.error("Failed to play sound:", error));
-  };
+};
+
 
 
 
