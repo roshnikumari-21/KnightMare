@@ -25,7 +25,7 @@ const ProfileProvider = (props) => {
   const [userProfile, setUserProfile] = useState(null);
   const [userRank, setUserRank] = useState(null);
   const [gameDuration, setGameDuration] = useState({ totalDuration: 0, hoursPlayed: 0 });
-  const useremail = diffuseremail ? diffuseremail : user.email;
+  const useremail = diffuseremail ? diffuseremail : user?.email;
 
   useEffect(() => {
     const fetchUserProfile = async () => {
