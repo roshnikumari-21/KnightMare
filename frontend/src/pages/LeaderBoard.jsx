@@ -83,7 +83,7 @@ const Leaderboard = () => {
     }
   };
 
-  if (loading) return <LoadingSpinner />;
+  if (loading) return <LoadingSpinner isLoading = {loading }/>;
   if (error) return <div className="text-red-500 text-center py-8">{error}</div>;
 
   return (
