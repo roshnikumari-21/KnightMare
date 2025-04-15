@@ -120,10 +120,10 @@ const GameProvider = (props) => {
   const endGame = async (result) => {
     setGameResult(result);
     setGameOver(true);
+    if(result === 'player_resign' && moves.length < 5){ setGameResult('false_game');result='false_game';}
     console.log("Ending game with result:", result);
     try {
-      if (!result || result === 'ongoing') {
-        console.log("Invalid game result, not saving");
+      if (!result || result === 'ongoing' || result==='false_game'){
         return;
       }
 
