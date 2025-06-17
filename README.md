@@ -24,7 +24,7 @@ Home Page
 
 ![Screenshot 2025-04-21 001135](https://github.com/user-attachments/assets/2bc2c919-8261-4459-8390-9aea4bf65876)
 ![Screenshot 2025-04-21 001214](https://github.com/user-attachments/assets/349f605e-50ff-415c-bcaf-e4692f927ee1)
-![Screenshot 2025-04-21 001059](https://github.com/user-attachments/assets/a29f918e-5617-402a-b581-7869d82c5d87)
+![image](https://github.com/roshnikumari-21/KnightMare/blob/5715a8186c73d540b6917d55c1f756970d7578d3/Screenshot%202025-06-17%20094444.png)
 ![Screenshot 2025-04-21 001111](https://github.com/user-attachments/assets/e2814980-0c28-48c2-89bc-da289a290ed1)
 ![Screenshot 2025-04-21 001124](https://github.com/user-attachments/assets/a62ae6a7-7ff9-4470-8af3-7441b8519272)
 
