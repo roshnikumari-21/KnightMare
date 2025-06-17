@@ -15,7 +15,7 @@ https://knightmare.onrender.com/
 
 ## 📸 Screenshots
 Home Page
-![image](https://github.com/user-attachments/assets/c208a250-8a26-40e6-9c04-4376205f806c)
+![image](https://github.com/roshnikumari-21/KnightMare/blob/650dce60130f4d746ba997673bf398efbbdf9cdd/Screenshot%202025-06-17%20094408.png)
 ![image](https://github.com/user-attachments/assets/60a36094-632d-48a7-8b36-00ba3cc258a5)
 ![Screenshot 2025-04-21 001040](https://github.com/user-attachments/assets/6e68e174-a938-48ba-bfa4-ec95019ecb9e)
 ![Screenshot 2025-04-21 001010](https://github.com/user-attachments/assets/74a01baf-c47e-45c6-95e3-ed110d4d2406)
